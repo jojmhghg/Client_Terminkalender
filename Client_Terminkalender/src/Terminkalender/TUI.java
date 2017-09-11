@@ -20,6 +20,7 @@ public class TUI {
     
     private final LauncherInterface stub;
     private final InputStream inputStream;
+    private int sitzungsID;
     
     TUI(LauncherInterface stub){
         this.stub = stub;
@@ -115,14 +116,20 @@ public class TUI {
         username = scanner.nextLine();        
         System.out.println("Passwort eingeben:");
         password = scanner.nextLine();
-               
-        if(stub.einloggen(username, password)){
-            System.out.println("\n-----> Anmelden erfolgreich!");
-            hauptbildschirm();
+            
+        try{
+            sitzungsID = stub.einloggen(username, password);
+            if(sitzungsID < 0){
+                System.out.println("\n-----> Falsches Passwort. Anmelden gescheitert!");
+            }
+            else{
+                System.out.println("\n-----> Anmelden erfolgreich!");
+                hauptbildschirm();
+            }  
         }
-        else{
-            System.out.println("\n-----> Anmelden gescheitert!");
-        }            
+        catch(BenutzerException e){
+            System.out.println("\n-----> " + e.getMessage());
+        }        
     }
     
     /**
@@ -200,7 +207,7 @@ public class TUI {
                         profil();
                         break;
                     case 5:
-                        stub.ausloggen();
+                        stub.ausloggen(sitzungsID);
                         System.out.println("\n-----> Ausloggen erfolgreich!");
                         wiederholen = false;
                         break;
@@ -229,10 +236,10 @@ public class TUI {
                       
         do{
 	    System.out.println("\n************ Profil ************\n");
-            System.out.println("Benutzername: " + stub.getUsername());
-            System.out.println("Vorname: " + stub.getVorname() + "(1)");
-            System.out.println("Nachname: " + stub.getNachname() + "(2)");
-            System.out.println("E-Mail-Adresse: " + stub.getEmail());
+            System.out.println("Benutzername: " + stub.getUsername(sitzungsID));
+            System.out.println("Vorname: " + stub.getVorname(sitzungsID) + "(1)");
+            System.out.println("Nachname: " + stub.getNachname(sitzungsID) + "(2)");
+            System.out.println("E-Mail-Adresse: " + stub.getEmail(sitzungsID));
             System.out.println("Passwort ändern (3)");
             System.out.println("Zurück (0)");
 	    System.out.print("Eingabe: ");
@@ -276,7 +283,7 @@ public class TUI {
 
         System.out.print("Neuer Vorname: ");
         newName = scanner.nextLine();
-        stub.changeVorname(newName);
+        stub.changeVorname(newName, sitzungsID);
         System.out.println("\n-----> Vorname erfolgreich geändert!");
     }
 
@@ -292,7 +299,7 @@ public class TUI {
 
         System.out.print("Neuer Nachname: ");
         newName = scanner.nextLine();
-        stub.changeNachname(newName);
+        stub.changeNachname(newName, sitzungsID);
         System.out.println("\n-----> Nachname erfolgreich geändert!");
     }
 
@@ -310,7 +317,7 @@ public class TUI {
         System.out.print("Neues Passwort: ");
         neuesPW = scanner.nextLine();
         try {
-            stub.changePasswort(altesPW, neuesPW);
+            stub.changePasswort(altesPW, neuesPW, sitzungsID);
             System.out.println("\n-----> Passwort ändern erfolgreich!");
         } catch (BenutzerException e) {
             System.out.println("\n-----> " + e.getMessage());
@@ -375,7 +382,7 @@ public class TUI {
         System.out.print("Username des Kontakts: ");
         username = scanner.nextLine();
         try {
-            stub.addKontakt(username);
+            stub.addKontakt(username, sitzungsID);
             System.out.println("\n-----> Kontakt erfolgreich hinzugefügt!");
         } catch (BenutzerException e) {
             System.out.println("\n-----> " + e.getMessage());
@@ -394,7 +401,7 @@ public class TUI {
         System.out.print("Username des Kontakts: ");
         username = scanner.nextLine();
         try {
-            stub.removeKontakt(username);
+            stub.removeKontakt(username, sitzungsID);
             System.out.println("\n-----> Kontakt erfolgreich gelöscht!");
         } catch (BenutzerException e) {
             System.out.println("\n-----> " + e.getMessage());
@@ -408,8 +415,8 @@ public class TUI {
      * @throws BenutzerException 
      */
     private void showKontakte() throws RemoteException, BenutzerException {
-        System.out.println("\n-----> Deine Kontakte(" + stub.getKontakte().size() + "):");
-        for(String kontakt : stub.getKontakte()) {
+        System.out.println("\n-----> Deine Kontakte(" + stub.getKontakte(sitzungsID).size() + "):");
+        for(String kontakt : stub.getKontakte(sitzungsID)) {
             System.out.println(kontakt);
         }
     }
@@ -564,7 +571,7 @@ public class TUI {
             } while(nochmal); 
             ende = new Zeit(stunde, minute);
 
-            stub.addTermin(datum, start, ende, titel);
+            stub.addTermin(datum, start, ende, titel, sitzungsID);
         }
         catch(DatumException | Zeit.ZeitException | TerminException e){
             System.out.println("\n-----> " + e.getMessage());
@@ -589,7 +596,7 @@ public class TUI {
         try {
             do{
                 i = 1;
-                dieseWoche = stub.getTermineInKalenderwoche(kw, jahr);
+                dieseWoche = stub.getTermineInKalenderwoche(kw, jahr, sitzungsID);
                 System.out.println("\n-----> " + dieseWoche.size() + " Termine im Jahr " + jahr + " in KW " + kw + ":");
 
                 for(Termin termin : dieseWoche){
@@ -671,7 +678,7 @@ public class TUI {
         
         do{
             i = 1;
-            dieserMonat = stub.getTermineInMonat(monat, jahr);
+            dieserMonat = stub.getTermineInMonat(monat, jahr, sitzungsID);
             System.out.println("\n-----> " + dieserMonat.size() + " Termine im Jahr " + jahr + " im Monat " + monat + ":");
             
             for(Termin termin : dieserMonat){
@@ -746,33 +753,33 @@ public class TUI {
         int eingabe;
         boolean wiederholen = true, teilnehmer = false;
          
-        for(Teilnehmer tn : stub.getTermin(terminID).getTeilnehmerliste()){
-            if(tn.getUsername().equals(stub.getUsername())){
+        for(Teilnehmer tn : stub.getTermin(terminID,sitzungsID).getTeilnehmerliste()){
+            if(tn.getUsername().equals(stub.getUsername(sitzungsID))){
                 teilnehmer = tn.checkIstTeilnehmer();
             }
         }
         do{
             if(!teilnehmer){
                 System.out.println("\n************ Terminansicht ************\n");
-                System.out.println("Titel: " + stub.getTermin(terminID).getTitel());
-                System.out.println("Datum: " + stub.getTermin(terminID).getDatum().toString());
-                System.out.println("Start: " + stub.getTermin(terminID).getBeginn().toString());
-                System.out.println("Ende:: " + stub.getTermin(terminID).getEnde().toString());
-                if(stub.getTermin(terminID).getNotiz().length() > 20){
-                    System.out.println("Notiz: " + stub.getTermin(terminID).getNotiz().substring(0, 20) + "...(5)");
+                System.out.println("Titel: " + stub.getTermin(terminID, sitzungsID).getTitel());
+                System.out.println("Datum: " + stub.getTermin(terminID, sitzungsID).getDatum().toString());
+                System.out.println("Start: " + stub.getTermin(terminID, sitzungsID).getBeginn().toString());
+                System.out.println("Ende:: " + stub.getTermin(terminID, sitzungsID).getEnde().toString());
+                if(stub.getTermin(terminID, sitzungsID).getNotiz().length() > 20){
+                    System.out.println("Notiz: " + stub.getTermin(terminID, sitzungsID).getNotiz().substring(0, 20) + "...(5)");
                 }
                 else{
-                    System.out.println("Notiz: " + stub.getTermin(terminID).getNotiz() + "(5)");
+                    System.out.println("Notiz: " + stub.getTermin(terminID, sitzungsID).getNotiz() + "(5)");
                 }
-                System.out.println("Ort: " + stub.getTermin(terminID).getOrt());
+                System.out.println("Ort: " + stub.getTermin(terminID, sitzungsID).getOrt());
                 System.out.println("Teilnehmer anzeigen(7)");
-                if(stub.getTermin(terminID).getEditierbar()){
+                if(stub.getTermin(terminID, sitzungsID).getEditierbar()){
                     System.out.println("Bearbeitungsrecht: Jeder");
                 }
                 else{
                     System.out.println("Bearbeitungsrecht: Terminersteller");
                 }      
-                System.out.println("Terminersteller: " + stub.getTermin(terminID).getOwner());
+                System.out.println("Terminersteller: " + stub.getTermin(terminID, sitzungsID).getOwner());
                 System.out.println("Termin löschen");
                 System.out.println("zurück(0)");
                 System.out.print("Eingabe: ");
@@ -801,25 +808,25 @@ public class TUI {
             }          
             else{
                 System.out.println("\n************ Terminansicht ************\n");
-                System.out.println("Titel: " + stub.getTermin(terminID).getTitel() + "(1)");
-                System.out.println("Datum: " + stub.getTermin(terminID).getDatum().toString() + "(2)");
-                System.out.println("Start: " + stub.getTermin(terminID).getBeginn().toString() + "(3)");
-                System.out.println("Ende: " + stub.getTermin(terminID).getEnde().toString() + "(4)");
-                if(stub.getTermin(terminID).getNotiz().length() > 20){
-                    System.out.println("Notiz: " + stub.getTermin(terminID).getNotiz().substring(0, 20) + "...(5)");
+                System.out.println("Titel: " + stub.getTermin(terminID, sitzungsID).getTitel() + "(1)");
+                System.out.println("Datum: " + stub.getTermin(terminID, sitzungsID).getDatum().toString() + "(2)");
+                System.out.println("Start: " + stub.getTermin(terminID, sitzungsID).getBeginn().toString() + "(3)");
+                System.out.println("Ende: " + stub.getTermin(terminID, sitzungsID).getEnde().toString() + "(4)");
+                if(stub.getTermin(terminID, sitzungsID).getNotiz().length() > 20){
+                    System.out.println("Notiz: " + stub.getTermin(terminID, sitzungsID).getNotiz().substring(0, 20) + "...(5)");
                 }
                 else{
-                    System.out.println("Notiz: " + stub.getTermin(terminID).getNotiz() + "(5)");
+                    System.out.println("Notiz: " + stub.getTermin(terminID, sitzungsID).getNotiz() + "(5)");
                 }
-                System.out.println("Ort: " + stub.getTermin(terminID).getOrt() + "(6)");
+                System.out.println("Ort: " + stub.getTermin(terminID, sitzungsID).getOrt() + "(6)");
                 System.out.println("Teilnehmer anzeigen(7)");
-                if(stub.getTermin(terminID).getEditierbar()){
+                if(stub.getTermin(terminID, sitzungsID).getEditierbar()){
                     System.out.println("Bearbeitungsrecht: Jeder(8)");
                 }
                 else{
                     System.out.println("Bearbeitungsrecht: Terminersteller(8)");
                 }      
-                System.out.println("Terminersteller: " + stub.getTermin(terminID).getOwner());
+                System.out.println("Terminersteller: " + stub.getTermin(terminID, sitzungsID).getOwner());
                 System.out.println("Termin löschen(9)");
                 System.out.println("zurück(0)");
                 System.out.print("Eingabe: ");
@@ -853,7 +860,7 @@ public class TUI {
                             break;
                         case 8:
                             try {
-                                stub.changeEditierrechte(!stub.getTermin(terminID).getEditierbar(), terminID);
+                                stub.changeEditierrechte(!stub.getTermin(terminID, sitzungsID).getEditierbar(), terminID, sitzungsID);
                             } catch (TerminException e) {
                                 System.out.println(e.getMessage());
                             }
@@ -889,7 +896,7 @@ public class TUI {
         System.out.print("\nNeuer Titel: ");
         newTitel = scanner.nextLine();
         try {
-            stub.changeTermintitel(terminID, newTitel);
+            stub.changeTermintitel(terminID, newTitel, sitzungsID);
             System.out.println("-----> Titel erfolgreich geändert!");
         } catch (TerminException e) {
             System.out.println("----->" + e.getMessage());
@@ -910,7 +917,7 @@ public class TUI {
         System.out.print("\nNeuer Ort: ");
         newOrt = scanner.nextLine();
         try {
-            stub.changeTerminort(terminID, newOrt);
+            stub.changeTerminort(terminID, newOrt, sitzungsID);
             System.out.println("-----> Ort erfolgreich geändert!");
         } catch (TerminException e) {
             System.out.println("----->" + e.getMessage());
@@ -964,7 +971,7 @@ public class TUI {
                 scanner.next();
             }  
         } while(nochmal); 
-        stub.changeTermindatum(terminID, new Datum(tag, monat, jahr));
+        stub.changeTermindatum(terminID, new Datum(tag, monat, jahr), sitzungsID);
     }
 
     /**
@@ -978,14 +985,14 @@ public class TUI {
         Scanner scanner = new Scanner(inputStream);
         String neueNotiz, eingabe;
         
-        System.out.println("\n" + stub.getTermin(terminID).getNotiz());
+        System.out.println("\n" + stub.getTermin(terminID, sitzungsID).getNotiz());
         System.out.print("Neue Notiz anlegen? (j/n)");
         eingabe = scanner.nextLine();     
         if(eingabe.equals("j")){
             System.out.println("\nNeue Notiz eingeben: (max. 200 Zeichen) ");
             neueNotiz = scanner.nextLine();
             try {
-                stub.changeTerminnotiz(terminID, neueNotiz);
+                stub.changeTerminnotiz(terminID, neueNotiz, sitzungsID);
                 System.out.println("-----> Notiz erfolgreich geändert!");
             } catch (TerminException e) {
                 System.out.println("----->" + e.getMessage());
@@ -1004,7 +1011,7 @@ public class TUI {
     private void terminNotizAnzeigen(int terminID) throws BenutzerException, RemoteException, TerminException {
         Scanner scanner = new Scanner(inputStream);
         
-        System.out.println("\n" + stub.getTermin(terminID).getNotiz()); 
+        System.out.println("\n" + stub.getTermin(terminID, sitzungsID).getNotiz()); 
         System.out.print("\nEingabe betätigen um zurück zu gelangen: ");
         scanner.next();
     }
@@ -1044,7 +1051,7 @@ public class TUI {
             }  
         } while(nochmal); 
         try{
-            stub.changeTerminbeginn(terminID, new Zeit(stunde, minute));
+            stub.changeTerminbeginn(terminID, new Zeit(stunde, minute), sitzungsID);
         } catch(ZeitException e){
             System.out.println("\n---->" + e.getMessage());
         } catch(TerminException e){
@@ -1087,7 +1094,7 @@ public class TUI {
             }  
         } while(nochmal); 
         try{
-            stub.changeTerminende(terminID, new Zeit(stunde, minute));
+            stub.changeTerminende(terminID, new Zeit(stunde, minute), sitzungsID);
         } catch(TerminException e){
             System.out.println("\n---->" + e.getMessage());
         } catch (ZeitException e) {
@@ -1111,7 +1118,7 @@ public class TUI {
         System.out.print("Termin löschen? (j/n)");
         eingabe = scanner.nextLine();     
         if(eingabe.equals("j")){
-            stub.removeTermin(terminID);
+            stub.removeTermin(terminID, sitzungsID);
             System.out.println("\nTermin wurde erfolgreich gelöscht!");
         }
     }
@@ -1128,7 +1135,7 @@ public class TUI {
         String username, eingabe;
         
         System.out.println("\nTeilnehmerliste:");
-        for(Teilnehmer teilnehmer : stub.getTermin(terminID).getTeilnehmerliste()){
+        for(Teilnehmer teilnehmer : stub.getTermin(terminID, sitzungsID).getTeilnehmerliste()){
             System.out.print(teilnehmer.getUsername());
             if(teilnehmer.checkIstTeilnehmer()){
                 System.out.println(" (nimmt Teil)");
@@ -1143,7 +1150,7 @@ public class TUI {
             System.out.println("\nUsername: ");
             username = scanner.nextLine();
             try {
-                stub.addTerminteilnehmer(terminID, username);
+                stub.addTerminteilnehmer(terminID, username, sitzungsID);
                 System.out.println("-----> Teilnehmer erfolgreich hizugefügt!");  
             } catch (TerminException e) {
                 System.out.println("-----> " + e.getMessage());
@@ -1163,7 +1170,7 @@ public class TUI {
         Scanner scanner = new Scanner(inputStream);
         
         System.out.println("\nTeilnehmerliste:");
-        for(Teilnehmer teilnehmer : stub.getTermin(terminID).getTeilnehmerliste()){
+        for(Teilnehmer teilnehmer : stub.getTermin(terminID, sitzungsID).getTeilnehmerliste()){
             System.out.print(teilnehmer.getUsername());
             if(teilnehmer.checkIstTeilnehmer()){
                 System.out.println(" (nimmt Teil)");
@@ -1185,7 +1192,7 @@ public class TUI {
 	    System.out.println("\n************ Meldungen ************\n");
             
             i = 0;
-            for(Meldungen meldung : stub.getMeldungen()){
+            for(Meldungen meldung : stub.getMeldungen(sitzungsID)){
                 i++;
                 if(meldung.getText().length() > 20){
                     System.out.print(i  + "  " + meldung.getText().substring(0, 20) + "...");
@@ -1205,13 +1212,13 @@ public class TUI {
             
 	    if(scanner.hasNextInt()){
                 eingabe = scanner.nextInt();     
-                if(eingabe > 0 && eingabe <= stub.getMeldungen().size()){
-                    if(!stub.getMeldungen().get(eingabe - 1).getStatus()){ 
-                        stub.setMeldungenGelesen(eingabe - 1);
+                if(eingabe > 0 && eingabe <= stub.getMeldungen(sitzungsID).size()){
+                    if(!stub.getMeldungen(sitzungsID).get(eingabe - 1).getStatus()){ 
+                        stub.setMeldungenGelesen(eingabe - 1, sitzungsID);
                     }      
-                    if(stub.getMeldungen().get(eingabe - 1) instanceof Anfrage){
+                    if(stub.getMeldungen(sitzungsID).get(eingabe - 1) instanceof Anfrage){
                         while(wiederholen){
-                            System.out.println("\n" + ((Anfrage)stub.getMeldungen().get(eingabe - 1)).getText());
+                            System.out.println("\n" + ((Anfrage)stub.getMeldungen(sitzungsID).get(eingabe - 1)).getText());
                             System.out.println("1 - Termin annehmen");
                             System.out.println("2 - Termin ablehnen");
                             System.out.println("3 - alle Termin dieses Tages anzeigen");
@@ -1221,19 +1228,19 @@ public class TUI {
                                 i = scanner.nextInt();   
                                 switch(i){
                                     case 1:
-                                        stub.terminAnnehmen(((Anfrage)stub.getMeldungen().get(eingabe - 1)).getTermin().getID());
-                                        stub.deleteMeldung(eingabe - 1);
+                                        stub.terminAnnehmen(((Anfrage)stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
+                                        stub.deleteMeldung(eingabe - 1, sitzungsID);
                                         System.out.println("\n----> Termin zugesagt!");
                                         wiederholen = false;
                                         break;
                                     case 2:
-                                        stub.terminAblehnen(((Anfrage)stub.getMeldungen().get(eingabe - 1)).getTermin().getID());
-                                        stub.deleteMeldung(eingabe - 1);
+                                        stub.terminAblehnen(((Anfrage)stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
+                                        stub.deleteMeldung(eingabe - 1, sitzungsID);
                                         System.out.println("\n----> Termin abgelehnt!");
                                         wiederholen = false;
                                         break;
                                     case 3:
-                                        termineDesTagesAnzeigen(((Anfrage)stub.getMeldungen().get(eingabe - 1)).getTermin().getDatum());
+                                        termineDesTagesAnzeigen(((Anfrage)stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getDatum());
                                         break;
                                     case 0 :
                                         wiederholen = false;
@@ -1251,12 +1258,12 @@ public class TUI {
                         wiederholen = true;
                     }
                     else{
-                        System.out.println("\n" + stub.getMeldungen().get(eingabe - 1).text);
+                        System.out.println("\n" + stub.getMeldungen(sitzungsID).get(eingabe - 1).text);
                         System.out.print("Meldung löschen? (ja=1): ");
                         if(scanner.hasNextInt()){
                             eingabe = scanner.nextInt();   
                             if(eingabe == 1){
-                                stub.deleteMeldung(eingabe - 1);
+                                stub.deleteMeldung(eingabe - 1, sitzungsID);
                             }
                         }
                         else{
@@ -1294,7 +1301,7 @@ public class TUI {
         try {
             do{
                 i = 1;
-                dieserTag = stub.getTermineAmTag(heute);
+                dieserTag = stub.getTermineAmTag(heute, sitzungsID);
                 System.out.println("\n-----> " + dieserTag.size() + " Termine am " + heute.toString() + ":");
 
                 for(Termin termin : dieserTag){
