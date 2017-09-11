@@ -1,5 +1,5 @@
 /*
- * ToDo und Bugs:
+ * 
  *
  */
 package Terminkalender;
