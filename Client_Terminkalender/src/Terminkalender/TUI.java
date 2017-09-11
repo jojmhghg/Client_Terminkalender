@@ -107,7 +107,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void anmelden() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException{
+    private void anmelden() throws RemoteException, TerminException, DatumException, Zeit.ZeitException{
         Scanner scanner = new Scanner(inputStream);
         String username, password;
                 
@@ -748,7 +748,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void terminAnzeigenBearbeiten(int terminID) throws RemoteException, BenutzerException, DatumException, TerminException, Zeit.ZeitException {
+    private void terminAnzeigenBearbeiten(int terminID) throws RemoteException, BenutzerException, DatumException, TerminException {
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true, teilnehmer = false;
@@ -1163,27 +1163,36 @@ public class TUI {
      * 
      * @param terminID
      * @throws RemoteException
+     */
+    private void terminTeilnehmerAnzeigen(int terminID) throws RemoteException {
+        Scanner scanner = new Scanner(inputStream);
+        
+        try{
+            System.out.println("\nTeilnehmerliste:");
+            for(Teilnehmer teilnehmer : stub.getTermin(terminID, sitzungsID).getTeilnehmerliste()){
+                System.out.print(teilnehmer.getUsername());
+                if(teilnehmer.checkIstTeilnehmer()){
+                    System.out.println(" (nimmt Teil)");
+                }
+                else{
+                    System.out.println(" (noch offen)");
+                }
+            }
+            System.out.print("\nEingabe betätigen um zurück zu gelangen: ");
+            scanner.nextLine();    
+        }
+        catch(TerminException | BenutzerException e){
+            System.out.println("\n-----> " + e.getMessage());
+        }
+    }
+
+    /**
+     * 
+     * @throws RemoteException
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void terminTeilnehmerAnzeigen(int terminID) throws RemoteException, BenutzerException, TerminException {
-        Scanner scanner = new Scanner(inputStream);
-        
-        System.out.println("\nTeilnehmerliste:");
-        for(Teilnehmer teilnehmer : stub.getTermin(terminID, sitzungsID).getTeilnehmerliste()){
-            System.out.print(teilnehmer.getUsername());
-            if(teilnehmer.checkIstTeilnehmer()){
-                System.out.println(" (nimmt Teil)");
-            }
-            else{
-                System.out.println(" (noch offen)");
-            }
-        }
-        System.out.print("\nEingabe betätigen um zurück zu gelangen: ");
-        scanner.nextLine();     
-    }
-
-    private void meldungen() throws RemoteException, BenutzerException, TerminException, DatumException, ZeitException {
+    private void meldungen() throws RemoteException, BenutzerException, TerminException {
         Scanner scanner = new Scanner(inputStream);
         int eingabe, i;
         boolean wiederholen = true;
@@ -1288,11 +1297,8 @@ public class TUI {
      * 
      * @param heute
      * @throws RemoteException
-     * @throws TerminException
-     * @throws BenutzerException
-     * @throws Terminkalender.Zeit.ZeitException 
      */
-    private void termineDesTagesAnzeigen(Datum heute) throws RemoteException, TerminException, BenutzerException, ZeitException {
+    private void termineDesTagesAnzeigen(Datum heute) throws RemoteException {
         Scanner scanner = new Scanner(inputStream);
         LinkedList<Termin> dieserTag;
         boolean nochmal = true;
@@ -1330,8 +1336,8 @@ public class TUI {
                     System.out.println("\n----> ungültige Eingabe!");
                 }        
             } while(nochmal); 
-        } catch (DatumException e) {
-            System.out.println(e.getMessage());
+        } catch (TerminException | BenutzerException | DatumException e) {
+            System.out.println("\n-----> " + e.getMessage());
         }    
     }
 
