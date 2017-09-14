@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+
 /**
  *
  * @author Tim Meyer
@@ -56,7 +57,8 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void startbildschirm() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException{
+    void startbildschirm() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException{
+     
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true;

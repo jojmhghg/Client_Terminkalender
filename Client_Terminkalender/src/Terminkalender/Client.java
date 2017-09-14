@@ -21,6 +21,8 @@ public class Client {
     public static void main(String[] args) {
         /* IP-Adresse des Servers */
         String ipaddr = "localhost";
+        Startfenster fenster1 = new Startfenster();
+        fenster1.starten();
         
         if ((args.length > 2)){
             System.err.println("java -jar Client_Terminkalender.jar <Server-IP-Adresse>");
