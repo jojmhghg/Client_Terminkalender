@@ -20,9 +20,7 @@ public class Client {
      */
     public static void main(String[] args) {
         /* IP-Adresse des Servers */
-        String ipaddr = "localhost";
-        Startfenster fenster1 = new Startfenster();
-        fenster1.starten();
+        String ipaddr = "localhost"; 
         
         if ((args.length > 2)){
             System.err.println("java -jar Client_Terminkalender.jar <Server-IP-Adresse>");
@@ -38,8 +36,10 @@ public class Client {
                 LauncherInterface stub = (LauncherInterface) registry.lookup("Terminkalender");
                 
                 System.out.println("Mit Server verbunden!"); 
-                TUI tui = new TUI(stub);
-                tui.start();
+                StartFenster fenster1 = new StartFenster();
+                fenster1.starten();
+               // TUI tui = new TUI(stub);
+               // tui.start();
             } 
             catch (NotBoundException | RemoteException e) {
                 System.out.println("Exception: " + e.getMessage());
