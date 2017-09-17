@@ -11,6 +11,8 @@ import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -79,7 +81,7 @@ public class TUI {
                         registrieren();
                         break;
                     case 3:
-                        System.out.println("\n----> noch nicht implementiert!");
+                        resetPW();
                         break;
                     case 4:
                         System.out.println("\n-----> Anwendung beendet!");
@@ -98,6 +100,28 @@ public class TUI {
                 scanner.next();
             }     
         } while(wiederholen);
+    }
+    
+    private void resetPW() throws RemoteException{
+        Scanner scanner = new Scanner(inputStream);
+        String username;
+        String sicher;
+        
+        System.out.println("\n************ Passwort zurücksetzen ************\n");
+        System.out.println("Benutzername eingeben:");
+        username = scanner.nextLine();        
+        System.out.println("Sind Sie sicher, dass Sie ihr Passwort zurücksetzen möchten? (j/n) ");
+        sicher = scanner.nextLine();
+        
+        if(sicher.equals("j")){
+            try {
+                stub.resetPassword(username);
+                System.out.println("Passwort erfolgreich zurückgesetzt!");
+            } 
+            catch (BenutzerException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
     
     /**
