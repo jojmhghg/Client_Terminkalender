@@ -8,6 +8,7 @@ import Terminkalender.Datum.DatumException;
 import Terminkalender.Zeit.ZeitException;
 import java.io.InputStream;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -48,6 +49,8 @@ public class TUI {
             System.err.println(e.getMessage());
         } catch (Zeit.ZeitException e) {
             System.err.println(e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(TUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -58,7 +61,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void startbildschirm() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException{
+    private void startbildschirm() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true;
@@ -102,7 +105,7 @@ public class TUI {
         } while(wiederholen);
     }
     
-    private void resetPW() throws RemoteException{
+    private void resetPW() throws RemoteException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         String username;
         String sicher;
@@ -161,7 +164,7 @@ public class TUI {
      * 
      * @throws RemoteException 
      */
-    private void registrieren() throws RemoteException{
+    private void registrieren() throws RemoteException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         String username, password, email, again;
         boolean wiederholen;
