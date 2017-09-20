@@ -36,6 +36,10 @@ public class Client {
                 LauncherInterface stub = (LauncherInterface) registry.lookup("Terminkalender");
                 
                 System.out.println("Mit Server verbunden!"); 
+                
+                GUI gui = new GUI(stub);
+                gui.startGUI();;
+                
                 TUI tui = new TUI(stub);
                 tui.start();
             } 
