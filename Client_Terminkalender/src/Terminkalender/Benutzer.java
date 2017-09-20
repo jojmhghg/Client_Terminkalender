@@ -26,6 +26,7 @@ public class Benutzer implements Serializable{
     private Terminkalender terminkalender;
     private LinkedList<String> kontaktliste; 
     private LinkedList<Meldungen> meldungen;
+    private int meldungsCounter;
     
     /**
      * 
@@ -51,6 +52,7 @@ public class Benutzer implements Serializable{
         this.terminkalender = new Terminkalender(userID);
         this.kontaktliste = new LinkedList<>();
         this.meldungen = new LinkedList<>();
+        this.meldungsCounter = 1;
     } 
     
     //Getter:
@@ -69,6 +71,9 @@ public class Benutzer implements Serializable{
     public String getEmail(){
         return email;
     } 
+    public int getMeldungsCounter(){
+        return meldungsCounter;
+    }
     public Terminkalender getTerminkalender(){
         return terminkalender;
     }
@@ -77,6 +82,10 @@ public class Benutzer implements Serializable{
     }
     public LinkedList<Meldungen> getMeldungen(){
         return meldungen;
+    }
+    
+    public int getUserID(){
+        return this.userID;
     }
     
     //Setter:
@@ -168,11 +177,13 @@ public class Benutzer implements Serializable{
      * @param beginn
      * @param ende
      * @param titel
+     * @return 
      * @throws TerminException 
      */
-    public void addTermin(Datum datum, Zeit beginn, Zeit ende, String titel) throws TerminException{
-        terminkalender.addTermin(datum, beginn, ende, titel, username);
+    public int addTermin(Datum datum, Zeit beginn, Zeit ende, String titel) throws TerminException{
+        return terminkalender.addTermin(datum, beginn, ende, titel, username);
     }
+
     
     /**
      * 
@@ -187,17 +198,23 @@ public class Benutzer implements Serializable{
      * 
      * @param termin
      * @param absender 
+     * @return  
      */
-    public void addAnfrage(Termin termin, String absender){
-        meldungen.add(new Anfrage(absender + " lädt sie zu einem Termin ein" ,termin, absender));
+    public int addAnfrage(Termin termin, String absender){
+        meldungen.add(new Anfrage(absender + " lädt sie zu einem Termin ein" ,termin, absender, meldungsCounter));
+        meldungsCounter++;
+        return meldungsCounter - 1;
     }
     
     /**
      *
      * @param meldung
+     * @return 
      */
-    public void addMeldung(String meldung){
-        meldungen.add(new Meldungen(meldung));
+    public int addMeldung(String meldung){
+        meldungen.add(new Meldungen(meldung, meldungsCounter));
+        meldungsCounter++;
+        return meldungsCounter - 1;
     }
     
     /**
