@@ -201,7 +201,7 @@ public class Benutzer implements Serializable{
      * @return  
      */
     public int addAnfrage(Termin termin, String absender){
-        meldungen.add(new Anfrage(absender + " lädt sie zu einem Termin ein" ,termin, absender, meldungsCounter));
+        meldungen.add(new Anfrage(absender + " lädt sie zu einem Termin ein" ,termin, absender, meldungsCounter + userID * 1000000));
         meldungsCounter++;
         return meldungsCounter - 1;
     }
@@ -212,7 +212,7 @@ public class Benutzer implements Serializable{
      * @return 
      */
     public int addMeldung(String meldung){
-        meldungen.add(new Meldungen(meldung, meldungsCounter));
+        meldungen.add(new Meldungen(meldung, meldungsCounter + userID * 1000000));
         meldungsCounter++;
         return meldungsCounter - 1;
     }
