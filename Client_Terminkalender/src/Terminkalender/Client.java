@@ -38,7 +38,7 @@ public class Client {
                 System.out.println("Mit Server verbunden!"); 
                 
                 GUI gui = new GUI(stub);
-                gui.startGUI();;
+                gui.startGUI();
                 
                 TUI tui = new TUI(stub);
                 tui.start();
