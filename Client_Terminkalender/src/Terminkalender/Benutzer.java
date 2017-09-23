@@ -26,6 +26,7 @@ public class Benutzer implements Serializable{
     private Terminkalender terminkalender;
     private LinkedList<String> kontaktliste; 
     private LinkedList<Meldungen> meldungen;
+    private int meldungsCounter;
     
     /**
      * 
@@ -51,7 +52,35 @@ public class Benutzer implements Serializable{
         this.terminkalender = new Terminkalender(userID);
         this.kontaktliste = new LinkedList<>();
         this.meldungen = new LinkedList<>();
+        this.meldungsCounter = 1;
     } 
+    
+    /**
+     * 
+     * @param username
+     * @param passwort
+     * @param email
+     * @throws BenutzerException 
+     */
+    Benutzer(String username, String passwort, String email, int userID, String vorname, String nachname, int meldungsCounter) throws BenutzerException{
+        if(username.length() < 4 || username.length() > 12){
+            throw new BenutzerException("Der Username sollte zwischen 4 und 12 Zeichen lang sein");
+        }
+        if(passwort.length() < 4 || passwort.length() > 12){
+            throw new BenutzerException("Das Passwort sollte zwischen 4 und 12 Zeichen lang sein");
+        }
+        
+        this.userID = userID;
+        this.email = email;
+        this.username = username;
+        this.passwort = passwort;
+        this.nachname = nachname;
+        this.vorname = vorname;
+        this.terminkalender = new Terminkalender(userID);
+        this.kontaktliste = new LinkedList<>();
+        this.meldungen = new LinkedList<>();
+        this.meldungsCounter = meldungsCounter;
+    }
     
     //Getter:
     public String getUsername(){
@@ -69,6 +98,9 @@ public class Benutzer implements Serializable{
     public String getEmail(){
         return email;
     } 
+    public int getMeldungsCounter(){
+        return meldungsCounter;
+    }
     public Terminkalender getTerminkalender(){
         return terminkalender;
     }
@@ -77,6 +109,10 @@ public class Benutzer implements Serializable{
     }
     public LinkedList<Meldungen> getMeldungen(){
         return meldungen;
+    }
+    
+    public int getUserID(){
+        return this.userID;
     }
     
     //Setter:
@@ -168,11 +204,13 @@ public class Benutzer implements Serializable{
      * @param beginn
      * @param ende
      * @param titel
+     * @return 
      * @throws TerminException 
      */
-    public void addTermin(Datum datum, Zeit beginn, Zeit ende, String titel) throws TerminException{
-        terminkalender.addTermin(datum, beginn, ende, titel, username);
+    public int addTermin(Datum datum, Zeit beginn, Zeit ende, String titel) throws TerminException{
+        return terminkalender.addTermin(datum, beginn, ende, titel, username);
     }
+
     
     /**
      * 
@@ -187,17 +225,23 @@ public class Benutzer implements Serializable{
      * 
      * @param termin
      * @param absender 
+     * @return  
      */
-    public void addAnfrage(Termin termin, String absender){
-        meldungen.add(new Anfrage(absender + " lädt sie zu einem Termin ein" ,termin, absender));
+    public int addAnfrage(Termin termin, String absender){
+        meldungen.add(new Anfrage(absender + " lädt sie zu einem Termin ein" ,termin, absender, meldungsCounter));
+        meldungsCounter++;
+        return meldungsCounter - 1;
     }
     
     /**
      *
      * @param meldung
+     * @return 
      */
-    public void addMeldung(String meldung){
-        meldungen.add(new Meldungen(meldung));
+    public int addMeldung(String meldung){
+        meldungen.add(new Meldungen(meldung, meldungsCounter));
+        meldungsCounter++;
+        return meldungsCounter - 1;
     }
     
     /**
