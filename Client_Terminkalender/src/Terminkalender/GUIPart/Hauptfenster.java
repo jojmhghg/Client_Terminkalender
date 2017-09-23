@@ -168,7 +168,6 @@ public class Hauptfenster extends javax.swing.JFrame {
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.persistence.EntityManager samplePUEntityManager;
     private javax.swing.JButton showAddKontakt;
     private javax.swing.JButton showRemoveKontakt;
     // End of variables declaration//GEN-END:variables
