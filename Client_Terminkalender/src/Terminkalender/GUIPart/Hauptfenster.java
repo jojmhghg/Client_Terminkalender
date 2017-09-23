@@ -49,7 +49,6 @@ public class Hauptfenster extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
-        setPreferredSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -114,18 +113,18 @@ public class Hauptfenster extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void showRemoveKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRemoveKontaktActionPerformed
+        // TODO add your handling code here:
+        RemoveKontakt start = new RemoveKontakt(stub);
+        start.setVisible(true);
+    }//GEN-LAST:event_showRemoveKontaktActionPerformed
+
     private void showAddKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAddKontaktActionPerformed
         // TODO add your handling code here:
         //sitzungsID = stub.addKontakt(username, sitzungsID);
         AddKontakt start= new AddKontakt(stub,sitzungsID);
         start.setVisible(true);
     }//GEN-LAST:event_showAddKontaktActionPerformed
-
-    private void showRemoveKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRemoveKontaktActionPerformed
-        // TODO add your handling code here:
-        RemoveKontakt start = new RemoveKontakt(stub);
-        start.setVisible(true);
-    }//GEN-LAST:event_showRemoveKontaktActionPerformed
 
     /**
      * @param args the command line arguments
