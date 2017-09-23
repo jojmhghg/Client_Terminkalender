@@ -55,6 +55,25 @@ public class Benutzer implements Serializable{
         this.meldungsCounter = 1;
     } 
     
+    /**
+     * 
+     * @param username
+     * @param passwort
+     * @param email
+     */
+    Benutzer(String username, String passwort, String email, int userID, String vorname, String nachname, int meldungsCounter){        
+        this.userID = userID;
+        this.email = email;
+        this.username = username;
+        this.passwort = passwort;
+        this.nachname = nachname;
+        this.vorname = vorname;
+        this.terminkalender = new Terminkalender(userID);
+        this.kontaktliste = new LinkedList<>();
+        this.meldungen = new LinkedList<>();
+        this.meldungsCounter = meldungsCounter;
+    }
+    
     //Getter:
     public String getUsername(){
         return username;
@@ -87,6 +106,9 @@ public class Benutzer implements Serializable{
     public int getUserID(){
         return this.userID;
     }
+    public int getTerminCounter(){
+        return terminkalender.getTerminCounter();
+    }
     
     //Setter:
     public void setNachname(String nachname){
@@ -104,6 +126,14 @@ public class Benutzer implements Serializable{
         }
         this.passwort = neuesPasswort;
     }
+    public void setKontaktliste(LinkedList<String> kontaktliste){
+        this.kontaktliste = kontaktliste;
+    }
+    public void setMeldungen(LinkedList<Meldungen> meldungen){
+        this.meldungen = meldungen;
+    }
+    
+    
     
     public String resetPasswort(){
         Properties properties = System.getProperties();
@@ -188,9 +218,8 @@ public class Benutzer implements Serializable{
     /**
      * 
      * @param termin
-     * @throws TerminException 
      */
-    public void addTermin(Termin termin) throws TerminException{
+    public void addTermin(Termin termin){
         terminkalender.addTermin(termin);
     }
     
@@ -201,7 +230,7 @@ public class Benutzer implements Serializable{
      * @return  
      */
     public int addAnfrage(Termin termin, String absender){
-        meldungen.add(new Anfrage(absender + " lädt sie zu einem Termin ein" ,termin, absender, meldungsCounter + userID * 1000000));
+        meldungen.add(new Anfrage(absender + " lädt sie zu einem Termin ein" ,termin, absender, meldungsCounter));
         meldungsCounter++;
         return meldungsCounter - 1;
     }
@@ -212,7 +241,7 @@ public class Benutzer implements Serializable{
      * @return 
      */
     public int addMeldung(String meldung){
-        meldungen.add(new Meldungen(meldung, meldungsCounter + userID * 1000000));
+        meldungen.add(new Meldungen(meldung, meldungsCounter));
         meldungsCounter++;
         return meldungsCounter - 1;
     }
