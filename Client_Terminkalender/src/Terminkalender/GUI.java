@@ -5,7 +5,7 @@
  */
 package Terminkalender;
 
-import Terminkalender.GUIPart.Fenster;
+import Terminkalender.GUIPart.StartFenster;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -72,7 +72,7 @@ public class GUI {
      * @throws Terminkalender.Zeit.ZeitException 
      */
     private void anmeldenGUI() throws RemoteException, BenutzerException, TerminException, Datum.DatumException, Zeit.ZeitException, SQLException{ 
-        Fenster start = new Fenster(stub);
+        StartFenster start = new StartFenster(stub);
         start.setVisible(true);
         
     }
