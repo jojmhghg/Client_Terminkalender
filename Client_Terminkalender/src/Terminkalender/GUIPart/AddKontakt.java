@@ -25,8 +25,9 @@ public class AddKontakt extends javax.swing.JFrame {
     /**
      * Creates new form AddKontakt
      * @param stub
+     * @param sitzungsID
      */
-    public AddKontakt(LauncherInterface stub) {
+    public AddKontakt(LauncherInterface stub, int sitzungsID) {
         initComponents();
         this.stub = stub;
         this.sitzungsID = sitzungsID;
@@ -36,7 +37,7 @@ public class AddKontakt extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void addKontakt(String username, int sitzungsID) throws RemoteException {
+    public void addKontakt(String username) throws RemoteException {
          try {
             //sitzungsID = stub.addKontakt(username, sitzungsID);
             //if(sitzungsID>0){
@@ -66,7 +67,6 @@ public class AddKontakt extends javax.swing.JFrame {
         userNameField = new javax.swing.JTextField();
         addKontakt = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Add Kontakt - Termin Kalender");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setType(java.awt.Window.Type.POPUP);
@@ -131,7 +131,7 @@ public class AddKontakt extends javax.swing.JFrame {
         //int sitzungsID;
                
         try {
-            this.addKontakt(username, sitzungsID);
+            this.addKontakt(username);
             //sitzungsID = stub.addKontakt(username, sitzungsID);
             //stub.addKontakt(username, sitzungsID);
         } catch (RemoteException e) {

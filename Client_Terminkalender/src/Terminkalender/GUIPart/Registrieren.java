@@ -73,8 +73,6 @@ public class Registrieren extends javax.swing.JFrame {
         regButton = new javax.swing.JButton();
         regAbbrButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         regUsername.setText("Benutzername");
 
         regPassword.setText("Passwort");

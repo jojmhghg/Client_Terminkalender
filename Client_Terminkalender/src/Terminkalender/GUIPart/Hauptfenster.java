@@ -19,10 +19,12 @@ public class Hauptfenster extends javax.swing.JFrame {
     /**
      * Creates new form HauptFenster
      * @param stub
+     * @param sitzungsID
      */
-    public Hauptfenster(LauncherInterface stub) {
+    public Hauptfenster(LauncherInterface stub,int sitzungsID) {
         initComponents();
         this.stub = stub;
+        this.sitzungsID = sitzungsID;
     }
     
     private Hauptfenster() {
@@ -115,7 +117,7 @@ public class Hauptfenster extends javax.swing.JFrame {
     private void showAddKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAddKontaktActionPerformed
         // TODO add your handling code here:
         //sitzungsID = stub.addKontakt(username, sitzungsID);
-        AddKontakt start= new AddKontakt(stub);
+        AddKontakt start= new AddKontakt(stub,sitzungsID);
         start.setVisible(true);
     }//GEN-LAST:event_showAddKontaktActionPerformed
 

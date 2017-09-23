@@ -62,7 +62,6 @@ public class RemoveKontakt extends javax.swing.JFrame {
         userNameField = new javax.swing.JTextField();
         entfernen = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kontakt entfernen - Termin Kalender");
         setType(java.awt.Window.Type.POPUP);
 

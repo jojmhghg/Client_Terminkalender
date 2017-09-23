@@ -49,7 +49,7 @@ public class Fenster extends javax.swing.JFrame {
                 
                 this.setVisible(false);
                 
-                Hauptfenster start = new Hauptfenster(stub);
+                Hauptfenster start = new Hauptfenster(stub, sitzungsID);
                 start.setVisible(true);
                 
             }  
