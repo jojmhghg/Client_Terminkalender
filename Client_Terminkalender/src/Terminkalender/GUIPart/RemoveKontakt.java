@@ -22,7 +22,7 @@ public class RemoveKontakt extends javax.swing.JFrame {
     /**
      * Creates new form RemoveKontakt
      */
-    public RemoveKontakt(LauncherInterface stub) {
+    public RemoveKontakt(LauncherInterface stub, int sitzungsID) {
         initComponents();
         this.stub = stub;
         this.sitzungsID = sitzungsID;
@@ -32,7 +32,7 @@ public class RemoveKontakt extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void removeKontakt(String username, int sitzungsID) throws RemoteException {
+    public void removeKontakt(String username) throws RemoteException {
          try {
             //sitzungsID = stub.addKontakt(username, sitzungsID);
             //if(sitzungsID>0){
@@ -113,7 +113,7 @@ public class RemoveKontakt extends javax.swing.JFrame {
         username = this.userNameField.getText();
         
         try {
-            this.removeKontakt(username, sitzungsID);
+            this.removeKontakt(username);
             
         } catch (RemoteException e) {
             JOptionPane.showInputDialog(e.getMessage());

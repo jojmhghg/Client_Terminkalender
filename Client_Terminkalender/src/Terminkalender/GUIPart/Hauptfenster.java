@@ -5,16 +5,36 @@
  */
 package Terminkalender.GUIPart;
 
+import Terminkalender.BenutzerException;
+import Terminkalender.GUI;
 import Terminkalender.LauncherInterface;
+import java.awt.Color;
+import java.rmi.RemoteException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
  * @author niroshan
  */
-public class Hauptfenster extends javax.swing.JFrame {
+public class Hauptfenster extends javax.swing.JFrame implements ListSelectionListener {
 
     private final LauncherInterface stub;
     private int sitzungsID;
+    //private DefaultListModel listModel;
+    DefaultListModel listModel = new DefaultListModel();
 
     /**
      * Creates new form HauptFenster
@@ -25,10 +45,45 @@ public class Hauptfenster extends javax.swing.JFrame {
         initComponents();
         this.stub = stub;
         this.sitzungsID = sitzungsID;
+        //        listModel = new DefaultListModel();
+        //Create the list and put it in a scroll pane.
+        //jList1 = new JList(listModel);
+        //jList1.setModel((ListModel<String>) stub.getKontakte(sitzungsID));
+        //for (String kontakt : stub.getKontakte(sitzungsID)) {
+        //kontakt = new ListModel ();
+        //  jList1.setModel(listModel);
+        //}
+        jList1.setModel(listModel);
+        
     }
     
     private Hauptfenster() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    /**
+     *
+     * @author Edwrard Nana
+     */
+    public class MyListModel extends AbstractListModel {
+
+        private final LinkedList<String> list;
+
+        public MyListModel(LinkedList<String> list) {
+            this.list = list;
+        }
+
+        @Override
+        public Object getElementAt(int index) {
+            return list.get(index);
+        }
+
+        @Override
+        public int getSize() {
+            return list.size();
+        }
+
     }
 
     /**
@@ -46,6 +101,10 @@ public class Hauptfenster extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         showAddKontakt = new javax.swing.JButton();
         showRemoveKontakt = new javax.swing.JButton();
+        contactUsernameField = new javax.swing.JTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        abmeldenButton = new javax.swing.JButton();
+        showProfilButon = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -53,13 +112,14 @@ public class Hauptfenster extends javax.swing.JFrame {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jList1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jList1ComponentShown(evt);
+            }
         });
         jScrollPane1.setViewportView(jList1);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Kontaktliste");
 
         showAddKontakt.setText("Hinzufügen");
@@ -76,6 +136,20 @@ public class Hauptfenster extends javax.swing.JFrame {
             }
         });
 
+        abmeldenButton.setText("Abmelden");
+        abmeldenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abmeldenButtonActionPerformed(evt);
+            }
+        });
+
+        showProfilButon.setText("Zum Profil");
+        showProfilButon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showProfilButonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -83,15 +157,25 @@ public class Hauptfenster extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                    .addComponent(contactUsernameField)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(showAddKontakt)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(showRemoveKontakt)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(511, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(showProfilButon)
+                        .addGap(17, 17, 17)
+                        .addComponent(abmeldenButton)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,30 +186,107 @@ public class Hauptfenster extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(contactUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(showAddKontakt)
                     .addComponent(showRemoveKontakt))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1)
+                .addGap(269, 269, 269))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(abmeldenButton)
+                    .addComponent(showProfilButon, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(268, Short.MAX_VALUE))
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(543, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void showRemoveKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRemoveKontaktActionPerformed
-        // TODO add your handling code here:
-        RemoveKontakt start = new RemoveKontakt(stub);
+        RemoveKontakt start = new RemoveKontakt(stub,sitzungsID);
         start.setVisible(true);
+        //fillList();
+        
     }//GEN-LAST:event_showRemoveKontaktActionPerformed
 
     private void showAddKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAddKontaktActionPerformed
-        // TODO add your handling code here:
-        //sitzungsID = stub.addKontakt(username, sitzungsID);
-        AddKontakt start= new AddKontakt(stub,sitzungsID);
-        start.setVisible(true);
+        //AddKontakt start= new AddKontakt(stub,sitzungsID);
+        //start.setVisible(true);
+        String contact = contactUsernameField.getText();
+        if (contact.length() >=0){
+            try {
+                //AddKontakt add = new AddKontakt(stub,sitzungsID);
+                stub.addKontakt(contact, sitzungsID);
+                listModel.addElement(contact);
+            } catch (RemoteException | BenutzerException ex) {
+                JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_showAddKontaktActionPerformed
 
+    private void jList1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jList1ComponentShown
+        try {
+            stub.getKontakte(sitzungsID);
+        } catch (BenutzerException | RemoteException ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jList1ComponentShown
+
+    private void abmeldenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abmeldenButtonActionPerformed
+        ausloggen();
+    }//GEN-LAST:event_abmeldenButtonActionPerformed
+
+    private void showProfilButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showProfilButonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_showProfilButonActionPerformed
+
+    public void ausloggen(){
+        try {
+            stub.ausloggen(sitzungsID);
+            GUI out = new GUI();
+            out.startGUI();         
+            } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+//    final void fillList() {
+//        listModel = new DefaultListModel();
+//        listModel.addElement("Jane Doe");
+//        listModel.addElement("John Smith");
+//        listModel.addElement("Kathy Green");
+//        
+//        //Create the list and put it in a scroll pane.
+//        jList1 = new JList(listModel);
+//        jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//        jList1.setSelectedIndex(0);
+//        jList1.addListSelectionListener(this);
+//        jList1.setVisibleRowCount(5);
+//        JScrollPane listScrollPane = new JScrollPane(jList1);
+//        
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+    
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting() == false) {
+
+            if (jList1.getSelectedIndex() == -1) {
+            //No selection, disable add button.
+                showAddKontakt.setEnabled(false);
+
+            } else {
+            //Selection, enable the remove button.
+                showRemoveKontakt.setEnabled(true);
+            }
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -163,11 +324,17 @@ public class Hauptfenster extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton abmeldenButton;
+    private javax.swing.JTextField contactUsernameField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton showAddKontakt;
+    private javax.swing.JButton showProfilButon;
     private javax.swing.JButton showRemoveKontakt;
     // End of variables declaration//GEN-END:variables
+
+    
 }
