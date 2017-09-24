@@ -8,6 +8,7 @@ package Terminkalender.GUIPart;
 import Terminkalender.BenutzerException;
 import Terminkalender.GUI;
 import Terminkalender.LauncherInterface;
+import Terminkalender.Meldungen;
 import java.awt.Color;
 import java.rmi.RemoteException;
 import java.util.Iterator;
@@ -46,6 +47,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         initComponents();
         this.stub = stub;
         this.sitzungsID = sitzungsID;
+        this.username = username;
         //        listModel = new DefaultListModel();
         //Create the list and put it in a scroll pane.
         //jList1 = new JList(listModel);
@@ -332,7 +334,22 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         DefaultListModel model = new DefaultListModel();
         for(int i=0; i<=7; i++){
             try {
-                model.addElement(stub.getMeldungen(sitzungsID));
+                for(Meldungen meldung : stub.getMeldungen( sitzungsID)){
+                i++;
+                if(meldung.getText().length() > 20){
+                    model.addElement(meldung.getText().substring(0, 20));
+                }
+                else{
+                    System.out.print(i  + "  " + meldung);
+                }   
+                if(meldung.getStatus()){
+                    System.out.println("(gelesen)");
+                }
+                else{
+                    System.out.println("(ungelesen)");
+                }
+            }
+                
             } catch (RemoteException ex) {
                 Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
             } catch (BenutzerException ex) {

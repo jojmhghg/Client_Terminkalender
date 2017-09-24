@@ -1228,7 +1228,7 @@ public class TUI {
 	    System.out.println("\n************ Meldungen ************\n");
             
             i = 0;
-            for(Meldungen meldung : stub.getMeldungen(sitzungsID)){
+            for(Meldungen meldung : stub.getMeldungen( sitzungsID)){
                 i++;
                 if(meldung.getText().length() > 20){
                     System.out.print(i  + "  " + meldung.getText().substring(0, 20) + "...");
@@ -1248,7 +1248,7 @@ public class TUI {
             
 	    if(scanner.hasNextInt()){
                 eingabe = scanner.nextInt();     
-                if(eingabe > 0 && eingabe <= stub.getMeldungen(sitzungsID).size()){
+                if(eingabe > 0 && eingabe <= stub.getMeldungen( sitzungsID).size()){
                     if(!stub.getMeldungen(sitzungsID).get(eingabe - 1).getStatus()){ 
                         stub.setMeldungenGelesen(eingabe - 1, sitzungsID);
                     }      
