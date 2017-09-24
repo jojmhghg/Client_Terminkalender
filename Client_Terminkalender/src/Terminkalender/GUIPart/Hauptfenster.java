@@ -332,7 +332,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     private void benachaktuelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_benachaktuelActionPerformed
         DefaultListModel model = new DefaultListModel();
-        for(int i=0; i<=7; i++){
+        for(int i=0; i<=1; i++){
             try {
                 for(Meldungen meldung : stub.getMeldungen( sitzungsID)){
                 i++;
