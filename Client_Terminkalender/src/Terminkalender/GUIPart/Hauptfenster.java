@@ -34,7 +34,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     private final LauncherInterface stub;
     private int sitzungsID;
-    private String  username;
+   // private String  username;
     //private DefaultListModel listModel;
     DefaultListModel listModel = new DefaultListModel();
 
@@ -47,7 +47,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         initComponents();
         this.stub = stub;
         this.sitzungsID = sitzungsID;
-        this.username = username;
+       // this.username = username;
         //        listModel = new DefaultListModel();
         //Create the list and put it in a scroll pane.
         //jList1 = new JList(listModel);
@@ -118,10 +118,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jScrollPane2 = new javax.swing.JScrollPane();
         benachList = new javax.swing.JList<>();
         benachaktuel = new javax.swing.JButton();
-        hinzu = new javax.swing.JButton();
-        loechen = new javax.swing.JButton();
-        eventText = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -180,28 +176,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         });
 
-        hinzu.setText("hinzufügen");
-        hinzu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hinzuActionPerformed(evt);
-            }
-        });
-
-        loechen.setText("löschen");
-        loechen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loechenActionPerformed(evt);
-            }
-        });
-
-        eventText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eventTextActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("benachrichtigung test");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -227,22 +201,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(contactUsernameField)))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(hinzu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(loechen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(23, 23, 23)
+                        .addGap(126, 126, 126)
                         .addComponent(showProfilButon)
                         .addGap(17, 17, 17)
                         .addComponent(abmeldenButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(eventText, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
+                        .addGap(126, 126, 126)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(75, 75, 75))
         );
@@ -262,11 +228,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(hinzu)
-                        .addGap(18, 18, 18)
-                        .addComponent(loechen)
-                        .addGap(168, 168, 168))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(contactUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -278,15 +240,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(benachaktuel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(eventText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                                .addGap(20, 20, 20))))))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                        .addGap(20, 20, 20))))
         );
 
         pack();
@@ -329,7 +284,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private void showProfilButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showProfilButonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_showProfilButonActionPerformed
-
+    String eventtext= "";
     private void benachaktuelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_benachaktuelActionPerformed
         DefaultListModel model = new DefaultListModel();
         int i=0 ;
@@ -344,13 +299,15 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                // } 
                 
                 if(meldung.getStatus()){
-                    model.addElement(i+"-" + meldung.getText()+ "gelesen");
+                    model.addElement(i+"-" + meldung.getText().substring(0,12) + "gelesen");
                     
                 }
                 else{
-                    model.addElement(i+"-" + meldung.getText()+ " ungelesen");
-                    
+                    model.addElement(i+"-" + meldung.getText().substring(17, 30)+ "\n ungelesen");
+                    String msg = meldung.getText();
+                    new EventDet(msg).setVisible(true);
                 }
+                
             }
                 
             } catch (RemoteException ex) {
@@ -363,27 +320,16 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     }//GEN-LAST:event_benachaktuelActionPerformed
 
     private void benachListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_benachListMouseClicked
-        String selected=benachList.getSelectedValue().toString();
-        eventText.setText(selected);
-        
-        
-        EventDet event = new EventDet();
-        event.setVisible(true);
+       // String selected=benachList.getSelectedValue().toString();
+       // eventText.setText(selected);
+        Meldungen meldung = null ;
+        String msg = meldung.getText();
+        EventDet Ev = new EventDet(msg);
+        Ev.setVisible(true);
+    
+       // EventDet event = new EventDet();
+      //  event.setVisible(true);
     }//GEN-LAST:event_benachListMouseClicked
-
-    private void eventTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventTextActionPerformed
-        
-    }//GEN-LAST:event_eventTextActionPerformed
-
-    private void hinzuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hinzuActionPerformed
-        AddEvent(eventText.getText());
-        eventText.setText("");
-    }//GEN-LAST:event_hinzuActionPerformed
-
-    private void loechenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loechenActionPerformed
-        event.clear();
-        benachList.setModel(event);
-    }//GEN-LAST:event_loechenActionPerformed
 
     public void ausloggen(){
         try {
@@ -468,15 +414,11 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JList<String> benachList;
     private javax.swing.JButton benachaktuel;
     private javax.swing.JTextField contactUsernameField;
-    private javax.swing.JTextField eventText;
-    private javax.swing.JButton hinzu;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JButton loechen;
     private javax.swing.JButton showAddKontakt;
     private javax.swing.JButton showProfilButon;
     private javax.swing.JButton showRemoveKontakt;

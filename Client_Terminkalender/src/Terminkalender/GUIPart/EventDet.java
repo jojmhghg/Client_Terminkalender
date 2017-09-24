@@ -5,18 +5,51 @@
  */
 package Terminkalender.GUIPart;
 
+import Terminkalender.BenutzerException;
+import Terminkalender.GUI;
+import Terminkalender.LauncherInterface;
+import Terminkalender.Meldungen;
+import java.awt.Color;
+import java.rmi.RemoteException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+
+import Terminkalender.LauncherInterface;
+
 /**
  *
  * @author med
  */
 public class EventDet extends javax.swing.JFrame {
-
+        
     /**
      * Creates new form EventDet
      */
     public EventDet() {
-        initComponents();
+        initComponents();  
     }
+     public EventDet(String eventname) {
+         initComponents();
+         eventTextDet.setText(eventname);
+     }
+
+    EventDet(LinkedList<Meldungen> meldung) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,7 +61,7 @@ public class EventDet extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        eventTextDet = new javax.swing.JTextArea();
         annehmButton = new javax.swing.JButton();
         ablehnButton = new javax.swing.JButton();
         loechButton = new javax.swing.JButton();
@@ -37,9 +70,14 @@ public class EventDet extends javax.swing.JFrame {
         setTitle("Benachrichtigung Event");
         setBackground(new java.awt.Color(153, 153, 153));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        eventTextDet.setColumns(20);
+        eventTextDet.setRows(5);
+        eventTextDet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                eventTextDetMouseEntered(evt);
+            }
+        });
+        jScrollPane1.setViewportView(eventTextDet);
 
         annehmButton.setText("Annehmen");
 
@@ -78,6 +116,10 @@ public class EventDet extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+   
+    private void eventTextDetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eventTextDetMouseEntered
+        
+    }//GEN-LAST:event_eventTextDetMouseEntered
 
     /**
      * @param args the command line arguments
@@ -117,8 +159,8 @@ public class EventDet extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ablehnButton;
     private javax.swing.JButton annehmButton;
+    private javax.swing.JTextArea eventTextDet;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton loechButton;
     // End of variables declaration//GEN-END:variables
 }
