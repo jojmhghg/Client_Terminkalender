@@ -50,7 +50,9 @@ public class AddKontakt extends javax.swing.JFrame {
             //}
         } catch (BenutzerException e) {
             //JOptionPane.showInputDialog();
-            JOptionPane.showMessageDialog(null,e.getMessage(), "AddKontakt", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,e.getMessage(), "AddKontakt - Terminkalender", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage(), "AddKontakt - Terminkalender", JOptionPane.ERROR_MESSAGE);
         }
     }
 

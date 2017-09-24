@@ -10,6 +10,7 @@ import Terminkalender.GUI;
 import Terminkalender.LauncherInterface;
 import java.awt.Color;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -223,8 +224,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 //AddKontakt add = new AddKontakt(stub,sitzungsID);
                 stub.addKontakt(contact, sitzungsID);
                 listModel.addElement(contact);
-            } catch (RemoteException | BenutzerException ex) {
-                JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+            } catch (RemoteException | BenutzerException | SQLException ex) {
+                JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster - Termin Kalender", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_showAddKontaktActionPerformed

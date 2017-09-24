@@ -8,6 +8,9 @@ package Terminkalender.GUIPart;
 import Terminkalender.BenutzerException;
 import Terminkalender.LauncherInterface;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,6 +24,8 @@ public class RemoveKontakt extends javax.swing.JFrame {
 
     /**
      * Creates new form RemoveKontakt
+     * @param stub
+     * @param sitzungsID
      */
     public RemoveKontakt(LauncherInterface stub, int sitzungsID) {
         initComponents();
@@ -37,7 +42,7 @@ public class RemoveKontakt extends javax.swing.JFrame {
             //sitzungsID = stub.addKontakt(username, sitzungsID);
             //if(sitzungsID>0){
             stub.removeKontakt(username,sitzungsID);
-            JOptionPane.showMessageDialog(null, "Kontakt erfolgreich entfernt", "RemoveKontakt", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Kontakt erfolgreich entfernt", "Remove Kontakt", JOptionPane.INFORMATION_MESSAGE);
             
             //username.setText(null);
             
@@ -45,7 +50,9 @@ public class RemoveKontakt extends javax.swing.JFrame {
             //}
         } catch (BenutzerException e) {
             //JOptionPane.showInputDialog();
-            JOptionPane.showMessageDialog(null,e.getMessage(), "RemoveKontakt", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,e.getMessage(), "Remove Kontakt - Termin Kalender", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage(), "Remove Kontakt - Termin Kalender", JOptionPane.ERROR_MESSAGE);
         }
     }
 

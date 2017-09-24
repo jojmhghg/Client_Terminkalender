@@ -134,7 +134,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void anmelden() throws RemoteException, TerminException, DatumException, Zeit.ZeitException{
+    private void anmelden() throws RemoteException, TerminException, DatumException, Zeit.ZeitException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         String username, password;
                 
@@ -204,7 +204,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void hauptbildschirm() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException{
+    private void hauptbildschirm() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true;
@@ -256,7 +256,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void profil() throws RemoteException, BenutzerException{
+    private void profil() throws RemoteException, BenutzerException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true;
@@ -304,7 +304,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void changeVorname() throws RemoteException, BenutzerException {
+    private void changeVorname() throws RemoteException, BenutzerException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String newName;
 
@@ -320,7 +320,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void changeNachname() throws RemoteException, BenutzerException{
+    private void changeNachname() throws RemoteException, BenutzerException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         String newName;
 
@@ -335,7 +335,7 @@ public class TUI {
      * 
      * @throws RemoteException 
      */
-    private void changePW() throws RemoteException {
+    private void changePW() throws RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String altesPW, neuesPW;
 
@@ -357,7 +357,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void kontakte() throws RemoteException, BenutzerException {
+    private void kontakte() throws RemoteException, BenutzerException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true;
@@ -402,7 +402,7 @@ public class TUI {
      * 
      * @throws RemoteException 
      */
-    private void addKontakt() throws RemoteException {
+    private void addKontakt() throws RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String username;
 
@@ -421,7 +421,7 @@ public class TUI {
      * 
      * @throws RemoteException 
      */
-    private void removeKontakt() throws RemoteException {
+    private void removeKontakt() throws RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String username;
 
@@ -455,7 +455,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void terminkalender() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException {
+    private void terminkalender() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true;
@@ -504,7 +504,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void terminAnlegen() throws RemoteException, BenutzerException{
+    private void terminAnlegen() throws RemoteException, BenutzerException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         Datum datum;
         Zeit start, ende;
@@ -614,7 +614,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void wochenansicht(int kw, int jahr) throws RemoteException, BenutzerException, TerminException, Zeit.ZeitException {
+    private void wochenansicht(int kw, int jahr) throws RemoteException, BenutzerException, TerminException, Zeit.ZeitException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         LinkedList<Termin> dieseWoche;
         boolean nochmal = true;
@@ -697,7 +697,7 @@ public class TUI {
      * @throws RemoteException
      * @throws TerminException 
      */
-    private void monatsansicht(int monat, int jahr) throws BenutzerException, RemoteException, TerminException, DatumException, Zeit.ZeitException {
+    private void monatsansicht(int monat, int jahr) throws BenutzerException, RemoteException, TerminException, DatumException, Zeit.ZeitException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         LinkedList<Termin> dieserMonat;
         boolean nochmal = true;
@@ -775,7 +775,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void terminAnzeigenBearbeiten(int terminID) throws RemoteException, BenutzerException, DatumException, TerminException {
+    private void terminAnzeigenBearbeiten(int terminID) throws RemoteException, BenutzerException, DatumException, TerminException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true, teilnehmer = false;
@@ -916,7 +916,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws RemoteException 
      */
-    private void terminTitelBearbeiten(int terminID) throws BenutzerException, RemoteException {
+    private void terminTitelBearbeiten(int terminID) throws BenutzerException, RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String newTitel;
         
@@ -937,7 +937,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws RemoteException 
      */
-    private void terminOrtBearbeiten(int terminID) throws BenutzerException, RemoteException {
+    private void terminOrtBearbeiten(int terminID) throws BenutzerException, RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String newOrt;
         
@@ -960,7 +960,7 @@ public class TUI {
      * @throws RemoteException
      * @throws TerminException 
      */
-    private void terminDatumBearbeiten(int terminID) throws DatumException, BenutzerException, RemoteException, TerminException{
+    private void terminDatumBearbeiten(int terminID) throws DatumException, BenutzerException, RemoteException, TerminException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         int tag = 1, monat = 1, jahr = 1900;
         boolean nochmal = true;
@@ -1008,7 +1008,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws RemoteException 
      */
-    private void terminNotizBearbeiten(int terminID) throws BenutzerException, RemoteException, TerminException {
+    private void terminNotizBearbeiten(int terminID) throws BenutzerException, RemoteException, TerminException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String neueNotiz, eingabe;
         
@@ -1050,7 +1050,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws RemoteException 
      */
-    private void terminStartBearbeiten(int terminID) throws BenutzerException, RemoteException {
+    private void terminStartBearbeiten(int terminID) throws BenutzerException, RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         int stunde = 1, minute = 1;
         boolean nochmal = true;
@@ -1093,7 +1093,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws RemoteException 
      */
-    private void terminEndeBearbeiten(int terminID) throws BenutzerException, RemoteException {
+    private void terminEndeBearbeiten(int terminID) throws BenutzerException, RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         int stunde = 1, minute = 1;
         boolean nochmal = true;
@@ -1136,7 +1136,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void terminLoeschen(int terminID) throws RemoteException, BenutzerException, TerminException {
+    private void terminLoeschen(int terminID) throws RemoteException, BenutzerException, TerminException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String eingabe;
         
@@ -1157,7 +1157,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void terminTeilnehmerlisteBearbeiten(int terminID) throws RemoteException, BenutzerException, TerminException {
+    private void terminTeilnehmerlisteBearbeiten(int terminID) throws RemoteException, BenutzerException, TerminException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String username, eingabe;
         
@@ -1219,7 +1219,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void meldungen() throws RemoteException, BenutzerException, TerminException {
+    private void meldungen() throws RemoteException, BenutzerException, TerminException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         int eingabe, i;
         boolean wiederholen = true;
@@ -1325,7 +1325,7 @@ public class TUI {
      * @param heute
      * @throws RemoteException
      */
-    private void termineDesTagesAnzeigen(Datum heute) throws RemoteException {
+    private void termineDesTagesAnzeigen(Datum heute) throws RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         LinkedList<Termin> dieserTag;
         boolean nochmal = true;
