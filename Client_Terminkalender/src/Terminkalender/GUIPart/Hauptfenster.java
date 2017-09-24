@@ -332,21 +332,24 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     private void benachaktuelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_benachaktuelActionPerformed
         DefaultListModel model = new DefaultListModel();
-        for(int i=0; i<=1; i++){
+        int i=0 ;
             try {
                 for(Meldungen meldung : stub.getMeldungen( sitzungsID)){
                 i++;
-                if(meldung.getText().length() > 20){
-                    model.addElement(meldung.getText().substring(0, 20));
-                }
-                else{
-                    System.out.print(i  + "  " + meldung);
-                }   
+               // if(meldung.getText().length() > 20){
+               //     model.addElement(i + meldung.getText().substring(0, 20));
+               // }
+               // else{
+                //    model.addElement(i + meldung.toString());
+               // } 
+                
                 if(meldung.getStatus()){
-                    System.out.println("(gelesen)");
+                    model.addElement(i+"-" + meldung.getText()+ "gelesen");
+                    
                 }
                 else{
-                    System.out.println("(ungelesen)");
+                    model.addElement(i+"-" + meldung.getText()+ " ungelesen");
+                    
                 }
             }
                 
@@ -355,7 +358,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             } catch (BenutzerException ex) {
                 Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        
         benachList.setModel(model);
     }//GEN-LAST:event_benachaktuelActionPerformed
 
