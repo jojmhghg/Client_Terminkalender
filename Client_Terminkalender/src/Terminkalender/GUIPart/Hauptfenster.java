@@ -106,6 +106,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jSeparator2 = new javax.swing.JSeparator();
         abmeldenButton = new javax.swing.JButton();
         showProfilButon = new javax.swing.JButton();
+        refreshContactListButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -113,6 +114,11 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
         jList1.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jList1ComponentShown(evt);
@@ -151,6 +157,13 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         });
 
+        refreshContactListButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Terminkalender/GUIPart/if_sync-01_186384.png"))); // NOI18N
+        refreshContactListButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshContactListButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,14 +171,15 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                     .addComponent(contactUsernameField)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refreshContactListButton))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(showAddKontakt)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addComponent(showRemoveKontakt)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,8 +199,10 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(refreshContactListButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(contactUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -197,9 +213,9 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addGap(269, 269, 269))
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(abmeldenButton)
-                    .addComponent(showProfilButon, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(abmeldenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showProfilButon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(543, Short.MAX_VALUE))
@@ -232,9 +248,9 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     private void jList1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jList1ComponentShown
         try {
-            stub.getKontakte(sitzungsID);
+            listModel.addElement(stub.getKontakte(sitzungsID));
         } catch (BenutzerException | RemoteException ex) {
-            JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jList1ComponentShown
 
@@ -245,6 +261,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private void showProfilButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showProfilButonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_showProfilButonActionPerformed
+
+    private void refreshContactListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshContactListButtonActionPerformed
+        try {
+            listModel.addElement(stub.getKontakte(sitzungsID));
+        } catch (BenutzerException | RemoteException ex) {
+            Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_refreshContactListButtonActionPerformed
 
     public void ausloggen(){
         try {
@@ -332,6 +356,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JButton refreshContactListButton;
     private javax.swing.JButton showAddKontakt;
     private javax.swing.JButton showProfilButon;
     private javax.swing.JButton showRemoveKontakt;
