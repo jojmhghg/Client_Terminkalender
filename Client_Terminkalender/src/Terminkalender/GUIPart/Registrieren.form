@@ -20,93 +20,127 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="regUsername" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="regPassword" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="regEmail" alignment="0" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="36" pref="36" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                      <Component id="regUsernameField" alignment="0" min="-2" pref="128" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="regPasswordField" alignment="1" min="-2" pref="128" max="-2" attributes="0"/>
-                          <Component id="regEmailField" alignment="1" min="-2" pref="128" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Component id="regButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="regAbbrButton" alignment="0" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="81" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="25" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="regUsername" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="regUsernameField" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="regPassword" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="regPasswordField" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="regEmail" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="regEmailField" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-              <Component id="regButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="regAbbrButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="101" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="regUsername">
+    <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Benutzername"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Registrierung">
+              <Font PropertyName="font" name="Tahoma" size="18" style="0"/>
+            </TitledBorder>
+          </Border>
+        </Property>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="regPassword">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Passwort"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="regEmail">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="E-mail Adresse"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="regUsernameField">
-    </Component>
-    <Component class="javax.swing.JPasswordField" name="regPasswordField">
-    </Component>
-    <Component class="javax.swing.JTextField" name="regEmailField">
-    </Component>
-    <Component class="javax.swing.JButton" name="regButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Registrieren"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regButtonActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="regAbbrButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Abbrechen"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regAbbrButtonActionPerformed"/>
-      </Events>
-    </Component>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="regUsername" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="regPassword" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="regEmail" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="36" pref="36" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                          <Component id="regUsernameField" alignment="0" min="-2" pref="128" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                              <Component id="regPasswordField" alignment="1" min="-2" pref="128" max="-2" attributes="0"/>
+                              <Component id="regEmailField" alignment="1" min="-2" pref="128" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Component id="regButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="regAbbrButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="62" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="regUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="regUsernameField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="regPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="regPasswordField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="regEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="regEmailField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  <Component id="regButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="regAbbrButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="51" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="regUsername">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Benutzername"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="regAbbrButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Abbrechen"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regAbbrButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="regPassword">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Passwort"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="regEmail">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="E-mail Adresse"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="regButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Registrieren"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="regUsernameField">
+        </Component>
+        <Component class="javax.swing.JTextField" name="regEmailField">
+        </Component>
+        <Component class="javax.swing.JPasswordField" name="regPasswordField">
+        </Component>
+      </SubComponents>
+    </Container>
   </SubComponents>
 </Form>
