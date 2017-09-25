@@ -27,6 +27,10 @@ public class GUI {
     GUI(LauncherInterface stub){
         this.stub = stub;
     }
+
+    public GUI() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     /**
      * Methode die GUI startet

@@ -5,27 +5,77 @@
  */
 package Terminkalender.GUIPart;
 
+import Terminkalender.BenutzerException;
+import Terminkalender.GUI;
 import Terminkalender.LauncherInterface;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
  * @author niroshan
  */
-public class Hauptfenster extends javax.swing.JFrame {
+public class Hauptfenster extends javax.swing.JFrame implements ListSelectionListener {
 
     private final LauncherInterface stub;
+    private int sitzungsID;
+    //private DefaultListModel listModel;
+    DefaultListModel listModel = new DefaultListModel();
 
     /**
      * Creates new form HauptFenster
      * @param stub
+     * @param sitzungsID
      */
-    public Hauptfenster(LauncherInterface stub) {
+    public Hauptfenster(LauncherInterface stub,int sitzungsID) {
         initComponents();
         this.stub = stub;
+        this.sitzungsID = sitzungsID;
+        //        listModel = new DefaultListModel();
+        //Create the list and put it in a scroll pane.
+        //jList1 = new JList(listModel);
+        //jList1.setModel((ListModel<String>) stub.getKontakte(sitzungsID));
+        //for (String kontakt : stub.getKontakte(sitzungsID)) {
+        //kontakt = new ListModel ();
+        //  jList1.setModel(listModel);
+        //}
+        jList1.setModel(listModel);
+        
     }
     
     private Hauptfenster() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    /**
+     *
+     * @author Edwrard Nana
+     */
+    public class MyListModel extends AbstractListModel {
+
+        private final LinkedList<String> list;
+
+        public MyListModel(LinkedList<String> list) {
+            this.list = list;
+        }
+
+        @Override
+        public Object getElementAt(int index) {
+            return list.get(index);
+        }
+
+        @Override
+        public int getSize() {
+            return list.size();
+        }
+
     }
 
     /**
@@ -37,22 +87,251 @@ public class Hauptfenster extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        abmeldenButton = new javax.swing.JButton();
+        showProfilButon = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        contactUsernameField = new javax.swing.JTextField();
+        showAddKontakt = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        refreshContactListButton = new javax.swing.JButton();
+        showRemoveKontakt = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Termin Kalender");
+        setSize(new java.awt.Dimension(800, 600));
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        abmeldenButton.setText("Abmelden");
+        abmeldenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abmeldenButtonActionPerformed(evt);
+            }
+        });
+
+        showProfilButon.setText("Zum Profil");
+        showProfilButon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showProfilButonActionPerformed(evt);
+            }
+        });
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Kontaktliste", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+
+        showAddKontakt.setText("Hinzufügen");
+        showAddKontakt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showAddKontaktActionPerformed(evt);
+            }
+        });
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jList1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jList1ComponentShown(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        refreshContactListButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Terminkalender/GUIPart/if_sync-01_186384.png"))); // NOI18N
+        refreshContactListButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshContactListButtonActionPerformed(evt);
+            }
+        });
+
+        showRemoveKontakt.setText("Entfernen");
+        showRemoveKontakt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showRemoveKontaktActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(contactUsernameField)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(refreshContactListButton))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(showAddKontakt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(showRemoveKontakt)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(refreshContactListButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(contactUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(showAddKontakt)
+                    .addComponent(showRemoveKontakt))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(showProfilButon)
+                        .addGap(17, 17, 17)
+                        .addComponent(abmeldenButton)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(abmeldenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(showProfilButon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 306, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void showRemoveKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRemoveKontaktActionPerformed
+        RemoveKontakt start = new RemoveKontakt(stub,sitzungsID);
+        start.setVisible(true);
+        //fillList();
+        
+    }//GEN-LAST:event_showRemoveKontaktActionPerformed
+
+    private void showAddKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAddKontaktActionPerformed
+        //AddKontakt start= new AddKontakt(stub,sitzungsID);
+        //start.setVisible(true);
+        String contact = contactUsernameField.getText();
+        if (contact.length() >=0){
+            try {
+                //AddKontakt add = new AddKontakt(stub,sitzungsID);
+                stub.addKontakt(contact, sitzungsID);
+                listModel.addElement(contact);
+                contactUsernameField.setText("");
+            } catch (RemoteException | BenutzerException | SQLException ex) {
+                JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster - Termin Kalender", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_showAddKontaktActionPerformed
+
+    private void jList1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jList1ComponentShown
+        try {
+            listModel.addElement(stub.getKontakte(sitzungsID));
+        } catch (BenutzerException | RemoteException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jList1ComponentShown
+
+    private void abmeldenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abmeldenButtonActionPerformed
+        ausloggen();
+    }//GEN-LAST:event_abmeldenButtonActionPerformed
+
+    private void showProfilButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showProfilButonActionPerformed
+        Profil profil;
+        profil = new Profil(stub, sitzungsID);
+        profil.fillProfil();
+        profil.setVisible(true);
+    }//GEN-LAST:event_showProfilButonActionPerformed
+
+    private void refreshContactListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshContactListButtonActionPerformed
+        try {
+            listModel.addElement(stub.getKontakte(sitzungsID));
+        } catch (BenutzerException | RemoteException ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage(), "Kontaktliste aktualisieren - Termin Kalender", JOptionPane.ERROR_MESSAGE);
+        }
+        //Andere Version
+        //int i = 0;
+        //        try {
+        //            for (String kontakte : stub.getKontakte(sitzungsID)) {
+        //                i++;
+        //                listModel.addElement(i + " - " + kontakte);
+        //            }
+        //        } catch (BenutzerException | RemoteException ex) {
+        //            Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
+        //        }
+        //        jList1.setModel(listModel);
+    }//GEN-LAST:event_refreshContactListButtonActionPerformed
+
+    public void ausloggen(){
+        try {
+            stub.ausloggen(sitzungsID);
+            GUI out = new GUI();
+            out.startGUI();         
+            } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+//    final void fillList() {
+//        listModel = new DefaultListModel();
+//        listModel.addElement("Jane Doe");
+//        listModel.addElement("John Smith");
+//        listModel.addElement("Kathy Green");
+//        
+//        //Create the list and put it in a scroll pane.
+//        jList1 = new JList(listModel);
+//        jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//        jList1.setSelectedIndex(0);
+//        jList1.addListSelectionListener(this);
+//        jList1.setVisibleRowCount(5);
+//        JScrollPane listScrollPane = new JScrollPane(jList1);
+//        
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+    
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting() == false) {
+
+            if (jList1.getSelectedIndex() == -1) {
+            //No selection, disable add button.
+                showAddKontakt.setEnabled(false);
+
+            } else {
+            //Selection, enable the remove button.
+                showRemoveKontakt.setEnabled(true);
+            }
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -64,7 +343,7 @@ public class Hauptfenster extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -90,5 +369,18 @@ public class Hauptfenster extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton abmeldenButton;
+    private javax.swing.JTextField contactUsernameField;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JButton refreshContactListButton;
+    private javax.swing.JButton showAddKontakt;
+    private javax.swing.JButton showProfilButon;
+    private javax.swing.JButton showRemoveKontakt;
     // End of variables declaration//GEN-END:variables
+
+    
 }
