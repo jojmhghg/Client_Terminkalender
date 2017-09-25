@@ -73,10 +73,6 @@ public class Benutzer implements Serializable{
         this.meldungen = new LinkedList<>();
         this.meldungsCounter = meldungsCounter;
     }
-
-    public Benutzer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     //Getter:
     public String getUsername(){
