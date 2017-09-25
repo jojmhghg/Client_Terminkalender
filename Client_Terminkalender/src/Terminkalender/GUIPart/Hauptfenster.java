@@ -11,8 +11,6 @@ import Terminkalender.LauncherInterface;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -247,6 +245,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 //AddKontakt add = new AddKontakt(stub,sitzungsID);
                 stub.addKontakt(contact, sitzungsID);
                 listModel.addElement(contact);
+                contactUsernameField.setText("");
             } catch (RemoteException | BenutzerException | SQLException ex) {
                 JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster - Termin Kalender", JOptionPane.ERROR_MESSAGE);
             }
@@ -276,7 +275,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         try {
             listModel.addElement(stub.getKontakte(sitzungsID));
         } catch (BenutzerException | RemoteException ex) {
-            Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex.getMessage(), "Kontaktliste aktualisieren - Termin Kalender", JOptionPane.ERROR_MESSAGE);
         }
         //Andere Version
         //int i = 0;

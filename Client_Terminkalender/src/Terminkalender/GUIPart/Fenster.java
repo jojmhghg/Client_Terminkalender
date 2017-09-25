@@ -42,10 +42,10 @@ public class Fenster extends javax.swing.JFrame {
         try{
             sitzungsID = stub.einloggen(username, password);
             if(sitzungsID < 0){
-                JOptionPane.showMessageDialog(null, "Falsches Passwort. Anmelden gescheitert!", "anmelden", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Falsches Passwort. Anmelden gescheitert!", "Anmelden", JOptionPane.ERROR_MESSAGE);
             }
             else{
-                JOptionPane.showMessageDialog(null, "Anmelden erfolgreich!", "anmelden", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Anmeldung erfolgreich!", "anmelden", JOptionPane.INFORMATION_MESSAGE);
                 
                 this.setVisible(false);
                 
@@ -56,7 +56,7 @@ public class Fenster extends javax.swing.JFrame {
             }  
         }
         catch(BenutzerException e){
-            JOptionPane.showMessageDialog(null, e.getMessage(), "anmelden", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Anmelden", JOptionPane.ERROR_MESSAGE);
         }  
     }
 

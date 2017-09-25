@@ -5,13 +5,13 @@
  */
 package Terminkalender.GUIPart;
 
+import Terminkalender.Benutzer;
 import Terminkalender.BenutzerException;
 import Terminkalender.LauncherInterface;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
 /**
  * Klasse Profil, die ein Benutzer Profil anzeigt
@@ -209,13 +209,29 @@ public class Profil extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameFieldActionPerformed
 
     private void bestätigenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bestätigenButtonActionPerformed
+        neuerNachname = nachnameField.getText();
+        neuerVorname = vornameField.getText();
+        neueEmail = emailField.getText();
+        //altesPW = altesPWField.getText();
+        neuesPW = neuesPWField.getText();
+       // Benutzer pw = new Benutzer();
+        //altesPW = pw.getPasswort();
         try {
-            stub.changeNachname(neuerNachname, sitzungsID);
-            stub.changeEmail(neueEmail, sitzungsID);
-            stub.changeVorname(neuerVorname, sitzungsID);
-            stub.changePasswort(altesPW, neuesPW, sitzungsID);
+//            if (altesPW.length() != 0 && neuesPW.length() != 0 ) {
+                stub.changeNachname(neuerNachname, sitzungsID);
+                stub.changeEmail(neueEmail, sitzungsID);
+                stub.changeVorname(neuerVorname, sitzungsID);
+//                stub.changePasswort(altesPW, neuesPW, sitzungsID);
+//            }
+//            else{
+//                stub.changeNachname(neuerNachname, sitzungsID);
+//                stub.changeEmail(neueEmail, sitzungsID);
+//                stub.changeVorname(neuerVorname, sitzungsID);
+//            }
+        JOptionPane.showMessageDialog(rootPane, " Ihr Profil wurde aktualisiert", "Profil Änderung" , INFORMATION_MESSAGE);
+        setVisible(false);
         } catch (RemoteException | BenutzerException | SQLException ex) {
-            JOptionPane.showMessageDialog(null,ex.getMessage(), "Profil ändern - Termin Kalender", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane,ex.getMessage(), "Profil ändern - Termin Kalender", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_bestätigenButtonActionPerformed
@@ -233,6 +249,7 @@ public class Profil extends javax.swing.JFrame {
             vornameField.setText(stub.getVorname(sitzungsID));
             nachnameField.setText(stub.getNachname(sitzungsID));
             emailField.setText(stub.getEmail(sitzungsID));
+            //altesPWField.setText(stub.get(sitzungsID));
             
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(null,ex.getMessage(), "Profil ändern - Termin Kalender", JOptionPane.ERROR_MESSAGE);
