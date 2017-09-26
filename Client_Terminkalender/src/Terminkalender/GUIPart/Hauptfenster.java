@@ -5,6 +5,7 @@
  */
 package Terminkalender.GUIPart;
 
+import Terminkalender.TerminAnlegen;
 import Terminkalender.BenutzerException;
 import Terminkalender.GUI;
 import Terminkalender.LauncherInterface;
@@ -98,6 +99,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jList1 = new javax.swing.JList<>();
         refreshContactListButton = new javax.swing.JButton();
         showRemoveKontakt = new javax.swing.JButton();
+        neueTermin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -187,6 +189,13 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addContainerGap())
         );
 
+        neueTermin.setText("Neue Termin ");
+        neueTermin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                neueTerminActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,6 +209,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(neueTermin)
+                        .addGap(25, 25, 25)
                         .addComponent(showProfilButon)
                         .addGap(17, 17, 17)
                         .addComponent(abmeldenButton)
@@ -216,7 +227,9 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                                 .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(abmeldenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(showProfilButon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(showProfilButon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(neueTermin)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -289,6 +302,11 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         //        }
         //        jList1.setModel(listModel);
     }//GEN-LAST:event_refreshContactListButtonActionPerformed
+
+    private void neueTerminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueTerminActionPerformed
+        TerminAnlegen startTA = new TerminAnlegen(stub, sitzungsID);
+        startTA.setVisible(true);
+    }//GEN-LAST:event_neueTerminActionPerformed
 
     public void ausloggen(){
         try {
@@ -376,6 +394,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JButton neueTermin;
     private javax.swing.JButton refreshContactListButton;
     private javax.swing.JButton showAddKontakt;
     private javax.swing.JButton showProfilButon;

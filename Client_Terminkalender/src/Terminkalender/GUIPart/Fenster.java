@@ -53,6 +53,8 @@ public class Fenster extends javax.swing.JFrame {
                 start.setVisible(true);
                 //start.fillList();
                 
+                CalenderFrame startCF = new CalenderFrame(stub, sitzungsID);
+                
             }  
         }
         catch(BenutzerException e){
