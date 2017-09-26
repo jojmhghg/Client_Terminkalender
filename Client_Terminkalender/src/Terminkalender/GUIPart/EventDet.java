@@ -6,6 +6,8 @@
 package Terminkalender.GUIPart;
 
 
+
+import Terminkalender.BenutzerException;
 import Terminkalender.Meldungen;
 
 import java.util.LinkedList;
@@ -14,29 +16,44 @@ import javax.swing.DefaultListModel;
 
 
 import Terminkalender.LauncherInterface;
+import Terminkalender.TerminException;
+import java.awt.MenuComponent;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 
 /**
  *
  * @author med
  */
 public class EventDet extends javax.swing.JFrame {
-        
+    private final LauncherInterface stub;
+    private int sitzungsID;
+    //private String username;
     /**
-     * Creates new form EventDet
+     * Creates new form AddKontakt
+     * @param stub
+     * @param sitzungsID
      */
-    public EventDet() {
-        initComponents();  
-    }
-     public EventDet(DefaultListModel event) {
+    public EventDet(LauncherInterface stub, int sitzungsID) {
          initComponents();
-         //eventTextDet.setText(eventname);
-         eventList.setModel(event);
-     }
+        this.stub = stub;
+        this.sitzungsID= sitzungsID;
+    }
+    /**
+     *
+     * @param event
+     */
+    public EventDet(DefaultListModel event,LauncherInterface stub) {
+        initComponents();
+        eventList.setModel(event);
+        this.stub=stub;
+    }
 
-    EventDet(LinkedList<Meldungen> meldung) {
+    private EventDet() {
+        initComponents();
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,6 +83,11 @@ public class EventDet extends javax.swing.JFrame {
         ablehnButton.setText("Ablehnen");
 
         loechButton.setText("Löschen");
+        loechButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loechButtonActionPerformed(evt);
+            }
+        });
 
         jScrollPane2.setViewportView(eventList);
 
@@ -74,23 +96,25 @@ public class EventDet extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
                         .addComponent(annehmButton)
                         .addGap(18, 18, 18)
                         .addComponent(ablehnButton)
                         .addGap(41, 41, 41)
-                        .addComponent(loechButton)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                        .addComponent(loechButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(annehmButton)
                     .addComponent(ablehnButton)
@@ -102,8 +126,15 @@ public class EventDet extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
    
     private void annehmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annehmButtonActionPerformed
-        
+       // stub.terminAnnehmen(((Anfrage) stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
+       // stub.deleteMeldung(eingabe - 1, sitzungsID);
     }//GEN-LAST:event_annehmButtonActionPerformed
+        DefaultListModel md = new DefaultListModel();
+    private void loechButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loechButtonActionPerformed
+       int index = eventList.getSelectedIndex();
+       md.removeElementAt(index);
+       
+    }//GEN-LAST:event_loechButtonActionPerformed
 
     /**
      * @param args the command line arguments

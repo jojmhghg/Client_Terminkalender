@@ -97,6 +97,10 @@ public class Hauptfenster extends javax.swing.JFrame {
         benachList.setModel(event);
         event.addElement(eventname);
     }
+    public void loechEvent(String eventname){
+        benachList.setModel(event);
+        event.removeElement(eventname);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -311,7 +315,7 @@ public class Hauptfenster extends javax.swing.JFrame {
 
                 }
                 // String msg = meldung.getText();
-                // new EventDet(msg).setVisible(true);
+                 //new EventDet(msg).setVisible(true);
             }
 
         } catch (RemoteException ex) {
@@ -324,18 +328,11 @@ public class Hauptfenster extends javax.swing.JFrame {
     }//GEN-LAST:event_benachaktuelActionPerformed
 
     private void benachListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_benachListMouseClicked
-        DefaultListModel model2 = new DefaultListModel();
-        model2.addElement(benachList.getSelectedValue());
-        benachList.setModel(model2);
+      DefaultListModel model2 = new DefaultListModel();
+      model2.addElement(benachList.getSelectedValue());      
+      new EventDet(model2, stub).setVisible(true);
+      //System.out.println(model2);
        
-        new EventDet(model2).setVisible(true);
-
-        // String selected=benachList.getSelectedValue().toString();
-        //event.set(selected);
-        // Meldungen meldung = null ;
-        //String msg = meldung.getText();
-        // EventDet event = new EventDet();
-        //event.setVisible(true);
 
     }//GEN-LAST:event_benachListMouseClicked
 
