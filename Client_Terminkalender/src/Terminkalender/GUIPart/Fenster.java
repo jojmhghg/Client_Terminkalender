@@ -51,8 +51,6 @@ public class Fenster extends javax.swing.JFrame {
                 
                 Hauptfenster start = new Hauptfenster(stub, sitzungsID);
                 start.setVisible(true);
-                
-                CalenderFrame start1 = new CalenderFrame(stub, sitzungsID);
                 //start.fillList();
                 
             }  
