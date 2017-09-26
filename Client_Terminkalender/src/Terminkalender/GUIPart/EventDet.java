@@ -5,26 +5,12 @@
  */
 package Terminkalender.GUIPart;
 
-import Terminkalender.BenutzerException;
-import Terminkalender.GUI;
-import Terminkalender.LauncherInterface;
+
 import Terminkalender.Meldungen;
-import java.awt.Color;
-import java.rmi.RemoteException;
-import java.util.Iterator;
+
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.AbstractListModel;
+
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 
 import Terminkalender.LauncherInterface;
@@ -41,9 +27,10 @@ public class EventDet extends javax.swing.JFrame {
     public EventDet() {
         initComponents();  
     }
-     public EventDet(String eventname) {
+     public EventDet(DefaultListModel event) {
          initComponents();
-         eventTextDet.setText(eventname);
+         //eventTextDet.setText(eventname);
+         eventList.setModel(event);
      }
 
     EventDet(LinkedList<Meldungen> meldung) {
@@ -60,30 +47,27 @@ public class EventDet extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        eventTextDet = new javax.swing.JTextArea();
         annehmButton = new javax.swing.JButton();
         ablehnButton = new javax.swing.JButton();
         loechButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        eventList = new javax.swing.JList<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Benachrichtigung Event");
         setBackground(new java.awt.Color(153, 153, 153));
 
-        eventTextDet.setColumns(20);
-        eventTextDet.setRows(5);
-        eventTextDet.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                eventTextDetMouseEntered(evt);
+        annehmButton.setText("Annehmen");
+        annehmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                annehmButtonActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(eventTextDet);
-
-        annehmButton.setText("Annehmen");
 
         ablehnButton.setText("Ablehnen");
 
         loechButton.setText("Löschen");
+
+        jScrollPane2.setViewportView(eventList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,22 +75,22 @@ public class EventDet extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(annehmButton)
                         .addGap(18, 18, 18)
                         .addComponent(ablehnButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(loechButton))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(56, Short.MAX_VALUE))
+                        .addGap(41, 41, 41)
+                        .addComponent(loechButton)))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(annehmButton)
                     .addComponent(ablehnButton)
@@ -117,9 +101,9 @@ public class EventDet extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
    
-    private void eventTextDetMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eventTextDetMouseEntered
+    private void annehmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annehmButtonActionPerformed
         
-    }//GEN-LAST:event_eventTextDetMouseEntered
+    }//GEN-LAST:event_annehmButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,8 +143,8 @@ public class EventDet extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ablehnButton;
     private javax.swing.JButton annehmButton;
-    private javax.swing.JTextArea eventTextDet;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<String> eventList;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton loechButton;
     // End of variables declaration//GEN-END:variables
 }

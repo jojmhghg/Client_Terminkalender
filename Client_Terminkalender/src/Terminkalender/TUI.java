@@ -134,7 +134,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void anmelden() throws RemoteException, TerminException, DatumException, Zeit.ZeitException{
+    private void anmelden() throws RemoteException, TerminException, DatumException, Zeit.ZeitException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         String username, password;
                 
@@ -204,7 +204,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void hauptbildschirm() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException{
+    private void hauptbildschirm() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true;
@@ -256,7 +256,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void profil() throws RemoteException, BenutzerException{
+    private void profil() throws RemoteException, BenutzerException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true;
@@ -304,7 +304,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void changeVorname() throws RemoteException, BenutzerException {
+    private void changeVorname() throws RemoteException, BenutzerException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String newName;
 
@@ -320,7 +320,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void changeNachname() throws RemoteException, BenutzerException{
+    private void changeNachname() throws RemoteException, BenutzerException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         String newName;
 
@@ -335,7 +335,7 @@ public class TUI {
      * 
      * @throws RemoteException 
      */
-    private void changePW() throws RemoteException {
+    private void changePW() throws RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String altesPW, neuesPW;
 
@@ -357,7 +357,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void kontakte() throws RemoteException, BenutzerException {
+    private void kontakte() throws RemoteException, BenutzerException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true;
@@ -402,7 +402,7 @@ public class TUI {
      * 
      * @throws RemoteException 
      */
-    private void addKontakt() throws RemoteException {
+    private void addKontakt() throws RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String username;
 
@@ -421,7 +421,7 @@ public class TUI {
      * 
      * @throws RemoteException 
      */
-    private void removeKontakt() throws RemoteException {
+    private void removeKontakt() throws RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String username;
 
@@ -455,7 +455,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void terminkalender() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException {
+    private void terminkalender() throws RemoteException, BenutzerException, TerminException, DatumException, Zeit.ZeitException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true;
@@ -602,6 +602,8 @@ public class TUI {
         }
         catch(DatumException | Zeit.ZeitException | TerminException e){
             System.out.println("\n-----> " + e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(TUI.class.getName()).log(Level.SEVERE, null, ex);
         }
             
         
@@ -614,7 +616,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void wochenansicht(int kw, int jahr) throws RemoteException, BenutzerException, TerminException, Zeit.ZeitException {
+    private void wochenansicht(int kw, int jahr) throws RemoteException, BenutzerException, TerminException, Zeit.ZeitException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         LinkedList<Termin> dieseWoche;
         boolean nochmal = true;
@@ -697,7 +699,7 @@ public class TUI {
      * @throws RemoteException
      * @throws TerminException 
      */
-    private void monatsansicht(int monat, int jahr) throws BenutzerException, RemoteException, TerminException, DatumException, Zeit.ZeitException {
+    private void monatsansicht(int monat, int jahr) throws BenutzerException, RemoteException, TerminException, DatumException, Zeit.ZeitException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         LinkedList<Termin> dieserMonat;
         boolean nochmal = true;
@@ -775,7 +777,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void terminAnzeigenBearbeiten(int terminID) throws RemoteException, BenutzerException, DatumException, TerminException {
+    private void terminAnzeigenBearbeiten(int terminID) throws RemoteException, BenutzerException, DatumException, TerminException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         int eingabe;
         boolean wiederholen = true, teilnehmer = false;
@@ -890,7 +892,9 @@ public class TUI {
                                 stub.changeEditierrechte(!stub.getTermin(terminID, sitzungsID).getEditierbar(), terminID, sitzungsID);
                             } catch (TerminException e) {
                                 System.out.println(e.getMessage());
-                            }
+                            } catch (SQLException ex) {
+                        Logger.getLogger(TUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                             break;
                         case 9:
                             terminLoeschen(terminID);
@@ -927,6 +931,8 @@ public class TUI {
             System.out.println("-----> Titel erfolgreich geändert!");
         } catch (TerminException e) {
             System.out.println("----->" + e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(TUI.class.getName()).log(Level.SEVERE, null, ex);
         }   
     }
 
@@ -948,6 +954,8 @@ public class TUI {
             System.out.println("-----> Ort erfolgreich geändert!");
         } catch (TerminException e) {
             System.out.println("----->" + e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(TUI.class.getName()).log(Level.SEVERE, null, ex);
         }  
     }
 
@@ -960,7 +968,7 @@ public class TUI {
      * @throws RemoteException
      * @throws TerminException 
      */
-    private void terminDatumBearbeiten(int terminID) throws DatumException, BenutzerException, RemoteException, TerminException{
+    private void terminDatumBearbeiten(int terminID) throws DatumException, BenutzerException, RemoteException, TerminException, SQLException{
         Scanner scanner = new Scanner(inputStream);
         int tag = 1, monat = 1, jahr = 1900;
         boolean nochmal = true;
@@ -1023,6 +1031,8 @@ public class TUI {
                 System.out.println("-----> Notiz erfolgreich geändert!");
             } catch (TerminException e) {
                 System.out.println("----->" + e.getMessage());
+            } catch (SQLException ex) {
+                Logger.getLogger(TUI.class.getName()).log(Level.SEVERE, null, ex);
             }  
         }
     }
@@ -1083,6 +1093,8 @@ public class TUI {
             System.out.println("\n---->" + e.getMessage());
         } catch(TerminException e){
             System.out.println("\n---->" + e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(TUI.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
 
@@ -1126,6 +1138,8 @@ public class TUI {
             System.out.println("\n---->" + e.getMessage());
         } catch (ZeitException e) {
             System.out.println("\n---->" + e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(TUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -1136,7 +1150,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void terminLoeschen(int terminID) throws RemoteException, BenutzerException, TerminException {
+    private void terminLoeschen(int terminID) throws RemoteException, BenutzerException, TerminException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String eingabe;
         
@@ -1157,7 +1171,7 @@ public class TUI {
      * @throws RemoteException
      * @throws BenutzerException 
      */
-    private void terminTeilnehmerlisteBearbeiten(int terminID) throws RemoteException, BenutzerException, TerminException {
+    private void terminTeilnehmerlisteBearbeiten(int terminID) throws RemoteException, BenutzerException, TerminException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         String username, eingabe;
         
@@ -1219,7 +1233,7 @@ public class TUI {
      * @throws BenutzerException
      * @throws TerminException 
      */
-    private void meldungen() throws RemoteException, BenutzerException, TerminException {
+    private void meldungen() throws RemoteException, BenutzerException, TerminException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         int eingabe, i;
         boolean wiederholen = true;
@@ -1250,7 +1264,11 @@ public class TUI {
                 eingabe = scanner.nextInt();     
                 if(eingabe > 0 && eingabe <= stub.getMeldungen( sitzungsID).size()){
                     if(!stub.getMeldungen(sitzungsID).get(eingabe - 1).getStatus()){ 
-                        stub.setMeldungenGelesen(eingabe - 1, sitzungsID);
+                        try {
+                            stub.setMeldungenGelesen(eingabe - 1, sitzungsID);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(TUI.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }      
                     if(stub.getMeldungen(sitzungsID).get(eingabe - 1) instanceof Anfrage){
                         while(wiederholen){
@@ -1325,7 +1343,7 @@ public class TUI {
      * @param heute
      * @throws RemoteException
      */
-    private void termineDesTagesAnzeigen(Datum heute) throws RemoteException {
+    private void termineDesTagesAnzeigen(Datum heute) throws RemoteException, SQLException {
         Scanner scanner = new Scanner(inputStream);
         LinkedList<Termin> dieserTag;
         boolean nochmal = true;

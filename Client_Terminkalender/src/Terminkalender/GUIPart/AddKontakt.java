@@ -37,7 +37,7 @@ public class AddKontakt extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void addKontakt(String username) throws RemoteException {
+    public void addKontakt(String username) throws RemoteException, SQLException {
          try {
             //sitzungsID = stub.addKontakt(username, sitzungsID);
             //if(sitzungsID>0){
@@ -136,6 +136,8 @@ public class AddKontakt extends javax.swing.JFrame {
             //stub.addKontakt(username, sitzungsID);
         } catch (RemoteException e) {
             JOptionPane.showInputDialog(e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(AddKontakt.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addKontaktActionPerformed
 

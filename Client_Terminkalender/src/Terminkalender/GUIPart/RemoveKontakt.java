@@ -8,6 +8,9 @@ package Terminkalender.GUIPart;
 import Terminkalender.BenutzerException;
 import Terminkalender.LauncherInterface;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,7 +35,7 @@ public class RemoveKontakt extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void removeKontakt(String username) throws RemoteException {
+    public void removeKontakt(String username) throws RemoteException, SQLException {
          try {
             //sitzungsID = stub.addKontakt(username, sitzungsID);
             //if(sitzungsID>0){
@@ -117,6 +120,8 @@ public class RemoveKontakt extends javax.swing.JFrame {
             
         } catch (RemoteException e) {
             JOptionPane.showInputDialog(e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(RemoveKontakt.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_entfernenActionPerformed
 
