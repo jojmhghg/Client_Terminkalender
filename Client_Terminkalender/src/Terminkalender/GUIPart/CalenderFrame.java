@@ -6,20 +6,29 @@
 package Terminkalender.GUIPart;
 
 //import statements
+import Terminkalender.BenutzerException;
+import Terminkalender.Datum;
 import Terminkalender.LauncherInterface;
+import Terminkalender.Termin;
+import Terminkalender.TerminException;
+import Terminkalender.Zeit;
 import java.awt.*;
 import java.awt.event.*;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 //create class
 class CalenderFrame {
-    
-    private final LauncherInterface stub;
-    private int sitzungsID;
-    
-    //define variables
 
+    private final LauncherInterface stub;
+    private final int sitzungsID;
+
+    //define variables
     LocalDate ld = LocalDate.now();
     int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
     int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
@@ -37,7 +46,7 @@ class CalenderFrame {
     {
         this.stub = stub;
         this.sitzungsID = sitzungsID;
-        
+
         //create object
         d = new JFrame();
         //set modal true
@@ -113,13 +122,12 @@ class CalenderFrame {
         //d.setLocationRelativeTo();
         //call method
         displayDate();
-        
+
         d.setLocationRelativeTo(null);
         //set visible true         
         d.setVisible(true);
     }
-    
-    
+
     public void displayDate() {
         for (int x = 7; x < button.length; x++)//for loop
         {
@@ -133,19 +141,84 @@ class CalenderFrame {
         //define variables
         int dayOfWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
         int daysInMonth = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
-        
+
         String twoLines = "Two\nLines";
-        
-        //condition
-        for (int x = 6 + dayOfWeek, day = 1; day <= daysInMonth; x++, day++) //set text
-        {
-            String twooLines = day + "\n\n machi \nLala";
-            //String twooLines = "Two\nLines";
-            button[x].setText("<html>" + twooLines.replaceAll("\\n", "<br>") + "</html>");
+        StringBuilder sb = new StringBuilder();
+        StringBuilder cl = new StringBuilder();
+
+        //sb.append( "a" );
+        //String s= sb.toString() ;
+        LinkedList<Termin> dieserMonat;
+
+        try {
+            dieserMonat = stub.getTermineInMonat(month, year, sitzungsID);
+
+            int i = 1;
+            //String zusammen = " ";
+
+            //condition
+            for (int x = 6 + dayOfWeek, day = 1; day <= daysInMonth; x++, day++) //set text
+            {
+                /**
+                 * for (Termin termin : dieserMonat) { if (i == x) { //zusammen
+                 * = termin.getBeginn().toString() + " " + termin.getTitel() +
+                 * "\n"; sb.append(termin.getBeginn().toString()); sb.append("
+                 * "); sb.append(termin.getTitel()); sb.append("\n");
+                 * JOptionPane.showMessageDialog(null, sb.toString(), "InfoBox:
+                 * ", JOptionPane.INFORMATION_MESSAGE); } }
+                 */
+                for (Termin termin : dieserMonat) {
+                    cl.append(day);
+                    cl.append(".");
+                    cl.append(month);
+                    cl.append(".");
+                    cl.append(year);
+
+                    String calenderDate = cl.toString();
+                    //JOptionPane.showMessageDialog(null, calenderDate, "InfoBox: 1", JOptionPane.INFORMATION_MESSAGE);
+
+                    String tuiDate = termin.getDatum().toString();
+                    //JOptionPane.showMessageDialog(null, tuiDate, "InfoBox: 2", JOptionPane.INFORMATION_MESSAGE);
+
+                    if (tuiDate.equals(calenderDate)) {
+                        String titel = termin.getTitel();
+                        String[] parts = titel.split(" ");
+                        String part1 = parts[0]; // 004
+                        String cutString = part1;
+                        
+                        
+                        int length = part1.length( );
+                        
+                        if(length > 10) {
+                            cutString = part1.substring(0, 8) + "...";
+                        }
+                        
+                        //JOptionPane.showMessageDialog(null, day, "InfoBox:", JOptionPane.INFORMATION_MESSAGE);
+                        //sb.append("\n");
+                        //sb.append(termin.getBeginn().toString());
+                        //sb.append(" ");
+                        sb.append(cutString);
+                        sb.append("\n");
+
+                        //JOptionPane.showMessageDialog(null, sb.toString(), "InfoBox: 3", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+                    cl.setLength(0);
+                    i++;
+                }
+
+                String getSt = sb.toString();
+                String twooLines = day + "\n" + getSt;
+                //String twooLines = "Two\nLines";
+                button[x].setText("<html>" + twooLines.replaceAll("\\n", "<br>") + "</html>");
+                sb.setLength(0);
+            }
+            l.setText(sdf.format(cal.getTime()));
+            //set title
+            d.setTitle("Date Picker");
+        } catch (RemoteException | TerminException | BenutzerException ex) {
+            Logger.getLogger(CalenderFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        l.setText(sdf.format(cal.getTime()));
-        //set title
-        d.setTitle("Date Picker");
     }
 
     public String setPickedDate() {
