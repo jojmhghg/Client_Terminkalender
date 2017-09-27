@@ -31,9 +31,9 @@ class CalenderFrame {
 
     //define variables
     LocalDate ld = LocalDate.now();
-    //int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
-    //int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
     int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
+    //int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+    //int month = ld.getMonthValue();
     int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
 
     //create object of JLabel with alignment
@@ -97,7 +97,6 @@ class CalenderFrame {
         //add action command
         previous.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                
 
                 //decrement month by 1
                 month--;
@@ -112,7 +111,7 @@ class CalenderFrame {
         //add action command
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                
+
                 //increment month by 1
                 month++;
                 //call method
@@ -147,10 +146,13 @@ class CalenderFrame {
         //define variables
         int dayOfWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
         int daysInMonth = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+        ////JOptionPane.showMessageDialog(null, month, "InfoBox: month", JOptionPane.INFORMATION_MESSAGE);
+        ////JOptionPane.showMessageDialog(null, year, "InfoBox: year", JOptionPane.INFORMATION_MESSAGE);
         //int dayOfWeek = ld.get(ld.getDayOfWeek());
 
         //int daysInMonth = ld.lengthOfMonth();
-
+        ////JOptionPane.showMessageDialog(null, dayOfWeek, "InfoBox: dayOfWeek", JOptionPane.INFORMATION_MESSAGE);
+        ////JOptionPane.showMessageDialog(null, daysInMonth, "InfoBox: daysInMonth", JOptionPane.INFORMATION_MESSAGE);
         String twoLines = "Two\nLines";
         StringBuilder sb = new StringBuilder();
         StringBuilder cl = new StringBuilder();
@@ -159,8 +161,11 @@ class CalenderFrame {
         //String s= sb.toString() ;
         LinkedList<Termin> dieserMonat;
 
+        //wegen java kalender fehler um 1 hoch zahelen
+        int monat = month + 1;
+
         try {
-            dieserMonat = stub.getTermineInMonat(month, year, sitzungsID);
+            dieserMonat = stub.getTermineInMonat(monat, year, sitzungsID);
 
             int i = 1;
             //String zusammen = " ";
@@ -170,9 +175,13 @@ class CalenderFrame {
             {
 
                 for (Termin termin : dieserMonat) {
+                    //JOptionPane.showMessageDialog(null, month, "InfoBox: month in forschlife", JOptionPane.INFORMATION_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, year, "year in forschleife", JOptionPane.INFORMATION_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, i, "InfoBox: for in i", JOptionPane.INFORMATION_MESSAGE);
+
                     cl.append(day);
                     cl.append(".");
-                    cl.append(month);
+                    cl.append(monat);
                     cl.append(".");
                     cl.append(year);
 
@@ -218,6 +227,7 @@ class CalenderFrame {
                 button[x].setText("<html>" + twooLines.replaceAll("\\n", "<br>") + "</html>");
                 sb.setLength(0);
             }
+
             l.setText(sdf.format(cal.getTime()));
 
             //set title
