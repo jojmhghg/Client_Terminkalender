@@ -724,11 +724,11 @@ public class TUI {
         LinkedList<Termin> dieserMonat;
         boolean nochmal = true;
         int eingabe, i, terminID;
-        
+                
         do{
             i = 1;
             dieserMonat = stub.getTermineInMonat(monat, jahr, sitzungsID);
-            System.out.println("\n-----> " + dieserMonat.size() + " Termine im Jahr " + jahr + " im Monat " + monat + ":");
+            System.out.println("\n-----> " + dieserMonat.size() + " Termine im Jahr " + jahr + " im Monat " + getMonthname(monat) + ":");
             
             for(Termin termin : dieserMonat){
                 System.out.println(i + " - " + termin.getTitel() + " " + termin.getDatum().toString() + " " + termin.getBeginn().toString());
@@ -1395,5 +1395,48 @@ public class TUI {
      */
     private void entwicklerTools() {
         
+    }
+    
+    private String getMonthname(int monat){
+        String result = null;
+        switch(monat){
+            case 1:
+                result = "Januar";
+                break;
+            case 2:
+                result = "Februar";
+                break;
+            case 3:
+                result = "März";
+                break;
+            case 4:
+                result = "April";
+                break; 
+            case 5:
+                result = "Mai";
+                break;
+            case 6:
+                result = "Juni";
+                break;
+            case 7:
+                result = "Juli";
+                break;
+            case 8:
+                result = "August";
+                break; 
+            case 9:
+                result = "September";
+                break;
+            case 10:
+                result = "Oktober";
+                break;
+            case 11:
+                result = "November";
+                break;
+            case 12:
+                result = "Dezember";
+                break;        
+        }
+        return result;       
     }
 }
