@@ -9,11 +9,14 @@ import Terminkalender.TerminAnlegen;
 import Terminkalender.BenutzerException;
 import Terminkalender.GUI;
 import Terminkalender.LauncherInterface;
+import Terminkalender.Termin;
+import Terminkalender.TerminException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -31,11 +34,13 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     /**
      * Creates new form HauptFenster
+     *
      * @param stub
      * @param sitzungsID
      */
-    public Hauptfenster(LauncherInterface stub,int sitzungsID) {
+    public Hauptfenster(LauncherInterface stub, int sitzungsID) {
         initComponents();
+        terminInhalt.setVisible(false);
         this.stub = stub;
         this.sitzungsID = sitzungsID;
         //        listModel = new DefaultListModel();
@@ -47,14 +52,66 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         //  jList1.setModel(listModel);
         //}
         jList1.setModel(listModel);
-        
+
     }
-    
+
+    String selectedText;
+
     private Hauptfenster() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
+    public void zeigeTerminInhalt(String day, int monat, int jahr) throws RemoteException, TerminException, BenutzerException {
+        LinkedList<Termin> dieserMonat;
+
+        //int tag = Integer.parseInt(day);
+        //JOptionPane.showMessageDialog(null, day, "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(null, month, "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(null, year, "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
+        dieserMonat = stub.getTermineInMonat(monat, jahr, sitzungsID);
+        //titelNachricht.setText(dieserMonat.size() + " Termine im Jahr " + jahr + " im Monat " + monat);
+
+        DefaultListModel legen = new DefaultListModel();
+        //for (int i = 0; i < 10; i++) {
+        //    legen.addElement(i);
+        //}
+        listeNachricht.setModel(legen);
+
+        
+        StringBuilder sb = new StringBuilder();
+        StringBuilder cl = new StringBuilder();
+        int i = 0;
+        
+        for (Termin termin : dieserMonat) {
+            String tag = termin.getDatum().toString().substring(0, 1);
+            
+            cl.append(tag);
+            cl.append(".");
+            cl.append(monat);
+            cl.append(".");
+            cl.append(jahr);
+
+            String calenderDate = cl.toString();
+            //JOptionPane.showMessageDialog(null, calenderDate, "InfoBox: stub1", JOptionPane.INFORMATION_MESSAGE);
+
+            String tuiDate = termin.getDatum().toString();
+            //JOptionPane.showMessageDialog(null, tuiDate, "InfoBox: 2 Datum", JOptionPane.INFORMATION_MESSAGE);
+
+            if (calenderDate.equals(tuiDate)) {
+                legen.addElement(termin.getTitel() + " " + termin.getDatum().toString() + " " + termin.getBeginn().toString());
+                i++;
+            }
+            //JOptionPane.showMessageDialog(null, month, "InfoBox: month in forschlife", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null, year, "year in forschleife", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null, i, "InfoBox: for in i", JOptionPane.INFORMATION_MESSAGE);
+
+            cl.setLength(0);
+            titelNachricht.setText(i + " Termine im Jahr " + jahr + " im Monat " + monat);
+        }
+
+        terminInhalt.setVisible(true);
+    }
+
     /**
      *
      * @author Edwrard Nana
@@ -100,6 +157,11 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         refreshContactListButton = new javax.swing.JButton();
         showRemoveKontakt = new javax.swing.JButton();
         neueTermin = new javax.swing.JButton();
+        terminInhalt = new javax.swing.JPanel();
+        titelNachricht = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listeNachricht = new javax.swing.JList<>();
+        bearbeitenNachricht = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -170,7 +232,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                         .addComponent(refreshContactListButton))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(showAddKontakt)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(showRemoveKontakt)))
                 .addContainerGap())
         );
@@ -196,6 +258,39 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         });
 
+        jScrollPane2.setViewportView(listeNachricht);
+
+        bearbeitenNachricht.setText("jButton1");
+        bearbeitenNachricht.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bearbeitenNachrichtActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout terminInhaltLayout = new javax.swing.GroupLayout(terminInhalt);
+        terminInhalt.setLayout(terminInhaltLayout);
+        terminInhaltLayout.setHorizontalGroup(
+            terminInhaltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(terminInhaltLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(terminInhaltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bearbeitenNachricht)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(titelNachricht, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        terminInhaltLayout.setVerticalGroup(
+            terminInhaltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(terminInhaltLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(titelNachricht, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(bearbeitenNachricht)
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,13 +303,17 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(neueTermin)
-                        .addGap(25, 25, 25)
-                        .addComponent(showProfilButon)
-                        .addGap(17, 17, 17)
-                        .addComponent(abmeldenButton)
-                        .addContainerGap())))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(neueTermin)
+                            .addGap(25, 25, 25)
+                            .addComponent(showProfilButon)
+                            .addGap(17, 17, 17)
+                            .addComponent(abmeldenButton))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(356, 356, 356)
+                            .addComponent(terminInhalt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,6 +323,9 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(abmeldenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -231,11 +333,10 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                                         .addComponent(showProfilButon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(neueTermin)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 306, Short.MAX_VALUE)))
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(93, 93, 93)
+                                .addComponent(terminInhalt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 20, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -243,24 +344,24 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     }// </editor-fold>//GEN-END:initComponents
 
     private void showRemoveKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRemoveKontaktActionPerformed
-        RemoveKontakt start = new RemoveKontakt(stub,sitzungsID);
+        RemoveKontakt start = new RemoveKontakt(stub, sitzungsID);
         start.setVisible(true);
         //fillList();
-        
+
     }//GEN-LAST:event_showRemoveKontaktActionPerformed
 
     private void showAddKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAddKontaktActionPerformed
         //AddKontakt start= new AddKontakt(stub,sitzungsID);
         //start.setVisible(true);
         String contact = contactUsernameField.getText();
-        if (contact.length() >=0){
+        if (contact.length() >= 0) {
             try {
                 //AddKontakt add = new AddKontakt(stub,sitzungsID);
                 stub.addKontakt(contact, sitzungsID);
                 listModel.addElement(contact);
                 contactUsernameField.setText("");
             } catch (RemoteException | BenutzerException | SQLException ex) {
-                JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster - Termin Kalender", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster - Termin Kalender", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_showAddKontaktActionPerformed
@@ -288,7 +389,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         try {
             listModel.addElement(stub.getKontakte(sitzungsID));
         } catch (BenutzerException | RemoteException ex) {
-            JOptionPane.showMessageDialog(null,ex.getMessage(), "Kontaktliste aktualisieren - Termin Kalender", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontaktliste aktualisieren - Termin Kalender", JOptionPane.ERROR_MESSAGE);
         }
         //Andere Version
         //int i = 0;
@@ -308,16 +409,22 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         startTA.setVisible(true);
     }//GEN-LAST:event_neueTerminActionPerformed
 
-    public void ausloggen(){
+    private void bearbeitenNachrichtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bearbeitenNachrichtActionPerformed
+        // TODO add your handling code here:
+        int selectedText1 = listeNachricht.getSelectedIndex();
+        JOptionPane.showMessageDialog(null, selectedText1, "InfoBox: num", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_bearbeitenNachrichtActionPerformed
+
+    public void ausloggen() {
         try {
             stub.ausloggen(sitzungsID);
             GUI out = new GUI();
-            out.startGUI();         
-            } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+            out.startGUI();
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
 //    final void fillList() {
 //        listModel = new DefaultListModel();
 //        listModel.addElement("Jane Doe");
@@ -334,22 +441,21 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 //        
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-    
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
 
             if (jList1.getSelectedIndex() == -1) {
-            //No selection, disable add button.
+                //No selection, disable add button.
                 showAddKontakt.setEnabled(false);
 
             } else {
-            //Selection, enable the remove button.
+                //Selection, enable the remove button.
                 showRemoveKontakt.setEnabled(true);
             }
         }
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -388,18 +494,22 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton abmeldenButton;
+    private javax.swing.JButton bearbeitenNachricht;
     private javax.swing.JTextField contactUsernameField;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JList<String> listeNachricht;
     private javax.swing.JButton neueTermin;
     private javax.swing.JButton refreshContactListButton;
     private javax.swing.JButton showAddKontakt;
     private javax.swing.JButton showProfilButon;
     private javax.swing.JButton showRemoveKontakt;
+    private javax.swing.JPanel terminInhalt;
+    private javax.swing.JLabel titelNachricht;
     // End of variables declaration//GEN-END:variables
 
-    
 }

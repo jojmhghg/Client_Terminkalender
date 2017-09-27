@@ -68,8 +68,6 @@ public class TerminAnlegen extends javax.swing.JFrame {
         tag1 = new javax.swing.JComboBox<>();
         monat1 = new javax.swing.JComboBox<>();
         titel = new javax.swing.JTextField();
-        tag2 = new javax.swing.JComboBox<>();
-        monat2 = new javax.swing.JComboBox<>();
         stunde1 = new javax.swing.JComboBox<>();
         minute2 = new javax.swing.JComboBox<>();
         stunde2 = new javax.swing.JComboBox<>();
@@ -91,15 +89,6 @@ public class TerminAnlegen extends javax.swing.JFrame {
         monat1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", " " }));
 
         titel.setText("jTextField2");
-
-        tag2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        tag2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tag2ActionPerformed(evt);
-            }
-        });
-
-        monat2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", " " }));
 
         stunde1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", " " }));
 
@@ -144,15 +133,11 @@ public class TerminAnlegen extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jahr1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(tag2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(monat2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(stunde2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(stunde2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(stunde1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(minute1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(minute2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(100, Short.MAX_VALUE))
@@ -167,19 +152,15 @@ public class TerminAnlegen extends javax.swing.JFrame {
                     .addComponent(tag1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(monat1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jahr1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tag2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(monat2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stunde1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(minute1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stunde2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(minute2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(82, 82, 82)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(speichern)
@@ -193,21 +174,17 @@ public class TerminAnlegen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tag1ActionPerformed
 
-    private void tag2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tag2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tag2ActionPerformed
-
     private void speichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernActionPerformed
 
         textS = this.beschreibung.getText();
         tag1S = Integer.valueOf((String)tag1.getSelectedItem());
-        tag2S = Integer.valueOf((String)tag2.getSelectedItem());
+        //tag2S = Integer.valueOf((String)tag2.getSelectedItem());
         minute1S = Integer.valueOf((String)minute1.getSelectedItem());
         minute2S = Integer.valueOf((String)minute2.getSelectedItem());
         stunde1S = Integer.valueOf((String)stunde1.getSelectedItem());
         stunde2S = Integer.valueOf((String)stunde2.getSelectedItem());
         monat1S = Integer.valueOf((String)monat1.getSelectedItem());
-        monat2S = Integer.valueOf((String)monat2.getSelectedItem());
+        //monat2S = Integer.valueOf((String)monat2.getSelectedItem());
         jahr1S = Integer.valueOf((String)jahr1.getSelectedItem());
         titelS = (String) titel.getText();
 
@@ -272,12 +249,10 @@ public class TerminAnlegen extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> minute1;
     private javax.swing.JComboBox<String> minute2;
     private javax.swing.JComboBox<String> monat1;
-    private javax.swing.JComboBox<String> monat2;
     private javax.swing.JButton speichern;
     private javax.swing.JComboBox<String> stunde1;
     private javax.swing.JComboBox<String> stunde2;
     private javax.swing.JComboBox<String> tag1;
-    private javax.swing.JComboBox<String> tag2;
     private javax.swing.JTextField titel;
     // End of variables declaration//GEN-END:variables
 }

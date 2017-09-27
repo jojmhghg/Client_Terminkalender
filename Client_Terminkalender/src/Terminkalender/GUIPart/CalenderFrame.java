@@ -28,6 +28,7 @@ class CalenderFrame {
 
     private final LauncherInterface stub;
     private final int sitzungsID;
+    public Hauptfenster startHF;
 
     //define variables
     LocalDate ld = LocalDate.now();
@@ -45,11 +46,12 @@ class CalenderFrame {
     //create object of JButton
     JButton[] button = new JButton[49];
 
-    public CalenderFrame(LauncherInterface stub, int sitzungsID)//create constructor 
+    public CalenderFrame(LauncherInterface stub, int sitzungsID, Hauptfenster startHF)//create constructor 
     {
         this.stub = stub;
         this.sitzungsID = sitzungsID;
-
+        this.startHF = startHF;
+            
         //create object
         d = new JFrame();
         //set modal true
@@ -78,6 +80,15 @@ class CalenderFrame {
                         day = button[selection].getActionCommand();
                         //call dispose() method
                         //d.dispose();
+                        //String go = setPickedDate();
+                        int monat1 = month + 1;
+                        try {
+                            startHF.zeigeTerminInhalt(day, monat1, year);
+                            //CalenderInhalt start = new CalenderInhalt();
+                            //start.setVisible(true);
+                        } catch (RemoteException | TerminException | BenutzerException ex) {
+                            Logger.getLogger(CalenderFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 });
             }
@@ -203,7 +214,7 @@ class CalenderFrame {
                             cutString = part1.substring(0, 8) + "...";
                         }
 
-                        //JOptionPane.showMessageDialog(null, day, "InfoBox:", JOptionPane.INFORMATION_MESSAGE);
+                        //JOptionPane.showMessageDialog(null, ld.getDayOfMonth() , "InfoBox: Tag", JOptionPane.INFORMATION_MESSAGE);
                         //sb.append("\n");
                         //sb.append(termin.getBeginn().toString());
                         //sb.append(" ");
@@ -224,6 +235,10 @@ class CalenderFrame {
                  * button[x].setForeground(Color.red); }
                  */
                 //String twooLines = "Two\nLines";
+                if (ld.getDayOfMonth() == day && monat == ld.getMonthValue()) {
+                    button[x].setForeground(Color.red);
+                }
+                
                 button[x].setText("<html>" + twooLines.replaceAll("\\n", "<br>") + "</html>");
                 sb.setLength(0);
             }
@@ -237,14 +252,4 @@ class CalenderFrame {
         }
     }
 
-    public String setPickedDate() {
-        //if condition
-        if (day.equals("")) {
-            return day;
-        }
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
-        java.util.Calendar cal = java.util.Calendar.getInstance();
-        cal.set(year, month, Integer.parseInt(day));
-        return sdf.format(cal.getTime());
-    }
 }

@@ -45,15 +45,15 @@ public class Fenster extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Falsches Passwort. Anmelden gescheitert!", "Anmelden", JOptionPane.ERROR_MESSAGE);
             }
             else{
-                JOptionPane.showMessageDialog(null, "Anmeldung erfolgreich!", "anmelden", JOptionPane.INFORMATION_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "Anmeldung erfolgreich!", "anmelden", JOptionPane.INFORMATION_MESSAGE);
                 
                 this.setVisible(false);
                 
-                Hauptfenster start = new Hauptfenster(stub, sitzungsID);
-                start.setVisible(true);
+                Hauptfenster startHF = new Hauptfenster(stub, sitzungsID);
+                startHF.setVisible(true);
                 //start.fillList();
                 
-                CalenderFrame startCF = new CalenderFrame(stub, sitzungsID);
+                CalenderFrame startCF = new CalenderFrame(stub, sitzungsID, startHF);
                 
             }  
         }
