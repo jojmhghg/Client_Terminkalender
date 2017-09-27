@@ -443,23 +443,31 @@ public class TUI {
      */
     private void showKontakte() throws RemoteException, BenutzerException {
         LinkedList<String> profil;
-        int counter = 1, eingabe;
+        int counter = 0, eingabe;
         Scanner scanner = new Scanner(inputStream);
         
         System.out.println("\n-----> Deine Kontakte(" + stub.getKontakte(sitzungsID).size() + "):");
         for(String kontakt : stub.getKontakte(sitzungsID)) {
-            System.out.println(counter + ": " + kontakt);
+            counter++;
+            System.out.println(counter + ": " + kontakt);           
         }       
-        
-        System.out.print("\nEingabe (0=zuück,x=Profil): ");
-        if(scanner.hasNextInt()){
-            eingabe = scanner.nextInt();
+        if(counter > 0){
+            System.out.print("\nWenn Sie ein Profil eines Kontaktes ansehen wollen, geben Sie die entsprechende Nummer ein: ");
+            if(scanner.hasNextInt()){
+                eingabe = scanner.nextInt();
+                if(eingabe > 0 && eingabe <= counter){
+                    profil = stub.getProfil(stub.getKontakte(sitzungsID).get(eingabe - 1));
+                    System.out.println("Username: " + profil.get(0));
+                    System.out.println("E-Mail: " + profil.get(1));
+                    System.out.println("Vorname: " + profil.get(2));
+                    System.out.println("Nachname: " + profil.get(3));
+                }             
+            }               
         }
-        profil = stub.getProfil(stub.getKontakte(sitzungsID).get(counter - 1));
-        System.out.println("Username: " + profil.get(0));
-        System.out.println("E-Mail: " + profil.get(1));
-        System.out.println("Vorname: " + profil.get(2));
-        System.out.println("Nachname: " + profil.get(3));
+        else{
+            System.out.println("\nKeine Kontakte vorhanden!");
+        }
+        
     }
 
     /**
