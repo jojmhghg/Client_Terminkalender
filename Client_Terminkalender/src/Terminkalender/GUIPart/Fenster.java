@@ -30,9 +30,11 @@ public class Fenster extends javax.swing.JFrame {
     public Fenster(LauncherInterface stub) {
         initComponents();
         this.stub = stub;
+        
     }
 
     private Fenster() {
+        //initComponents();
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -49,9 +51,10 @@ public class Fenster extends javax.swing.JFrame {
                 
                 this.setVisible(false);
                 
-                Hauptfenster start = new Hauptfenster(stub, sitzungsID);
+                Hauptfenster start = new Hauptfenster(stub, sitzungsID, this);
                 start.setVisible(true);
-                //start.fillList();
+                start.fillContactList();
+                start.fillMeldList();
                 
             }  
         }
@@ -208,7 +211,7 @@ public class Fenster extends javax.swing.JFrame {
 
         try {
             this.zuweisen(username, password);
-        } catch (RemoteException e) {
+         } catch (RemoteException e) {
             JOptionPane.showInputDialog(e.getMessage());
         } catch (TerminException e) {
             JOptionPane.showInputDialog(e.getMessage());
