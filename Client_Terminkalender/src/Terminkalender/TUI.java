@@ -442,10 +442,24 @@ public class TUI {
      * @throws BenutzerException 
      */
     private void showKontakte() throws RemoteException, BenutzerException {
+        LinkedList<String> profil;
+        int counter = 1, eingabe;
+        Scanner scanner = new Scanner(inputStream);
+        
         System.out.println("\n-----> Deine Kontakte(" + stub.getKontakte(sitzungsID).size() + "):");
         for(String kontakt : stub.getKontakte(sitzungsID)) {
-            System.out.println(kontakt);
+            System.out.println(counter + ": " + kontakt);
+        }       
+        
+        System.out.print("\nEingabe (0=zuück,x=Profil): ");
+        if(scanner.hasNextInt()){
+            eingabe = scanner.nextInt();
         }
+        profil = stub.getProfil(stub.getKontakte(sitzungsID).get(counter - 1));
+        System.out.println("Username: " + profil.get(0));
+        System.out.println("E-Mail: " + profil.get(1));
+        System.out.println("Vorname: " + profil.get(2));
+        System.out.println("Nachname: " + profil.get(3));
     }
 
     /**
