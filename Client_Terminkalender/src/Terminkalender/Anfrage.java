@@ -11,11 +11,11 @@ import java.io.Serializable;
  *
  * @author Tim Meyer
  */
-class Anfrage extends Meldungen implements Serializable{
+public class Anfrage extends Meldungen implements Serializable{
     private final Termin termin;
     private final String absender;
     
-    Anfrage(String text, Termin termin, String absender, int meldungsID){
+    public Anfrage(String text, Termin termin, String absender, int meldungsID){
         super(text, meldungsID);
         this.termin = termin;
         this.absender = absender;

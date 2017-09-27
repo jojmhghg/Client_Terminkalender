@@ -7,6 +7,7 @@ package Terminkalender.GUIPart;
 
 
 
+import Terminkalender.Anfrage;
 import Terminkalender.BenutzerException;
 import Terminkalender.Meldungen;
 
@@ -20,6 +21,8 @@ import Terminkalender.TerminException;
 import java.awt.MenuComponent;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,7 +57,20 @@ public class EventDet extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
    
-
+    private void terminAnnehmen() throws SQLException, BenutzerException, RemoteException, TerminException{
+        int eingabe = eventList.getSelectedIndex();
+        stub.terminAnnehmen(((Anfrage) stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
+        stub.deleteMeldung(eingabe - 1, sitzungsID);
+    }
+    public void terminAblehnen() throws RemoteException, BenutzerException, TerminException{
+        try {
+            int eingabe = eventList.getSelectedIndex();
+            stub.terminAblehnen(((Anfrage) stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
+            stub.deleteMeldung(eingabe - 1, sitzungsID);
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,6 +97,11 @@ public class EventDet extends javax.swing.JFrame {
         });
 
         ablehnButton.setText("Ablehnen");
+        ablehnButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ablehnButtonActionPerformed(evt);
+            }
+        });
 
         loechButton.setText("Löschen");
         loechButton.addActionListener(new java.awt.event.ActionListener() {
@@ -126,15 +147,52 @@ public class EventDet extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
    
     private void annehmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annehmButtonActionPerformed
-       // stub.terminAnnehmen(((Anfrage) stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
-       // stub.deleteMeldung(eingabe - 1, sitzungsID);
+        try {
+            int eingabe = eventList.getSelectedIndex();
+            stub.terminAnnehmen(((Anfrage) stub.getMeldungen(sitzungsID).get(eingabe)).getTermin().getID(), sitzungsID);
+            stub.deleteMeldung(eingabe , sitzungsID);
+        } catch (TerminException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BenutzerException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_annehmButtonActionPerformed
         DefaultListModel md = new DefaultListModel();
     private void loechButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loechButtonActionPerformed
-       int index = eventList.getSelectedIndex();
-       md.removeElementAt(index);
+        try {
+            int eingabe = eventList.getSelectedIndex();
+            System.out.println(eingabe);
+            // md.removeElementAt(index);
+            stub.deleteMeldung(eingabe , sitzungsID);
+        } catch (RemoteException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BenutzerException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
     }//GEN-LAST:event_loechButtonActionPerformed
+
+    private void ablehnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ablehnButtonActionPerformed
+        try {
+            int eingabe = eventList.getSelectedIndex();
+            stub.terminAblehnen(((Anfrage) stub.getMeldungen(sitzungsID).get(eingabe)).getTermin().getID(), sitzungsID);
+            stub.deleteMeldung(eingabe , sitzungsID);
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BenutzerException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TerminException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ablehnButtonActionPerformed
 
     /**
      * @param args the command line arguments

@@ -9,24 +9,20 @@ import Terminkalender.BenutzerException;
 import Terminkalender.GUI;
 import Terminkalender.LauncherInterface;
 import Terminkalender.Meldungen;
-import Terminkalender.TUI;
-import java.awt.Color;
+
+
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.Iterator;
+
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
+
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
+
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -318,9 +314,7 @@ public class Hauptfenster extends javax.swing.JFrame {
                  //new EventDet(msg).setVisible(true);
             }
 
-        } catch (RemoteException ex) {
-            Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BenutzerException ex) {
+        } catch (RemoteException | BenutzerException ex) {
             Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -409,10 +403,8 @@ public class Hauptfenster extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Hauptfenster().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Hauptfenster().setVisible(true);
         });
     }
 
