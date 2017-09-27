@@ -16,6 +16,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -30,6 +31,8 @@ class CalenderFrame {
 
     //define variables
     LocalDate ld = LocalDate.now();
+    //int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
+    //int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
     int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
     int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
 
@@ -56,7 +59,7 @@ class CalenderFrame {
         //create JPanel object and set layout
         JPanel p1 = new JPanel(new GridLayout(7, 7));
         //set size
-        p1.setPreferredSize(new Dimension(500, 500));
+        p1.setPreferredSize(new Dimension(600, 500));
         //for loop condition
         for (int x = 0; x < button.length; x++) {
             //define variable
@@ -66,7 +69,7 @@ class CalenderFrame {
             //set focus painted false
             button[x].setFocusPainted(false);
             //set background colour
-            button[x].setBackground(Color.white);
+            button[x].setBackground(Color.LIGHT_GRAY);
             //if loop condition
             if (x > 6) //add action listener
             {
@@ -74,7 +77,7 @@ class CalenderFrame {
                     public void actionPerformed(ActionEvent ae) {
                         day = button[selection].getActionCommand();
                         //call dispose() method
-                        d.dispose();
+                        //d.dispose();
                     }
                 });
             }
@@ -94,6 +97,8 @@ class CalenderFrame {
         //add action command
         previous.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
+                
+
                 //decrement month by 1
                 month--;
                 //call method
@@ -107,6 +112,7 @@ class CalenderFrame {
         //add action command
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
+                
                 //increment month by 1
                 month++;
                 //call method
@@ -116,7 +122,7 @@ class CalenderFrame {
         p2.add(next);// add next button
         //set border alignment
         d.add(p1, BorderLayout.CENTER);
-        d.add(p2, BorderLayout.SOUTH);
+        d.add(p2, BorderLayout.NORTH);
         d.pack();
         //set location
         //d.setLocationRelativeTo();
@@ -133,7 +139,7 @@ class CalenderFrame {
         {
             button[x].setText("");//set text
         }
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-YYYY");
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd.MM.YYYY");
         //create object of SimpleDateFormat 
         java.util.Calendar cal = java.util.Calendar.getInstance();
         //create object of java.util.Calendar 
@@ -141,6 +147,9 @@ class CalenderFrame {
         //define variables
         int dayOfWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
         int daysInMonth = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+        //int dayOfWeek = ld.get(ld.getDayOfWeek());
+
+        //int daysInMonth = ld.lengthOfMonth();
 
         String twoLines = "Two\nLines";
         StringBuilder sb = new StringBuilder();
@@ -159,14 +168,7 @@ class CalenderFrame {
             //condition
             for (int x = 6 + dayOfWeek, day = 1; day <= daysInMonth; x++, day++) //set text
             {
-                /**
-                 * for (Termin termin : dieserMonat) { if (i == x) { //zusammen
-                 * = termin.getBeginn().toString() + " " + termin.getTitel() +
-                 * "\n"; sb.append(termin.getBeginn().toString()); sb.append("
-                 * "); sb.append(termin.getTitel()); sb.append("\n");
-                 * JOptionPane.showMessageDialog(null, sb.toString(), "InfoBox:
-                 * ", JOptionPane.INFORMATION_MESSAGE); } }
-                 */
+
                 for (Termin termin : dieserMonat) {
                     cl.append(day);
                     cl.append(".");
@@ -175,24 +177,23 @@ class CalenderFrame {
                     cl.append(year);
 
                     String calenderDate = cl.toString();
-                    //JOptionPane.showMessageDialog(null, calenderDate, "InfoBox: 1", JOptionPane.INFORMATION_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, calenderDate, "InfoBox: stub1", JOptionPane.INFORMATION_MESSAGE);
 
                     String tuiDate = termin.getDatum().toString();
-                    //JOptionPane.showMessageDialog(null, tuiDate, "InfoBox: 2", JOptionPane.INFORMATION_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, tuiDate, "InfoBox: 2 Datum", JOptionPane.INFORMATION_MESSAGE);
 
-                    if (tuiDate.equals(calenderDate)) {
+                    if (calenderDate.equals(tuiDate)) {
                         String titel = termin.getTitel();
                         String[] parts = titel.split(" ");
                         String part1 = parts[0]; // 004
                         String cutString = part1;
-                        
-                        
-                        int length = part1.length( );
-                        
-                        if(length > 10) {
+
+                        int length = part1.length();
+
+                        if (length > 10) {
                             cutString = part1.substring(0, 8) + "...";
                         }
-                        
+
                         //JOptionPane.showMessageDialog(null, day, "InfoBox:", JOptionPane.INFORMATION_MESSAGE);
                         //sb.append("\n");
                         //sb.append(termin.getBeginn().toString());
@@ -201,7 +202,6 @@ class CalenderFrame {
                         sb.append("\n");
 
                         //JOptionPane.showMessageDialog(null, sb.toString(), "InfoBox: 3", JOptionPane.INFORMATION_MESSAGE);
-
                     }
                     cl.setLength(0);
                     i++;
@@ -209,11 +209,17 @@ class CalenderFrame {
 
                 String getSt = sb.toString();
                 String twooLines = day + "\n" + getSt;
+
+                /**
+                 * if (){ //set fore ground colour
+                 * button[x].setForeground(Color.red); }
+                 */
                 //String twooLines = "Two\nLines";
                 button[x].setText("<html>" + twooLines.replaceAll("\\n", "<br>") + "</html>");
                 sb.setLength(0);
             }
             l.setText(sdf.format(cal.getTime()));
+
             //set title
             d.setTitle("Date Picker");
         } catch (RemoteException | TerminException | BenutzerException ex) {
