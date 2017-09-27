@@ -304,10 +304,10 @@ public class Hauptfenster extends javax.swing.JFrame {
                 *
                  */
                 if (meldung.getStatus()) {
-                    model.addElement(i + " " + meldung.getText() + "gelesen");
+                    model.addElement(i + "-" + meldung.getText() );
 
                 } else {
-                    model.addElement(i + " " + meldung.getText() + "\n ungelesen");
+                    model.addElement(i + "-" + meldung.getText() );
 
                 }
                 // String msg = meldung.getText();
@@ -324,8 +324,9 @@ public class Hauptfenster extends javax.swing.JFrame {
     private void benachListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_benachListMouseClicked
       //DefaultListModel model2 = new DefaultListModel();
       //model2.addElement(benachList.getSelectedValue());  
-
+        
       new EventDet(benachList.getSelectedValue(), stub, sitzungsID, benachList.getSelectedIndex()).setVisible(true);
+      
       //System.out.println(model2);
        
 

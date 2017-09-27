@@ -11,13 +11,15 @@ import Terminkalender.Anfrage;
 import Terminkalender.BenutzerException;
 
 import javax.swing.DefaultListModel;
-
+import java.awt.*;
 import Terminkalender.LauncherInterface;
 import Terminkalender.TerminException;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,6 +46,7 @@ public class EventDet extends javax.swing.JFrame {
         
         initComponents();
         eventLabel.setText(eventText);
+        
     }
    
     private void terminAnnehmen() throws SQLException, BenutzerException, RemoteException, TerminException{
@@ -53,6 +56,15 @@ public class EventDet extends javax.swing.JFrame {
     public void terminAblehnen() throws RemoteException, BenutzerException, TerminException, SQLException{
         stub.terminAblehnen(((Anfrage) stub.getMeldungen(sitzungsID).get(index)).getTermin().getID(), sitzungsID);
     }
+    
+    /**
+     *methode zum schliessen von vorherige fenster
+     */
+    public void fensterClose(){
+        WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,8 +81,18 @@ public class EventDet extends javax.swing.JFrame {
 
         setTitle("Benachrichtigung Event");
         setBackground(new java.awt.Color(153, 153, 153));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(800, 300));
+        setSize(new java.awt.Dimension(500, 250));
 
         annehmButton.setText("Annehmen");
+        annehmButton.setAlignmentY(0.0F);
+        annehmButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        annehmButton.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                annehmButtonStateChanged(evt);
+            }
+        });
         annehmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 annehmButtonActionPerformed(evt);
@@ -78,6 +100,8 @@ public class EventDet extends javax.swing.JFrame {
         });
 
         ablehnButton.setText("Ablehnen");
+        ablehnButton.setAlignmentY(0.0F);
+        ablehnButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ablehnButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ablehnButtonActionPerformed(evt);
@@ -85,40 +109,52 @@ public class EventDet extends javax.swing.JFrame {
         });
 
         loechButton.setText("Löschen");
+        loechButton.setAlignmentY(0.0F);
+        loechButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         loechButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loechButtonActionPerformed(evt);
             }
         });
 
+        eventLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        eventLabel.setForeground(new java.awt.Color(153, 153, 255));
+        eventLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        eventLabel.setAlignmentY(0.0F);
+        eventLabel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nachricht", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 14), new java.awt.Color(102, 102, 255))); // NOI18N
+        eventLabel.setDebugGraphicsOptions(javax.swing.DebugGraphics.BUFFERED_OPTION);
+        eventLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        eventLabel.setMaximumSize(new java.awt.Dimension(0, 50));
+        eventLabel.setMinimumSize(new java.awt.Dimension(0, 50));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(112, 112, 112)
                 .addComponent(annehmButton)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ablehnButton)
-                .addGap(41, 41, 41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(loechButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(eventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(eventLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addContainerGap(56, Short.MAX_VALUE)
                 .addComponent(eventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(annehmButton)
                     .addComponent(ablehnButton)
                     .addComponent(loechButton))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         pack();
@@ -127,6 +163,8 @@ public class EventDet extends javax.swing.JFrame {
     private void annehmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annehmButtonActionPerformed
         try {
             terminAnnehmen();
+            fensterClose();
+            JOptionPane.showMessageDialog(null, "Einladung wurde Angennomen");
         } catch (TerminException | SQLException | RemoteException | BenutzerException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -135,6 +173,8 @@ public class EventDet extends javax.swing.JFrame {
     private void loechButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loechButtonActionPerformed
         try {
             stub.deleteMeldung(index , sitzungsID);
+             fensterClose();
+            JOptionPane.showMessageDialog(null, "Deine Benachrichtigung Wurde gelöscht");
         } catch (RemoteException | BenutzerException | SQLException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -144,10 +184,17 @@ public class EventDet extends javax.swing.JFrame {
     private void ablehnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ablehnButtonActionPerformed
         try {
             terminAblehnen();
+            fensterClose();
+            stub.deleteMeldung(index , sitzungsID);
+            JOptionPane.showMessageDialog(null, "Einladung abgelehnt");
         } catch (SQLException | RemoteException | BenutzerException | TerminException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ablehnButtonActionPerformed
+
+    private void annehmButtonStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_annehmButtonStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_annehmButtonStateChanged
 
     /**
      * @param args the command line arguments
