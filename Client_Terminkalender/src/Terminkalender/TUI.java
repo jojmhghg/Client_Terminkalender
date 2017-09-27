@@ -1286,9 +1286,14 @@ public class TUI {
                                 i = scanner.nextInt();   
                                 switch(i){
                                     case 1:
-                                        stub.terminAnnehmen(((Anfrage)stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
-                                        stub.deleteMeldung(eingabe - 1, sitzungsID);
-                                        System.out.println("\n----> Termin zugesagt!");
+                                        try{
+                                            stub.terminAnnehmen(((Anfrage)stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
+                                            System.out.println("\n----> Termin zugesagt!");
+                                        }
+                                        catch(TerminException e){
+                                            System.out.println("Termin existiert nicht mehr!");
+                                        }
+                                        stub.deleteMeldung(eingabe - 1, sitzungsID); 
                                         wiederholen = false;
                                         break;
                                     case 2:
