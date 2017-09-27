@@ -9,16 +9,11 @@ package Terminkalender.GUIPart;
 
 import Terminkalender.Anfrage;
 import Terminkalender.BenutzerException;
-import Terminkalender.Meldungen;
-
-import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
 
-
 import Terminkalender.LauncherInterface;
 import Terminkalender.TerminException;
-import java.awt.MenuComponent;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -30,46 +25,33 @@ import java.util.logging.Logger;
  */
 public class EventDet extends javax.swing.JFrame {
     private final LauncherInterface stub;
-    private int sitzungsID;
-    //private String username;
-    /**
-     * Creates new form AddKontakt
-     * @param stub
-     * @param sitzungsID
-     */
-    public EventDet(LauncherInterface stub, int sitzungsID) {
-         initComponents();
-        this.stub = stub;
-        this.sitzungsID= sitzungsID;
-    }
+    private final int sitzungsID;
+    private final int index;
+    String eventText;
+    
     /**
      *
      * @param event
+     * @param stub
+     * @param sitzungsID
+     * @param index
      */
-    public EventDet(DefaultListModel event,LauncherInterface stub) {
-        initComponents();
-        eventList.setModel(event);
+    public EventDet(String event, LauncherInterface stub, int sitzungsID, int index) {
         this.stub=stub;
-    }
-
-    private EventDet() {
+        this.sitzungsID = sitzungsID;
+        this.eventText = event;
+        this.index = index;
+        
         initComponents();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        eventLabel.setText(eventText);
     }
    
     private void terminAnnehmen() throws SQLException, BenutzerException, RemoteException, TerminException{
-        int eingabe = eventList.getSelectedIndex();
-        stub.terminAnnehmen(((Anfrage) stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
-        stub.deleteMeldung(eingabe - 1, sitzungsID);
+        stub.terminAnnehmen(((Anfrage) stub.getMeldungen(sitzungsID).get(index)).getTermin().getID(), sitzungsID);
     }
-    public void terminAblehnen() throws RemoteException, BenutzerException, TerminException{
-        try {
-            int eingabe = eventList.getSelectedIndex();
-            stub.terminAblehnen(((Anfrage) stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
-            stub.deleteMeldung(eingabe - 1, sitzungsID);
-        } catch (SQLException ex) {
-            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    
+    public void terminAblehnen() throws RemoteException, BenutzerException, TerminException, SQLException{
+        stub.terminAblehnen(((Anfrage) stub.getMeldungen(sitzungsID).get(index)).getTermin().getID(), sitzungsID);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -83,8 +65,7 @@ public class EventDet extends javax.swing.JFrame {
         annehmButton = new javax.swing.JButton();
         ablehnButton = new javax.swing.JButton();
         loechButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        eventList = new javax.swing.JList<>();
+        eventLabel = new javax.swing.JLabel();
 
         setTitle("Benachrichtigung Event");
         setBackground(new java.awt.Color(153, 153, 153));
@@ -110,32 +91,29 @@ public class EventDet extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane2.setViewportView(eventList);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(annehmButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(ablehnButton)
-                        .addGap(41, 41, 41)
-                        .addComponent(loechButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addGap(54, 54, 54)
+                .addComponent(annehmButton)
+                .addGap(18, 18, 18)
+                .addComponent(ablehnButton)
+                .addGap(41, 41, 41)
+                .addComponent(loechButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(eventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56)
+                .addComponent(eventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(annehmButton)
                     .addComponent(ablehnButton)
@@ -148,31 +126,16 @@ public class EventDet extends javax.swing.JFrame {
    
     private void annehmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annehmButtonActionPerformed
         try {
-            int eingabe = eventList.getSelectedIndex();
-            stub.terminAnnehmen(((Anfrage) stub.getMeldungen(sitzungsID).get(eingabe)).getTermin().getID(), sitzungsID);
-            stub.deleteMeldung(eingabe , sitzungsID);
-        } catch (TerminException ex) {
-            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
-            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BenutzerException ex) {
+            terminAnnehmen();
+        } catch (TerminException | SQLException | RemoteException | BenutzerException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_annehmButtonActionPerformed
         DefaultListModel md = new DefaultListModel();
     private void loechButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loechButtonActionPerformed
         try {
-            int eingabe = eventList.getSelectedIndex();
-            System.out.println(eingabe);
-            // md.removeElementAt(index);
-            stub.deleteMeldung(eingabe , sitzungsID);
-        } catch (RemoteException ex) {
-            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BenutzerException ex) {
-            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            stub.deleteMeldung(index , sitzungsID);
+        } catch (RemoteException | BenutzerException | SQLException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
        
@@ -180,16 +143,8 @@ public class EventDet extends javax.swing.JFrame {
 
     private void ablehnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ablehnButtonActionPerformed
         try {
-            int eingabe = eventList.getSelectedIndex();
-            stub.terminAblehnen(((Anfrage) stub.getMeldungen(sitzungsID).get(eingabe)).getTermin().getID(), sitzungsID);
-            stub.deleteMeldung(eingabe , sitzungsID);
-        } catch (SQLException ex) {
-            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
-            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BenutzerException ex) {
-            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TerminException ex) {
+            terminAblehnen();
+        } catch (SQLException | RemoteException | BenutzerException | TerminException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ablehnButtonActionPerformed
@@ -224,7 +179,7 @@ public class EventDet extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EventDet().setVisible(true);
+               
             }
         });
     }
@@ -232,8 +187,7 @@ public class EventDet extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ablehnButton;
     private javax.swing.JButton annehmButton;
-    private javax.swing.JList<String> eventList;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel eventLabel;
     private javax.swing.JButton loechButton;
     // End of variables declaration//GEN-END:variables
 }
