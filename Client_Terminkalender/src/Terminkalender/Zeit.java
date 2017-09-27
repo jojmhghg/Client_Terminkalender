@@ -1,5 +1,5 @@
 /*
- * ~~~ erstmal fertig ~~~
+ * Klasse Zeit
  * 
  * 
  */
