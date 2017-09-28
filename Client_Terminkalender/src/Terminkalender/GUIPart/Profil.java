@@ -5,7 +5,6 @@
  */
 package Terminkalender.GUIPart;
 
-import Terminkalender.Benutzer;
 import Terminkalender.BenutzerException;
 import Terminkalender.LauncherInterface;
 import java.rmi.RemoteException;
