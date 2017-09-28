@@ -88,11 +88,11 @@
                               <Component id="neuesPWField" max="32767" attributes="0"/>
                               <Component id="abbrechenButton" max="32767" attributes="0"/>
                               <Component id="altesPWField" max="32767" attributes="0"/>
-                              <Component id="bestätigenButton" min="-2" pref="156" max="-2" attributes="0"/>
+                              <Component id="bestätigenButton" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
