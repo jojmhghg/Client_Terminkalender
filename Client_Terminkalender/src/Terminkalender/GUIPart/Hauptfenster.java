@@ -5,6 +5,7 @@
  */
 package Terminkalender.GUIPart;
 
+import Terminkalender.TerminInhalt;
 import Terminkalender.TerminAnlegen;
 import Terminkalender.BenutzerException;
 import Terminkalender.GUI;
@@ -14,6 +15,8 @@ import Terminkalender.TerminException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -31,6 +34,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private int sitzungsID;
     //private DefaultListModel listModel;
     DefaultListModel listModel = new DefaultListModel();
+    LinkedList<Termin> dieserMonat;
 
     /**
      * Creates new form HauptFenster
@@ -55,14 +59,13 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     }
 
-    String selectedText;
-
-    private Hauptfenster() {
+    Hauptfenster() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void zeigeTerminInhalt(String day, int monat, int jahr) throws RemoteException, TerminException, BenutzerException {
-        LinkedList<Termin> dieserMonat;
+    private int terminID;
+
+    public void zeigeTerminInhalt(int day, int monat, int jahr) throws RemoteException, TerminException, BenutzerException {
 
         //int tag = Integer.parseInt(day);
         //JOptionPane.showMessageDialog(null, day, "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
@@ -71,21 +74,24 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         dieserMonat = stub.getTermineInMonat(monat, jahr, sitzungsID);
         //titelNachricht.setText(dieserMonat.size() + " Termine im Jahr " + jahr + " im Monat " + monat);
 
-        DefaultListModel legen = new DefaultListModel();
+        DefaultListModel legen1 = new DefaultListModel();
+        DefaultListModel legen2 = new DefaultListModel();
+        DefaultListModel legen3 = new DefaultListModel();
         //for (int i = 0; i < 10; i++) {
         //    legen.addElement(i);
         //}
-        listeNachricht.setModel(legen);
+        listeNachrichtTitel.setModel(legen1);
+        listNachrichtDatum.setModel(legen2);
+        listNachrichtSonstige.setModel(legen3);
 
-        
         StringBuilder sb = new StringBuilder();
         StringBuilder cl = new StringBuilder();
         int i = 0;
-        
+
         for (Termin termin : dieserMonat) {
-            String tag = termin.getDatum().toString().substring(0, 1);
-            
-            cl.append(tag);
+            //String tag = termin.getDatum().toString().substring(0, 1);
+
+            cl.append(day);
             cl.append(".");
             cl.append(monat);
             cl.append(".");
@@ -98,18 +104,22 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             //JOptionPane.showMessageDialog(null, tuiDate, "InfoBox: 2 Datum", JOptionPane.INFORMATION_MESSAGE);
 
             if (calenderDate.equals(tuiDate)) {
-                legen.addElement(termin.getTitel() + " " + termin.getDatum().toString() + " " + termin.getBeginn().toString());
+                legen1.addElement(termin.getTitel());
+                legen2.addElement(termin.getDatum().toString() + "  " + termin.getBeginn().toString() + " Uhr bis " + termin.getEnde().toString() + " Uhr");
+                legen3.addElement(termin.getOrt());
                 i++;
             }
-            //JOptionPane.showMessageDialog(null, month, "InfoBox: month in forschlife", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null, day, "InfoBox: month in forschlife", JOptionPane.INFORMATION_MESSAGE);
             //JOptionPane.showMessageDialog(null, year, "year in forschleife", JOptionPane.INFORMATION_MESSAGE);
             //JOptionPane.showMessageDialog(null, i, "InfoBox: for in i", JOptionPane.INFORMATION_MESSAGE);
 
             cl.setLength(0);
+
             titelNachricht.setText(i + " Termine im Jahr " + jahr + " im Monat " + monat);
         }
 
         terminInhalt.setVisible(true);
+
     }
 
     /**
@@ -160,8 +170,12 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         terminInhalt = new javax.swing.JPanel();
         titelNachricht = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        listeNachricht = new javax.swing.JList<>();
+        listeNachrichtTitel = new javax.swing.JList<>();
         bearbeitenNachricht = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listNachrichtSonstige = new javax.swing.JList<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        listNachrichtDatum = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -258,7 +272,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         });
 
-        jScrollPane2.setViewportView(listeNachricht);
+        jScrollPane2.setViewportView(listeNachrichtTitel);
 
         bearbeitenNachricht.setText("jButton1");
         bearbeitenNachricht.addActionListener(new java.awt.event.ActionListener() {
@@ -267,17 +281,29 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         });
 
+        jScrollPane3.setViewportView(listNachrichtSonstige);
+
+        jScrollPane4.setViewportView(listNachrichtDatum);
+
         javax.swing.GroupLayout terminInhaltLayout = new javax.swing.GroupLayout(terminInhalt);
         terminInhalt.setLayout(terminInhaltLayout);
         terminInhaltLayout.setHorizontalGroup(
             terminInhaltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(terminInhaltLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
                 .addGroup(terminInhaltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bearbeitenNachricht)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(titelNachricht, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addGroup(terminInhaltLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(terminInhaltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bearbeitenNachricht)
+                            .addComponent(titelNachricht, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(terminInhaltLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         terminInhaltLayout.setVerticalGroup(
             terminInhaltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,8 +311,12 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addGap(19, 19, 19)
                 .addComponent(titelNachricht, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGroup(terminInhaltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(terminInhaltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(bearbeitenNachricht)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
@@ -300,19 +330,21 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(neueTermin)
-                            .addGap(25, 25, 25)
-                            .addComponent(showProfilButon)
-                            .addGap(17, 17, 17)
-                            .addComponent(abmeldenButton))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(356, 356, 356)
-                            .addComponent(terminInhalt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(196, 196, 196)
+                                .addComponent(neueTermin)
+                                .addGap(25, 25, 25)
+                                .addComponent(showProfilButon)
+                                .addGap(17, 17, 17)
+                                .addComponent(abmeldenButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(terminInhalt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -336,7 +368,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(93, 93, 93)
                                 .addComponent(terminInhalt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 20, Short.MAX_VALUE)))
+                        .addGap(0, 31, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -411,8 +443,18 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     private void bearbeitenNachrichtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bearbeitenNachrichtActionPerformed
         // TODO add your handling code here:
-        int selectedText1 = listeNachricht.getSelectedIndex();
-        JOptionPane.showMessageDialog(null, selectedText1, "InfoBox: num", JOptionPane.INFORMATION_MESSAGE);
+        terminID = listeNachrichtTitel.getSelectedIndex();
+        terminID++;
+        if (terminID > 0 && terminID <= dieserMonat.size()) {
+            try {
+                TerminInhalt startTI = new TerminInhalt(dieserMonat.get(terminID - 1).getID(), stub, sitzungsID);
+                startTI.setVisible(true);
+                //terminAnzeigenBearbeiten(dieserMonat.get(terminID - 1).getID());
+            } catch (RemoteException | BenutzerException | TerminException ex) {
+                Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        //JOptionPane.showMessageDialog(null, selectedText1, "InfoBox: num", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_bearbeitenNachrichtActionPerformed
 
     public void ausloggen() {
@@ -500,9 +542,13 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JList<String> listeNachricht;
+    private javax.swing.JList<String> listNachrichtDatum;
+    private javax.swing.JList<String> listNachrichtSonstige;
+    private javax.swing.JList<String> listeNachrichtTitel;
     private javax.swing.JButton neueTermin;
     private javax.swing.JButton refreshContactListButton;
     private javax.swing.JButton showAddKontakt;

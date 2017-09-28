@@ -45,6 +45,7 @@ class CalenderFrame {
     JFrame d;
     //create object of JButton
     JButton[] button = new JButton[49];
+    int [] tagBekommen = new int[49];
 
     public CalenderFrame(LauncherInterface stub, int sitzungsID, Hauptfenster startHF)//create constructor 
     {
@@ -83,7 +84,7 @@ class CalenderFrame {
                         //String go = setPickedDate();
                         int monat1 = month + 1;
                         try {
-                            startHF.zeigeTerminInhalt(day, monat1, year);
+                            startHF.zeigeTerminInhalt(tagBekommen[selection], monat1, year);
                             //CalenderInhalt start = new CalenderInhalt();
                             //start.setVisible(true);
                         } catch (RemoteException | TerminException | BenutzerException ex) {
@@ -148,6 +149,7 @@ class CalenderFrame {
         for (int x = 7; x < button.length; x++)//for loop
         {
             button[x].setText("");//set text
+            tagBekommen[x] = 0;
         }
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd.MM.YYYY");
         //create object of SimpleDateFormat 
@@ -239,6 +241,7 @@ class CalenderFrame {
                     button[x].setForeground(Color.red);
                 }
                 
+                tagBekommen[x] = day;
                 button[x].setText("<html>" + twooLines.replaceAll("\\n", "<br>") + "</html>");
                 sb.setLength(0);
             }
