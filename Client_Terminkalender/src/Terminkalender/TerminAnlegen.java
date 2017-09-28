@@ -47,7 +47,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    void terminZuweisen()  {
+    private void terminZuweisen()  {
 
         try {
             datum = new Datum(tag1S, monat1S, jahr1S);
@@ -55,6 +55,8 @@ public class TerminAnlegen extends javax.swing.JFrame {
             ende = new Zeit(stunde2S, minute2S);
             
             stub.addTermin(datum, start, ende, titelS, sitzungsID);
+            
+            dispose();
         } catch (TerminException | RemoteException | BenutzerException | SQLException | Datum.DatumException | Zeit.ZeitException ex) {
             JOptionPane.showMessageDialog(null,ex.getMessage(), "Termin anlegen", JOptionPane.ERROR_MESSAGE);
         }
@@ -283,8 +285,14 @@ public class TerminAnlegen extends javax.swing.JFrame {
         jahr1S = Integer.valueOf((String) jahr1.getSelectedItem());
         titelS = (String) titel.getText();
 
-        terminZuweisen();
+        if (titelS.length() != 0) {
+            terminZuweisen();
+            JOptionPane.showMessageDialog(null, "Termin erfolgreich angelegt ! ", "Termin anlegen", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Der Titel darf nicht leer sein ! ", "Termin anlegen", JOptionPane.ERROR_MESSAGE);
 
+        }
+ 
     }//GEN-LAST:event_speichernActionPerformed
 
     private void minute2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minute2ActionPerformed
