@@ -442,10 +442,32 @@ public class TUI {
      * @throws BenutzerException 
      */
     private void showKontakte() throws RemoteException, BenutzerException {
+        LinkedList<String> profil;
+        int counter = 0, eingabe;
+        Scanner scanner = new Scanner(inputStream);
+        
         System.out.println("\n-----> Deine Kontakte(" + stub.getKontakte(sitzungsID).size() + "):");
         for(String kontakt : stub.getKontakte(sitzungsID)) {
-            System.out.println(kontakt);
+            counter++;
+            System.out.println(counter + ": " + kontakt);           
+        }       
+        if(counter > 0){
+            System.out.print("\nWenn Sie ein Profil eines Kontaktes ansehen wollen, geben Sie die entsprechende Nummer ein: ");
+            if(scanner.hasNextInt()){
+                eingabe = scanner.nextInt();
+                if(eingabe > 0 && eingabe <= counter){
+                    profil = stub.getProfil(stub.getKontakte(sitzungsID).get(eingabe - 1));
+                    System.out.println("Username: " + profil.get(0));
+                    System.out.println("E-Mail: " + profil.get(1));
+                    System.out.println("Vorname: " + profil.get(2));
+                    System.out.println("Nachname: " + profil.get(3));
+                }             
+            }               
         }
+        else{
+            System.out.println("\nKeine Kontakte vorhanden!");
+        }
+        
     }
 
     /**
@@ -702,11 +724,11 @@ public class TUI {
         LinkedList<Termin> dieserMonat;
         boolean nochmal = true;
         int eingabe, i, terminID;
-        
+                
         do{
             i = 1;
             dieserMonat = stub.getTermineInMonat(monat, jahr, sitzungsID);
-            System.out.println("\n-----> " + dieserMonat.size() + " Termine im Jahr " + jahr + " im Monat " + monat + ":");
+            System.out.println("\n-----> " + dieserMonat.size() + " Termine im Jahr " + jahr + " im Monat " + getMonthname(monat) + ":");
             
             for(Termin termin : dieserMonat){
                 System.out.println(i + " - " + termin.getTitel() + " " + termin.getDatum().toString() + " " + termin.getBeginn().toString());
@@ -1264,9 +1286,14 @@ public class TUI {
                                 i = scanner.nextInt();   
                                 switch(i){
                                     case 1:
-                                        stub.terminAnnehmen(((Anfrage)stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
-                                        stub.deleteMeldung(eingabe - 1, sitzungsID);
-                                        System.out.println("\n----> Termin zugesagt!");
+                                        try{
+                                            stub.terminAnnehmen(((Anfrage)stub.getMeldungen(sitzungsID).get(eingabe - 1)).getTermin().getID(), sitzungsID);
+                                            System.out.println("\n----> Termin zugesagt!");
+                                        }
+                                        catch(TerminException e){
+                                            System.out.println("Termin existiert nicht mehr!");
+                                        }
+                                        stub.deleteMeldung(eingabe - 1, sitzungsID); 
                                         wiederholen = false;
                                         break;
                                     case 2:
@@ -1373,5 +1400,48 @@ public class TUI {
      */
     private void entwicklerTools() {
         
+    }
+    
+    private String getMonthname(int monat){
+        String result = null;
+        switch(monat){
+            case 1:
+                result = "Januar";
+                break;
+            case 2:
+                result = "Februar";
+                break;
+            case 3:
+                result = "März";
+                break;
+            case 4:
+                result = "April";
+                break; 
+            case 5:
+                result = "Mai";
+                break;
+            case 6:
+                result = "Juni";
+                break;
+            case 7:
+                result = "Juli";
+                break;
+            case 8:
+                result = "August";
+                break; 
+            case 9:
+                result = "September";
+                break;
+            case 10:
+                result = "Oktober";
+                break;
+            case 11:
+                result = "November";
+                break;
+            case 12:
+                result = "Dezember";
+                break;        
+        }
+        return result;       
     }
 }
