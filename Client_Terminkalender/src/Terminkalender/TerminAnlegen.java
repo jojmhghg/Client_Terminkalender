@@ -8,6 +8,7 @@ package Terminkalender;
 
 import Terminkalender.BenutzerException;
 import Terminkalender.Datum;
+import Terminkalender.GUIPart.Hauptfenster;
 import Terminkalender.LauncherInterface;
 import Terminkalender.TerminException;
 import Terminkalender.Zeit;
@@ -23,6 +24,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
 
     private final LauncherInterface stub;
     private int sitzungsID;
+    private Hauptfenster hf;
     Datum datum;
     Zeit start;
     Zeit ende;
@@ -36,10 +38,11 @@ public class TerminAnlegen extends javax.swing.JFrame {
      * @param stub
      * @param sitzungsID
      */
-    public TerminAnlegen(LauncherInterface stub, int sitzungsID) {
+    public TerminAnlegen(LauncherInterface stub, int sitzungsID, Hauptfenster hf) {
         initComponents();
         this.stub = stub;
         this.sitzungsID = sitzungsID;
+        this.hf = hf;
 
     }
 
@@ -288,6 +291,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
         if (titelS.length() != 0) {
             terminZuweisen();
             JOptionPane.showMessageDialog(null, "Termin erfolgreich angelegt ! ", "Termin anlegen", JOptionPane.INFORMATION_MESSAGE);
+            hf.displayDate();
         } else {
             JOptionPane.showMessageDialog(null, "Der Titel darf nicht leer sein ! ", "Termin anlegen", JOptionPane.ERROR_MESSAGE);
 

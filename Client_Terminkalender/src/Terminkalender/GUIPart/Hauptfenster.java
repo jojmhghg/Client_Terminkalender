@@ -7,19 +7,19 @@ package Terminkalender.GUIPart;
 
 import Terminkalender.TerminAnlegen;
 import Terminkalender.BenutzerException;
+import Terminkalender.Datum;
 import Terminkalender.LauncherInterface;
 import Terminkalender.Meldungen;
 import Terminkalender.Termin;
 import Terminkalender.TerminException;
-import java.awt.BorderLayout;
+import Terminkalender.TerminInhalt;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,23 +42,28 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private int sitzungsID;
     //private DefaultListModel listModel;
     DefaultListModel listModel = new DefaultListModel();
+    DefaultListModel termineListeModel = new DefaultListModel();
     //DefaultListModel event = new DefaultListModel();
     Fenster fenster;
+    LinkedList<Termin> dieserMonat;
     
-            //Niros globale Variablen
-        LocalDate ld = LocalDate.now();
-        int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
-        int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
-        JLabel l = new JLabel("", JLabel.CENTER);
-        String day = "";
-        JPanel d;
-        JButton[] button = new JButton[49];
+    //Niros globale Variablen
+    LocalDate ld = LocalDate.now();
+    int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
+    int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+    JLabel l = new JLabel("", JLabel.CENTER);
+    String day = "";
+    JPanel d;
+    JButton[] button = new JButton[42];
+    int [] tagBekommen = new int[42];
+    int daySelector;
    
 
     /**
      * Creates new form HauptFenster
      * @param stub
      * @param sitzungsID
+     * @param fenster
      */
     public Hauptfenster(LauncherInterface stub,int sitzungsID, Fenster fenster) {
         initComponents();
@@ -68,89 +73,150 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         this.fenster = fenster;
         
         jList1.setModel(listModel);
+        termineListe.setModel(termineListeModel);
+        daySelector = 0;
         initKalender();
-        
     }
     
     private void initKalender(){
-                
-         /*String[] header = {"Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"};
-
-        JPanel p1 = new JPanel(new GridLayout(7, 7));
-        p1.setPreferredSize(new Dimension(600, 500));
-
-        for (int x = 0; x < button.length; x++) {
+        button[0] = day1;
+        button[1] = day2;
+        button[2] = day3;
+        button[3] = day4;
+        button[4] = day5;
+        button[5] = day6;
+        button[6] = day7;
+        button[7] = day8;
+        button[8] = day9;
+        button[9] = day10;
+        button[10] = day11;
+        button[11] = day12;
+        button[12] = day13;
+        button[13] = day14;
+        button[14] = day15;
+        button[15] = day16;
+        button[16] = day17;
+        button[17] = day18;
+        button[18] = day19;
+        button[19] = day20;
+        button[20] = day21;
+        button[21] = day22;
+        button[22] = day23;
+        button[23] = day24;
+        button[24] = day25;
+        button[25] = day26;
+        button[26] = day27;
+        button[27] = day28;
+        button[28] = day29;
+        button[29] = day30;
+        button[30] = day31;
+        button[31] = day32;
+        button[32] = day33;
+        button[33] = day34;
+        button[34] = day35;
+        button[35] = day36;
+        button[36] = day37;
+        button[37] = day38;
+        button[38] = day39;
+        button[39] = day40;
+        button[40] = day41;
+        button[41] = day42;
+        
+        for (int x = 0; x < 42; x++) {
             final int selection = x;
-            button[x] = new JButton();
-            button[x].setFocusPainted(false);
-            button[x].setBackground(Color.LIGHT_GRAY);
-            if (x > 6){
-                button[x].addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent ae) {
+            
+            button[x].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    try {
+                        termineListeModel.clear();
+                        daySelector = selection;
                         day = button[selection].getActionCommand();
+                        
+                        int monat1 = month + 1;
+                        zeigeTerminInhalt(tagBekommen[selection], monat1, year);
+                        //CalenderInhalt start = new CalenderInhalt();
+                        //start.setVisible(true);
+                    } catch (RemoteException | TerminException | BenutzerException ex) {
+                        Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                });
-            }
-            if (x < 7){
-                button[x].setText(header[x]);
-                button[x].setForeground(Color.red);
-            }
-            p1.add(button[x]);
+                }
+            });
         }
-        JPanel p2 = new JPanel(new GridLayout(1, 3));
 
-        JButton previous = new JButton("<< Previous");
-        previous.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                month--;
-                displayDate();
+        displayDate();
+
+    }
+    
+        public void zeigeTerminInhalt(int day, int monat, int jahr) throws RemoteException, TerminException, BenutzerException {
+
+        //int tag = Integer.parseInt(day);
+        //JOptionPane.showMessageDialog(null, day, "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(null, month, "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(null, year, "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
+        dieserMonat = stub.getTermineInMonat(monat, jahr, sitzungsID);
+        //titelNachricht.setText(dieserMonat.size() + " Termine im Jahr " + jahr + " im Monat " + monat);
+
+        //for (int i = 0; i < 10; i++) {
+        //    legen.addElement(i);
+        //}
+        termineListe.setModel(termineListeModel);
+
+
+        StringBuilder sb = new StringBuilder();
+        StringBuilder cl = new StringBuilder();
+        int i = 0;
+
+        for (Termin termin : dieserMonat) {
+            //String tag = termin.getDatum().toString().substring(0, 1);
+
+            cl.append(day);
+            cl.append(".");
+            cl.append(monat);
+            cl.append(".");
+            cl.append(jahr);
+
+            String calenderDate = cl.toString();
+            //JOptionPane.showMessageDialog(null, calenderDate, "InfoBox: stub1", JOptionPane.INFORMATION_MESSAGE);
+
+            String tuiDate = termin.getDatum().toString();
+            //JOptionPane.showMessageDialog(null, tuiDate, "InfoBox: 2 Datum", JOptionPane.INFORMATION_MESSAGE);
+
+            if (calenderDate.equals(tuiDate)) {
+                termineListeModel.addElement(termin.getTitel()+ " um " + termin.getBeginn().toString());
+                i++;
             }
-        });
-        p2.add(previous);
-        p2.add(l);
-        JButton next = new JButton("Next >>");
-        next.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                month++;
-                displayDate();
-            }
-        });
-        p2.add(next);
-        calendarPanel.add(p1, BorderLayout.CENTER);
-        calendarPanel.add(p2, BorderLayout.NORTH);
- 
-        displayDate();     */
+            //JOptionPane.showMessageDialog(null, day, "InfoBox: month in forschlife", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null, year, "year in forschleife", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null, i, "InfoBox: for in i", JOptionPane.INFORMATION_MESSAGE);
+
+            cl.setLength(0);
+
+            //titelNachricht.setText(i + " Termine im Jahr " + jahr + " im Monat " + monat);
+        }
+
+        //terminInhalt.setVisible(true);
+
     }
     
      public void displayDate() {
-        for (int x = 7; x < button.length; x++)//for loop
+        for (int x = 0; x < 42; x++)//for loop
         {
             button[x].setText("");//set text
         }
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd.MM.YYYY");
-        //create object of SimpleDateFormat 
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM YYYY");
         java.util.Calendar cal = java.util.Calendar.getInstance();
-        //create object of java.util.Calendar 
-        cal.set(year, month, 1); //set year, month and date
-        //define variables
+  
+        cal.set(year, month, 1);
+
         int dayOfWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
         int daysInMonth = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
-        ////JOptionPane.showMessageDialog(null, month, "InfoBox: month", JOptionPane.INFORMATION_MESSAGE);
-        ////JOptionPane.showMessageDialog(null, year, "InfoBox: year", JOptionPane.INFORMATION_MESSAGE);
-        //int dayOfWeek = ld.get(ld.getDayOfWeek());
 
-        //int daysInMonth = ld.lengthOfMonth();
-        ////JOptionPane.showMessageDialog(null, dayOfWeek, "InfoBox: dayOfWeek", JOptionPane.INFORMATION_MESSAGE);
-        ////JOptionPane.showMessageDialog(null, daysInMonth, "InfoBox: daysInMonth", JOptionPane.INFORMATION_MESSAGE);
-        String twoLines = "Two\nLines";
         StringBuilder sb = new StringBuilder();
         StringBuilder cl = new StringBuilder();
 
-        //sb.append( "a" );
-        //String s= sb.toString() ;
         LinkedList<Termin> dieserMonat;
 
-        //wegen java kalender fehler um 1 hoch zahelen
         int monat = month + 1;
 
         try {
@@ -160,14 +226,10 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             //String zusammen = " ";
 
             //condition
-            for (int x = 6 + dayOfWeek, day = 1; day <= daysInMonth; x++, day++) //set text
+            for (int x = dayOfWeek - 1, day = 1; day <= daysInMonth; x++, day++) //set text
             {
 
                 for (Termin termin : dieserMonat) {
-                    //JOptionPane.showMessageDialog(null, month, "InfoBox: month in forschlife", JOptionPane.INFORMATION_MESSAGE);
-                    //JOptionPane.showMessageDialog(null, year, "year in forschleife", JOptionPane.INFORMATION_MESSAGE);
-                    //JOptionPane.showMessageDialog(null, i, "InfoBox: for in i", JOptionPane.INFORMATION_MESSAGE);
-
                     cl.append(day);
                     cl.append(".");
                     cl.append(monat);
@@ -175,11 +237,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                     cl.append(year);
 
                     String calenderDate = cl.toString();
-                    //JOptionPane.showMessageDialog(null, calenderDate, "InfoBox: stub1", JOptionPane.INFORMATION_MESSAGE);
-
                     String tuiDate = termin.getDatum().toString();
-                    //JOptionPane.showMessageDialog(null, tuiDate, "InfoBox: 2 Datum", JOptionPane.INFORMATION_MESSAGE);
-
+ 
                     if (calenderDate.equals(tuiDate)) {
                         String titel = termin.getTitel();
                         String[] parts = titel.split(" ");
@@ -192,14 +251,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                             cutString = part1.substring(0, 8) + "...";
                         }
 
-                        //JOptionPane.showMessageDialog(null, day, "InfoBox:", JOptionPane.INFORMATION_MESSAGE);
-                        //sb.append("\n");
-                        //sb.append(termin.getBeginn().toString());
-                        //sb.append(" ");
                         sb.append(cutString);
                         sb.append("\n");
-
-                        //JOptionPane.showMessageDialog(null, sb.toString(), "InfoBox: 3", JOptionPane.INFORMATION_MESSAGE);
                     }
                     cl.setLength(0);
                     i++;
@@ -207,17 +260,17 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
                 String getSt = sb.toString();
                 String twooLines = day + "\n" + getSt;
-
-                /**
-                 * if (){ //set fore ground colour
-                 * button[x].setForeground(Color.red); }
-                 */
-                //String twooLines = "Two\nLines";
+                if (ld.getDayOfMonth() == day && monat == ld.getMonthValue()) {
+                    button[x].setForeground(Color.red);
+                }
+                
+                tagBekommen[x] = day;
+                
                 button[x].setText("<html>" + twooLines.replaceAll("\\n", "<br>") + "</html>");
                 sb.setLength(0);
             }
 
-            l.setText(sdf.format(cal.getTime()));
+            dateLabel.setText(sdf.format(cal.getTime()));
 
             //set title
             //d.setTitle("Date Picker");
@@ -236,11 +289,28 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         cal.set(year, month, Integer.parseInt(day));
         return sdf.format(cal.getTime());
     }
+     
+    
+     
+     /*private void zeigeTerminInhalt() throws RemoteException, TerminException, BenutzerException {
+        int i = 0;
+        Datum datum = null;
+        try {
+            for (Termin terminListe : stub.getTermineAmTag(datum, sitzungsID)) {
+                i++;
+                //termineListe.addElement(termineListeModel);
+                termineListeModel.addElement(terminListe);
+                
+            }
+        } catch (BenutzerException | RemoteException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+        }
+    }*/
     
     /**
     * Standart Konstrucktor
     */
-    private Hauptfenster() {
+    public Hauptfenster() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -362,6 +432,10 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day28 = new javax.swing.JButton();
         day35 = new javax.swing.JButton();
         newTerminButton = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        termineListe = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -504,11 +578,21 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         headerPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         previousButton.setText("<<");
+        previousButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previousButtonActionPerformed(evt);
+            }
+        });
 
         dateLabel.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         dateLabel.setText("Datum:");
 
         nextButton.setText(">>");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
@@ -535,32 +619,32 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
         dienstagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         dienstagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        dienstagLabel.setText("Di");
+        dienstagLabel.setText("Mo");
 
         donnerstagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         donnerstagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        donnerstagLabel.setText("Do");
+        donnerstagLabel.setText("Mi");
 
         mittwochLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         mittwochLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        mittwochLabel.setText("Mi");
+        mittwochLabel.setText("Di");
 
         montagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         montagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        montagLabel.setText("Mo");
+        montagLabel.setText("So");
         montagLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         samstagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         samstagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        samstagLabel.setText("Sa");
+        samstagLabel.setText("Fr");
 
         sonntagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         sonntagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        sonntagLabel.setText("So");
+        sonntagLabel.setText("Sa");
 
         freitagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         freitagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        freitagLabel.setText("Fr");
+        freitagLabel.setText("Do");
 
         day8.setBackground(new java.awt.Color(255, 255, 255));
         day8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -740,7 +824,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                             .addComponent(day36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dienstagLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                            .addComponent(dienstagLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
                             .addComponent(day2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(day23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(day16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -785,7 +869,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(day7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sonntagLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                    .addComponent(sonntagLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                     .addComponent(day42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(day14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(day21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -958,18 +1042,70 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addContainerGap())
         );
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Alle Termine", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+
+        termineListe.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        termineListe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                termineListeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                termineListeMouseEntered(evt);
+            }
+        });
+        jScrollPane3.setViewportView(termineListe);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
+        );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 5, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(95, 95, 95)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -1070,23 +1206,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
         new EventDet(benachList.getSelectedValue(), stub, sitzungsID, benachList.getSelectedIndex()).setVisible(true);
 
-        //System.out.println(model2);
     }//GEN-LAST:event_benachListMouseClicked
     
     private void benachaktuelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_benachaktuelActionPerformed
-        // TODO add your handling code here:
         DefaultListModel model = new DefaultListModel();
         int i=0 ;
             try {
             for (Meldungen meldung : stub.getMeldungen(sitzungsID)) {
                 i++;
-                // if(meldung.getText().length() > 20){
-                //     model.addElement(i + meldung.getText().substring(0, 20));
-                // }
-                // else{
-                //    model.addElement(i + meldung.toString());
-                // } 
-
                 if (meldung.getStatus()) {
                     model.addElement(i + "-" + meldung.getText());
 
@@ -1134,9 +1261,34 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     }//GEN-LAST:event_day25ActionPerformed
 
     private void newTerminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTerminButtonActionPerformed
-        TerminAnlegen startTA = new TerminAnlegen(stub, sitzungsID);
+        TerminAnlegen startTA = new TerminAnlegen(stub, sitzungsID, this);
         startTA.setVisible(true);
     }//GEN-LAST:event_newTerminButtonActionPerformed
+
+    private void previousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousButtonActionPerformed
+        month--;
+        displayDate();
+    }//GEN-LAST:event_previousButtonActionPerformed
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        month++;
+        displayDate();
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void termineListeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_termineListeMouseClicked
+        try {
+            final int selection = daySelector;
+            int terminID = stub.getTermineAmTag(new Datum(tagBekommen[selection],month+1,year), sitzungsID).get(termineListe.getSelectedIndex()).getID();
+            
+            new TerminInhalt(terminID, stub, sitzungsID).setVisible(true);
+        } catch (RemoteException | BenutzerException | TerminException | Datum.DatumException ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_termineListeMouseClicked
+
+    private void termineListeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_termineListeMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_termineListeMouseEntered
 
     public void ausloggen(){
         try {
@@ -1215,15 +1367,12 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Hauptfenster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Hauptfenster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Hauptfenster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Hauptfenster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        
         //</editor-fold>
         //</editor-fold>
 
@@ -1234,6 +1383,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton abmeldenButton;
@@ -1292,8 +1443,11 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel mainPanel;
@@ -1308,6 +1462,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JButton showProfilButon;
     private javax.swing.JButton showRemoveKontakt;
     private javax.swing.JLabel sonntagLabel;
+    private javax.swing.JList<String> termineListe;
     // End of variables declaration//GEN-END:variables
 
     
