@@ -249,7 +249,8 @@ public class Fenster extends javax.swing.JFrame {
     }//GEN-LAST:event_jRegistrierenActionPerformed
 
     private void forgotPasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forgotPasswordButtonActionPerformed
-        // TODO add your handling code here:
+        ForgotPassword resetPW = new ForgotPassword(stub,sitzungsID);
+        resetPW.setVisible(true);
     }//GEN-LAST:event_forgotPasswordButtonActionPerformed
 
     private void jBenutzernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBenutzernameFieldActionPerformed
