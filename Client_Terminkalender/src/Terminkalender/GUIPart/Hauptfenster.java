@@ -42,7 +42,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private int sitzungsID;
     //private DefaultListModel listModel;
     DefaultListModel listModel = new DefaultListModel();
-    DefaultListModel event = new DefaultListModel();
+    //DefaultListModel event = new DefaultListModel();
     Fenster fenster;
     
             //Niros globale Variablen
@@ -268,10 +268,17 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         }
 
     }
+    
+    DefaultListModel event = new DefaultListModel();
 
     public void AddEvent(String eventname) {
         benachList.setModel(event);
         event.addElement(eventname);
+    }
+    
+    public void loechEvent(String eventname) {
+        benachList.setModel(event);
+        event.removeElement(eventname);
     }
 
     /**
@@ -406,7 +413,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addContainerGap()
                 .addComponent(benachaktuel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2)
                 .addContainerGap())
         );
 
@@ -1058,15 +1065,12 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     }//GEN-LAST:event_refreshContactListButtonActionPerformed
 
     private void benachListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_benachListMouseClicked
-//        Meldungen meldung = null ;
-//        String msg = meldung.getText();
-//        EventDet Ev = new EventDet(msg);
-//        Ev.setVisible(true);
-        DefaultListModel model2 = new DefaultListModel();
-        model2.addElement(benachList.getSelectedValue());
-        benachList.setModel(model2);
+        //DefaultListModel model2 = new DefaultListModel();
+        //model2.addElement(benachList.getSelectedValue());  
 
-        new EventDet(model2).setVisible(true);
+        new EventDet(benachList.getSelectedValue(), stub, sitzungsID, benachList.getSelectedIndex()).setVisible(true);
+
+        //System.out.println(model2);
     }//GEN-LAST:event_benachListMouseClicked
     
     private void benachaktuelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_benachaktuelActionPerformed
@@ -1074,25 +1078,22 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         DefaultListModel model = new DefaultListModel();
         int i=0 ;
             try {
-                for(Meldungen meldung : stub.getMeldungen( sitzungsID)){
+            for (Meldungen meldung : stub.getMeldungen(sitzungsID)) {
                 i++;
-               // if(meldung.getText().length() > 20){
-               //     model.addElement(i + meldung.getText().substring(0, 20));
-               // }
-               // else{
+                // if(meldung.getText().length() > 20){
+                //     model.addElement(i + meldung.getText().substring(0, 20));
+                // }
+                // else{
                 //    model.addElement(i + meldung.toString());
-               // } 
-                
-                if(meldung.getStatus()){
-                    model.addElement(i + " " + meldung.getText() + "(gelesen)");
-                    
+                // } 
+
+                if (meldung.getStatus()) {
+                    model.addElement(i + "-" + meldung.getText());
+
+                } else {
+                    model.addElement(i + "-" + meldung.getText());
                 }
-                else{
-                    model.addElement(i + " " + meldung.getText() + "\n (ungelesen)");
-                    //String msg = meldung.getText();
-                    //new EventDet(msg).setVisible(true);
-                }
-                
+
             }
                 
             } catch (RemoteException ex) {
