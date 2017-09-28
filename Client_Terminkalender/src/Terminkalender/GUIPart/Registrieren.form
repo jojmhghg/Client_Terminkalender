@@ -55,23 +55,27 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="regUsername" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="regPassword" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="regEmail" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="36" pref="36" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                          <Component id="regUsernameField" alignment="0" min="-2" pref="128" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                              <Component id="regPasswordField" alignment="1" min="-2" pref="128" max="-2" attributes="0"/>
-                              <Component id="regEmailField" alignment="1" min="-2" pref="128" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="regUsername" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="regPassword" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="regEmail" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="36" pref="36" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="regEmailField" max="32767" attributes="0"/>
+                              <Component id="regPasswordField" max="32767" attributes="0"/>
+                              <Component id="regUsernameField" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="regButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="regAbbrButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="139" max="32767" attributes="0"/>
+                          <Component id="regButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="regAbbrButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="62" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -81,23 +85,24 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="regUsername" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="regUsernameField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="regUsernameField" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="regPassword" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="regPasswordField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="regPasswordField" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="regEmail" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="regEmailField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="regEmailField" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                  <Component id="regButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="regAbbrButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="51" max="32767" attributes="0"/>
+                  <EmptySpace pref="73" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="regAbbrButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="regButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
