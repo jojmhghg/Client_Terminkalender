@@ -446,13 +446,15 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         terminID = listeNachrichtTitel.getSelectedIndex();
         terminID++;
         if (terminID > 0 && terminID <= dieserMonat.size()) {
+            TerminInhalt startTI;
             try {
-                TerminInhalt startTI = new TerminInhalt(dieserMonat.get(terminID - 1).getID(), stub, sitzungsID);
+                startTI = new TerminInhalt(dieserMonat.get(terminID - 1).getID(), stub, sitzungsID);
                 startTI.setVisible(true);
-                //terminAnzeigenBearbeiten(dieserMonat.get(terminID - 1).getID());
             } catch (RemoteException | BenutzerException | TerminException ex) {
                 Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            //terminAnzeigenBearbeiten(dieserMonat.get(terminID - 1).getID());
         }
         //JOptionPane.showMessageDialog(null, selectedText1, "InfoBox: num", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_bearbeitenNachrichtActionPerformed
