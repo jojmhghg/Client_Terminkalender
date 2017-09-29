@@ -370,7 +370,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         showAddKontakt = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        refreshContactListButton = new javax.swing.JButton();
         showRemoveKontakt = new javax.swing.JButton();
         showProfilButon = new javax.swing.JButton();
         abmeldenButton = new javax.swing.JButton();
@@ -512,13 +511,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         });
         jScrollPane1.setViewportView(jList1);
 
-        refreshContactListButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Terminkalender/GUIPart/if_sync-01_186384.png"))); // NOI18N
-        refreshContactListButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshContactListButtonActionPerformed(evt);
-            }
-        });
-
         showRemoveKontakt.setText("Entfernen");
         showRemoveKontakt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -536,9 +528,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                     .addComponent(jScrollPane1)
                     .addComponent(contactUsernameField)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(refreshContactListButton))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(showAddKontakt)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                         .addComponent(showRemoveKontakt)))
@@ -547,8 +536,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(refreshContactListButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(35, 35, 35)
                 .addComponent(contactUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1148,6 +1136,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 stub.addKontakt(contact, sitzungsID);
                 listModel.addElement(contact);
                 contactUsernameField.setText("");
+                showRemoveKontakt.setEnabled(true);
             } catch (RemoteException | BenutzerException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontakt hinzufügen - Termin Kalender", JOptionPane.ERROR_MESSAGE);
             }
@@ -1180,25 +1169,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         profil.fillProfil();
         profil.setVisible(true);
     }//GEN-LAST:event_showProfilButonActionPerformed
-
-    private void refreshContactListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshContactListButtonActionPerformed
-//        try {
-//            listModel.addElement(stub.getKontakte(sitzungsID));
-//        } catch (BenutzerException | RemoteException ex) {
-//            JOptionPane.showMessageDialog(null,ex.getMessage(), "Kontaktliste aktualisieren - Termin Kalender", JOptionPane.ERROR_MESSAGE);
-//        }
-        //Andere Version
-        int i = 0;
-                try {
-                    for (String kontakte : stub.getKontakte(sitzungsID)) {
-                        i++;
-                        listModel.addElement(i + " - " + kontakte);
-                    }
-                } catch (BenutzerException | RemoteException ex) {
-                    JOptionPane.showMessageDialog(null,ex.getMessage(), "Kontaktliste aktualisieren - Termin Kalender", JOptionPane.ERROR_MESSAGE);
-                }
-                jList1.setModel(listModel);
-    }//GEN-LAST:event_refreshContactListButtonActionPerformed
 
     private void benachListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_benachListMouseClicked
         //DefaultListModel model2 = new DefaultListModel();
@@ -1456,7 +1426,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JButton newTerminButton;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton previousButton;
-    private javax.swing.JButton refreshContactListButton;
     private javax.swing.JLabel samstagLabel;
     private javax.swing.JButton showAddKontakt;
     private javax.swing.JButton showProfilButon;
