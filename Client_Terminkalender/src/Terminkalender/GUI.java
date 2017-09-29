@@ -38,7 +38,7 @@ public class GUI {
      */
     public void startGUI(){
         try{
-            anmeldenGUI();
+                anmeldenGUI();
 	}
         
 	catch (RemoteException e){

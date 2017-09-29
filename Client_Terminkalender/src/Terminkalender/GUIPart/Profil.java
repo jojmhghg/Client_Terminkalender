@@ -141,7 +141,7 @@ public class Profil extends javax.swing.JFrame {
                             .addComponent(neuesPWField)
                             .addComponent(abbrechenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(altesPWField)
-                            .addComponent(bestätigenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(bestätigenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -174,7 +174,6 @@ public class Profil extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(neuesPWField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bestätigenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -211,24 +210,30 @@ public class Profil extends javax.swing.JFrame {
         neuerNachname = nachnameField.getText();
         neuerVorname = vornameField.getText();
         neueEmail = emailField.getText();
-        //altesPW = altesPWField.getText();
+        altesPW = altesPWField.getText();
         neuesPW = neuesPWField.getText();
+        
        // Benutzer pw = new Benutzer();
         //altesPW = pw.getPasswort();
         try {
-//            if (altesPW.length() != 0 && neuesPW.length() != 0 ) {
+            if (neuerNachname.length() != 0 && neuerNachname != (stub.getNachname(sitzungsID))) {
+                stub.changeNachname(neuerNachname, sitzungsID);
+            }
+            if (neueEmail.length() != 0 && neueEmail != (stub.getEmail(sitzungsID))) {
+                stub.changeEmail(neueEmail, sitzungsID);
+            }
+            if (neuerVorname.length() != 0 && neueEmail != (stub.getEmail(sitzungsID))) {
+                stub.changeVorname(neuerVorname, sitzungsID);
+            }
+            if (altesPW.length() != 0 && neuesPW.length() != 0) {
+                stub.changePasswort(altesPW, neuesPW, sitzungsID);
+            } /*else {
                 stub.changeNachname(neuerNachname, sitzungsID);
                 stub.changeEmail(neueEmail, sitzungsID);
                 stub.changeVorname(neuerVorname, sitzungsID);
-//                stub.changePasswort(altesPW, neuesPW, sitzungsID);
-//            }
-//            else{
-//                stub.changeNachname(neuerNachname, sitzungsID);
-//                stub.changeEmail(neueEmail, sitzungsID);
-//                stub.changeVorname(neuerVorname, sitzungsID);
-//            }
+            }*/
         JOptionPane.showMessageDialog(rootPane, " Ihr Profil wurde aktualisiert", "Profil Änderung" , INFORMATION_MESSAGE);
-        setVisible(false);
+        dispose();
         } catch (RemoteException | BenutzerException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane,ex.getMessage(), "Profil ändern - Termin Kalender", JOptionPane.ERROR_MESSAGE);
         }
@@ -236,7 +241,7 @@ public class Profil extends javax.swing.JFrame {
     }//GEN-LAST:event_bestätigenButtonActionPerformed
 
     private void abbrechenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abbrechenButtonActionPerformed
-        // TODO add your handling code here:
+       dispose();
     }//GEN-LAST:event_abbrechenButtonActionPerformed
 
     /**
