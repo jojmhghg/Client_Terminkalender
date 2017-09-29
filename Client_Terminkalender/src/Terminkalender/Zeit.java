@@ -1,5 +1,5 @@
 /*
- * Klasse Zeit
+ * ~~~ erstmal fertig ~~~
  * 
  * 
  */
@@ -51,6 +51,9 @@ public class Zeit implements Serializable{
     
     @Override
     public String toString(){
+        if(this.minute < 10){
+            return this.stunde + ":0" + this.minute;
+        }
         return this.stunde + ":" + this.minute;
     }
     

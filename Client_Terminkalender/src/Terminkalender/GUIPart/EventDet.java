@@ -11,6 +11,7 @@ import Terminkalender.BenutzerException;
 import javax.swing.DefaultListModel;
 import java.awt.*;
 import Terminkalender.LauncherInterface;
+import Terminkalender.Teilnehmer;
 import Terminkalender.TerminException;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
@@ -25,10 +26,11 @@ import javax.swing.JOptionPane;
  */
 public class EventDet extends javax.swing.JFrame {
     
-     private final LauncherInterface stub;
+    private final LauncherInterface stub;
     private final int sitzungsID;
     private final int index;
     String eventText;
+    Hauptfenster hauptfenster;
 
     
     /**
@@ -37,20 +39,17 @@ public class EventDet extends javax.swing.JFrame {
      * @param stub
      * @param sitzungsID
      * @param index
+     * @param hauptfenster
      */
-    public EventDet(String event, LauncherInterface stub, int sitzungsID, int index) {
+    public EventDet(String event, LauncherInterface stub, int sitzungsID, int index, Hauptfenster hauptfenster) {
         this.stub=stub;
         this.sitzungsID = sitzungsID;
         this.eventText = event;
         this.index = index;
+        this.hauptfenster = hauptfenster;
         
         initComponents();
-        eventLabel.setText(eventText);
-        
-    }
-    
-    private void terminAnnehmen() throws SQLException, BenutzerException, RemoteException, TerminException {
-        stub.terminAnnehmen(((Anfrage) stub.getMeldungen(sitzungsID).get(index)).getTermin().getID(), sitzungsID);
+        eventLabel.setText(eventText);      
     }
 
     public void terminAblehnen() throws RemoteException, BenutzerException, TerminException, SQLException {
@@ -156,20 +155,64 @@ public class EventDet extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void annehmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annehmButtonActionPerformed
-            try {
-            terminAnnehmen();
-            fensterClose();
-            JOptionPane.showMessageDialog(null, "Einladung wurde Angennomen");
+        try {
+            Anfrage anfrage = (Anfrage) stub.getMeldungen(sitzungsID).get(index);
+            boolean check = false;
+            
+            try{
+                stub.getTermin(anfrage.getTermin().getID(), sitzungsID);
+   
+            } catch (RemoteException | BenutzerException | TerminException ex) {
+                JOptionPane.showMessageDialog(null, "Termin wurde bereits abgelehnt");
+                check = true;
+            }
+            if(!check){
+               check = false;
+               for(Teilnehmer teilnehmer : anfrage.getTermin().getTeilnehmerliste()){
+                    if(teilnehmer.getUsername().equals(stub.getUsername(sitzungsID)) && teilnehmer.checkIstTeilnehmer()){
+                        JOptionPane.showMessageDialog(null, "Termin wurde bereits angenommen");
+                        check = true;
+                    }
+                }
+                
+                if(!check){
+                    stub.terminAnnehmen(anfrage.getTermin().getID(), sitzungsID);
+                    JOptionPane.showMessageDialog(null, "Einladung wurde Angennomen");
+                } 
+            }
+            dispose();     
         } catch (TerminException | SQLException | RemoteException | BenutzerException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_annehmButtonActionPerformed
-DefaultListModel md = new DefaultListModel();
+
     private void loechButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loechButtonActionPerformed
          try {
-            stub.deleteMeldung(index , sitzungsID);
-             fensterClose();
-            JOptionPane.showMessageDialog(null, "Deine Benachrichtigung Wurde gelöscht");
+            Anfrage anfrage = (Anfrage) stub.getMeldungen(sitzungsID).get(index);
+            boolean nochOffen = true;
+            
+            try{
+                stub.getTermin(anfrage.getTermin().getID(), sitzungsID);  
+                for(Teilnehmer teilnehmer : anfrage.getTermin().getTeilnehmerliste()){
+                    if(teilnehmer.getUsername().equals(stub.getUsername(sitzungsID)) && teilnehmer.checkIstTeilnehmer()){
+                        stub.deleteMeldung(index , sitzungsID);
+                        hauptfenster.fillMeldList();
+                        JOptionPane.showMessageDialog(null, "Deine Benachrichtigung Wurde gelöscht");
+                        nochOffen = false;
+                    }
+                }   
+            } catch (RemoteException | BenutzerException | TerminException ex) {
+                stub.deleteMeldung(index , sitzungsID);
+                hauptfenster.fillMeldList();
+                JOptionPane.showMessageDialog(null, "Deine Benachrichtigung Wurde gelöscht");
+                nochOffen = false;
+            }
+            
+            if(nochOffen){
+                JOptionPane.showMessageDialog(null, "Meldung kann erst gelöscht werden, nachdem der Termin angenommen oder abgelehnt wurde");
+            } 
+            dispose();
+            
         } catch (RemoteException | BenutzerException | SQLException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -177,10 +220,31 @@ DefaultListModel md = new DefaultListModel();
 
     private void ablehnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ablehnButtonActionPerformed
          try {
-            terminAblehnen();
-            fensterClose();
-            stub.deleteMeldung(index , sitzungsID);
-            JOptionPane.showMessageDialog(null, "Einladung abgelehnt");
+            Anfrage anfrage = (Anfrage) stub.getMeldungen(sitzungsID).get(index);
+            boolean check = false;
+            
+            try{
+                stub.getTermin(anfrage.getTermin().getID(), sitzungsID);     
+            } catch (RemoteException | BenutzerException | TerminException ex) {
+                JOptionPane.showMessageDialog(null, "Termin wurde bereits abgelehnt");
+                check = true;
+            }
+            if(!check){
+                check = false;
+                for(Teilnehmer teilnehmer : anfrage.getTermin().getTeilnehmerliste()){
+                    if(teilnehmer.getUsername().equals(stub.getUsername(sitzungsID)) && teilnehmer.checkIstTeilnehmer()){
+                        JOptionPane.showMessageDialog(null, "Termin wurde bereits angenommen");
+                        check = true;
+                    }
+                }
+                
+                if(!check){
+                    terminAblehnen();
+                    hauptfenster.displayDate();
+                    JOptionPane.showMessageDialog(null, "Einladung wurde Abgelehnt");
+                } 
+            }
+            dispose(); 
         } catch (SQLException | RemoteException | BenutzerException | TerminException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }

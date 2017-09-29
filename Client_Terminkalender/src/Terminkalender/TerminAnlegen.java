@@ -5,13 +5,7 @@
  */
 package Terminkalender;
 
-
-import Terminkalender.BenutzerException;
-import Terminkalender.Datum;
 import Terminkalender.GUIPart.Hauptfenster;
-import Terminkalender.LauncherInterface;
-import Terminkalender.TerminException;
-import Terminkalender.Zeit;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -29,7 +23,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
     Zeit start;
     Zeit ende;
 
-    String textS, titelS;
+    String titelS;
     int tag1S = 0, tag2S = 0, minute1S = 0, minute2S = 0, monat1S = 0, monat2S = 0, stunde1S = 0, stunde2S = 0, jahr1S = 0;
 
     /**
@@ -37,6 +31,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
      *
      * @param stub
      * @param sitzungsID
+     * @param hf
      */
     public TerminAnlegen(LauncherInterface stub, int sitzungsID, Hauptfenster hf) {
         initComponents();
@@ -58,6 +53,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
             ende = new Zeit(stunde2S, minute2S);
             
             stub.addTermin(datum, start, ende, titelS, sitzungsID);
+            stub.changeTerminnotiz(stub.getTermineAmTag(datum, sitzungsID).getLast().getID(), beschreibung.getText(), sitzungsID);
             
             dispose();
         } catch (TerminException | RemoteException | BenutzerException | SQLException | Datum.DatumException | Zeit.ZeitException ex) {
@@ -85,9 +81,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
         stunde1 = new javax.swing.JComboBox<>();
         stunde2 = new javax.swing.JComboBox<>();
         minute1 = new javax.swing.JComboBox<>();
-        monat2 = new javax.swing.JComboBox<>();
         speichern = new javax.swing.JButton();
-        tag2 = new javax.swing.JComboBox<>();
         titel = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -128,19 +122,10 @@ public class TerminAnlegen extends javax.swing.JFrame {
 
         minute1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60" }));
 
-        monat2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", " " }));
-
         speichern.setText("Speichern");
         speichern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 speichernActionPerformed(evt);
-            }
-        });
-
-        tag2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        tag2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tag2ActionPerformed(evt);
             }
         });
 
@@ -157,13 +142,13 @@ public class TerminAnlegen extends javax.swing.JFrame {
         jLabel2.setText("Datum");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Start Uhrzeit");
+        jLabel3.setText("Beginn");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Ende Uhrzeit");
+        jLabel4.setText("Ende");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("Beschreibung");
+        jLabel5.setText("Notiz");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -188,10 +173,6 @@ public class TerminAnlegen extends javax.swing.JFrame {
                                             .addComponent(stunde2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addComponent(minute2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(tag2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(monat2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(tag1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,11 +214,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
                     .addComponent(stunde2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(minute2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tag2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(monat2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -251,7 +228,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
+                .addContainerGap(51, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -270,21 +247,14 @@ public class TerminAnlegen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tag1ActionPerformed
 
-    private void tag2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tag2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tag2ActionPerformed
-
     private void speichernActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernActionPerformed
 
-        textS = this.beschreibung.getText();
         tag1S = Integer.valueOf((String) tag1.getSelectedItem());
-        tag2S = Integer.valueOf((String) tag2.getSelectedItem());
         minute1S = Integer.valueOf((String) minute1.getSelectedItem());
         minute2S = Integer.valueOf((String) minute2.getSelectedItem());
         stunde1S = Integer.valueOf((String) stunde1.getSelectedItem());
         stunde2S = Integer.valueOf((String) stunde2.getSelectedItem());
         monat1S = Integer.valueOf((String) monat1.getSelectedItem());
-        monat2S = Integer.valueOf((String) monat2.getSelectedItem());
         jahr1S = Integer.valueOf((String) jahr1.getSelectedItem());
         titelS = (String) titel.getText();
 
@@ -356,12 +326,10 @@ public class TerminAnlegen extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> minute1;
     private javax.swing.JComboBox<String> minute2;
     private javax.swing.JComboBox<String> monat1;
-    private javax.swing.JComboBox<String> monat2;
     private javax.swing.JButton speichern;
     private javax.swing.JComboBox<String> stunde1;
     private javax.swing.JComboBox<String> stunde2;
     private javax.swing.JComboBox<String> tag1;
-    private javax.swing.JComboBox<String> tag2;
     private javax.swing.JTextField titel;
     // End of variables declaration//GEN-END:variables
 }
