@@ -28,9 +28,9 @@ public class KontaktProfil extends javax.swing.JFrame {
         
         LinkedList<String> profil = stub.getProfil(kontakt);
         usernameField.setText(profil.get(0));
-        emailField.setText(profil.get(0));
-        vornameField.setText(profil.get(0));
-        nachnameField.setText(profil.get(0));        
+        emailField.setText(profil.get(1));
+        vornameField.setText(profil.get(2));
+        nachnameField.setText(profil.get(3));        
     }
 
     private KontaktProfil() {
