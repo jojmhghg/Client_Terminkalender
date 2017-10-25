@@ -186,6 +186,11 @@ public class Fenster extends javax.swing.JFrame {
                 jLabel3MouseClicked(evt);
             }
         });
+        jLabel3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jLabel3KeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -362,6 +367,10 @@ public class Fenster extends javax.swing.JFrame {
         ForgotPassword resetPW = new ForgotPassword(stub,sitzungsID);
         resetPW.setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void jLabel3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel3KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel3KeyPressed
 
     /**
      * @param args the command line arguments

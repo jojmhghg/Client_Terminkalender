@@ -92,6 +92,7 @@ public class YourProfil extends javax.swing.JFrame {
 
         usernameField.setEditable(false);
         usernameField.setBackground(new java.awt.Color(29, 30, 66));
+        usernameField.setForeground(new java.awt.Color(240, 240, 240));
         usernameField.setBorder(null);
         usernameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,10 +107,12 @@ public class YourProfil extends javax.swing.JFrame {
         jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 102, 33));
 
         vornameField.setBackground(new java.awt.Color(29, 30, 66));
+        vornameField.setForeground(new java.awt.Color(240, 240, 240));
         vornameField.setBorder(null);
         jPanel3.add(vornameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, 156, 31));
 
         nachnameField.setBackground(new java.awt.Color(29, 30, 66));
+        nachnameField.setForeground(new java.awt.Color(240, 240, 240));
         nachnameField.setBorder(null);
         jPanel3.add(nachnameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, 156, 33));
 
@@ -124,6 +127,7 @@ public class YourProfil extends javax.swing.JFrame {
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 102, -1));
 
         emailField.setBackground(new java.awt.Color(29, 30, 66));
+        emailField.setForeground(new java.awt.Color(240, 240, 240));
         emailField.setBorder(null);
         jPanel3.add(emailField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, 156, 31));
 
@@ -133,6 +137,7 @@ public class YourProfil extends javax.swing.JFrame {
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 220, -1, 33));
 
         altesPWField.setBackground(new java.awt.Color(29, 30, 66));
+        altesPWField.setForeground(new java.awt.Color(240, 240, 240));
         altesPWField.setBorder(null);
         jPanel3.add(altesPWField, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 220, 150, 33));
 
@@ -142,6 +147,7 @@ public class YourProfil extends javax.swing.JFrame {
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, -1, 33));
 
         neuesPWField.setBackground(new java.awt.Color(29, 30, 66));
+        neuesPWField.setForeground(new java.awt.Color(240, 240, 240));
         neuesPWField.setBorder(null);
         jPanel3.add(neuesPWField, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 270, 150, 34));
 
