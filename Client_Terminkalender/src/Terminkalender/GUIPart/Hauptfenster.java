@@ -445,6 +445,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -1436,6 +1438,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 0, -1, 580));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jList1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jList1ComponentShown
