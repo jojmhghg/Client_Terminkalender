@@ -10,6 +10,7 @@ import Terminkalender.Datum;
 import Terminkalender.LauncherInterface;
 import Terminkalender.TerminException;
 import Terminkalender.Zeit;
+import java.awt.Color;
 import java.rmi.RemoteException;
 import javax.swing.JOptionPane;
 
@@ -81,10 +82,10 @@ public class Fenster extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jBenutzernameField = new javax.swing.JTextField();
         jPasswortField = new javax.swing.JPasswordField();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        anmeldenPanel = new javax.swing.JPanel();
+        anmeldenLabel = new javax.swing.JLabel();
+        beendenPanel = new javax.swing.JPanel();
+        beendenLabel = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -135,6 +136,9 @@ public class Fenster extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel7MouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel7MousePressed(evt);
+            }
         });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -170,76 +174,85 @@ public class Fenster extends javax.swing.JFrame {
         jPasswortField.setBorder(null);
         jPanel2.add(jPasswortField, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 190, 30));
 
-        jPanel3.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        anmeldenPanel.setBackground(new java.awt.Color(46, 49, 117));
+        anmeldenPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel3MouseClicked(evt);
+                anmeldenPanelMouseClicked(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Anmelden");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        anmeldenLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        anmeldenLabel.setForeground(new java.awt.Color(240, 240, 240));
+        anmeldenLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        anmeldenLabel.setText("Anmelden");
+        anmeldenLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                anmeldenLabelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                anmeldenLabelMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                anmeldenLabelMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                anmeldenLabelMouseReleased(evt);
             }
         });
-        jLabel3.addKeyListener(new java.awt.event.KeyAdapter() {
+        anmeldenLabel.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jLabel3KeyPressed(evt);
+                anmeldenLabelKeyPressed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout anmeldenPanelLayout = new javax.swing.GroupLayout(anmeldenPanel);
+        anmeldenPanel.setLayout(anmeldenPanelLayout);
+        anmeldenPanelLayout.setHorizontalGroup(
+            anmeldenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(anmeldenPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                .addComponent(anmeldenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+        anmeldenPanelLayout.setVerticalGroup(
+            anmeldenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(anmeldenLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 160, 40));
+        jPanel2.add(anmeldenPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 160, 40));
 
-        jPanel4.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        beendenPanel.setBackground(new java.awt.Color(46, 49, 117));
+        beendenPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel4MouseClicked(evt);
+                beendenPanelMouseClicked(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Beenden");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        beendenLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        beendenLabel.setForeground(new java.awt.Color(240, 240, 240));
+        beendenLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        beendenLabel.setText("Beenden");
+        beendenLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                beendenLabelMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout beendenPanelLayout = new javax.swing.GroupLayout(beendenPanel);
+        beendenPanel.setLayout(beendenPanelLayout);
+        beendenPanelLayout.setHorizontalGroup(
+            beendenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(beendenPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(beendenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+        beendenPanelLayout.setVerticalGroup(
+            beendenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(beendenLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 330, 150, -1));
+        jPanel2.add(beendenPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 330, 150, -1));
 
         jPanel7.setBackground(new java.awt.Color(46, 49, 117));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -255,6 +268,9 @@ public class Fenster extends javax.swing.JFrame {
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel8MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel8MousePressed(evt);
             }
         });
 
@@ -288,7 +304,7 @@ public class Fenster extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(46, 49, 117));
-        jLabel10.setText("MADE BY SUSE TEAM");
+        jLabel10.setText("MADE BY ZUSE TEAM");
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 310, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -310,15 +326,15 @@ public class Fenster extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jBenutzernameFieldActionPerformed
 
-    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
+    private void anmeldenPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenPanelMouseClicked
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_jPanel3MouseClicked
+    }//GEN-LAST:event_anmeldenPanelMouseClicked
 
-    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+    private void beendenPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beendenPanelMouseClicked
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_jPanel4MouseClicked
+    }//GEN-LAST:event_beendenPanelMouseClicked
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
@@ -332,12 +348,16 @@ public class Fenster extends javax.swing.JFrame {
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         // TODO add your handling code here:
+        jLabel7.setForeground(Color.WHITE);
         Registrieren start = new Registrieren(stub);
         start.setVisible(true);
     }//GEN-LAST:event_jLabel7MouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void anmeldenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMouseClicked
         // TODO add your handling code here:
+        
+        anmeldenPanel.setBackground(new Color(46,49,117));
+        
         String username, password;
 
         username = this.jBenutzernameField.getText();
@@ -355,22 +375,48 @@ public class Fenster extends javax.swing.JFrame {
         } catch (Zeit.ZeitException e) {
             JOptionPane.showInputDialog(e.getMessage());
         }
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_anmeldenLabelMouseClicked
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+    private void beendenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beendenLabelMouseClicked
         // TODO add your handling code here:
+        beendenPanel.setBackground(new Color(86, 16, 16));
         System.exit(0);
-    }//GEN-LAST:event_jLabel4MouseClicked
+    }//GEN-LAST:event_beendenLabelMouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
+        jLabel8.setForeground(Color.WHITE);
         ForgotPassword resetPW = new ForgotPassword(stub,sitzungsID);
         resetPW.setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
 
-    private void jLabel3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel3KeyPressed
+    private void anmeldenLabelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_anmeldenLabelKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel3KeyPressed
+    }//GEN-LAST:event_anmeldenLabelKeyPressed
+
+    private void anmeldenLabelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_anmeldenLabelMouseReleased
+
+    private void anmeldenLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMouseEntered
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_anmeldenLabelMouseEntered
+
+    private void jLabel8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MousePressed
+        // TODO add your handling code here:
+        jLabel8.setForeground(Color.gray);
+    }//GEN-LAST:event_jLabel8MousePressed
+
+    private void jLabel7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MousePressed
+        // TODO add your handling code here:
+        jLabel7.setForeground(Color.gray);
+    }//GEN-LAST:event_jLabel7MousePressed
+
+    private void anmeldenLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMousePressed
+        // TODO add your handling code here:
+        anmeldenPanel.setBackground(new Color(66, 47, 124));
+    }//GEN-LAST:event_anmeldenLabelMousePressed
 
     /**
      * @param args the command line arguments
@@ -409,12 +455,14 @@ public class Fenster extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel anmeldenLabel;
+    private javax.swing.JPanel anmeldenPanel;
+    private javax.swing.JLabel beendenLabel;
+    private javax.swing.JPanel beendenPanel;
     private javax.swing.JTextField jBenutzernameField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -422,8 +470,6 @@ public class Fenster extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPasswordField jPasswortField;
