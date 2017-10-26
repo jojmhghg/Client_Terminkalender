@@ -356,7 +356,7 @@ public class Fenster extends javax.swing.JFrame {
     private void anmeldenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMouseClicked
         // TODO add your handling code here:
         
-        anmeldenPanel.setBackground(new Color(46,49,117));
+        anmeldenPanel.setBackground(new Color(66, 47, 124));
         
         String username, password;
 
@@ -415,7 +415,7 @@ public class Fenster extends javax.swing.JFrame {
 
     private void anmeldenLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMousePressed
         // TODO add your handling code here:
-        anmeldenPanel.setBackground(new Color(66, 47, 124));
+        anmeldenPanel.setBackground(new Color(46,49,117));
     }//GEN-LAST:event_anmeldenLabelMousePressed
 
     /**
