@@ -106,6 +106,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
         minute2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         minute2.setForeground(new java.awt.Color(240, 240, 240));
         minute2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60" }));
+        minute2.setBorder(null);
         minute2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 minute2ActionPerformed(evt);
@@ -117,6 +118,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
         tag1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         tag1.setForeground(new java.awt.Color(240, 240, 240));
         tag1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        tag1.setBorder(null);
         tag1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tag1ActionPerformed(evt);
@@ -136,30 +138,35 @@ public class TerminAnlegen extends javax.swing.JFrame {
         jahr1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jahr1.setForeground(new java.awt.Color(240, 240, 240));
         jahr1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2017", "2018", "2019", "2020", "2021", "2022", " " }));
+        jahr1.setBorder(null);
         jPanel1.add(jahr1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, -1, -1));
 
         monat1.setBackground(new java.awt.Color(46, 49, 117));
         monat1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         monat1.setForeground(new java.awt.Color(240, 240, 240));
         monat1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", " " }));
+        monat1.setBorder(null);
         jPanel1.add(monat1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, -1, -1));
 
         stunde1.setBackground(new java.awt.Color(46, 49, 117));
         stunde1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         stunde1.setForeground(new java.awt.Color(240, 240, 240));
         stunde1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", " " }));
+        stunde1.setBorder(null);
         jPanel1.add(stunde1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, -1, -1));
 
         stunde2.setBackground(new java.awt.Color(46, 49, 117));
         stunde2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         stunde2.setForeground(new java.awt.Color(240, 240, 240));
         stunde2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", " " }));
+        stunde2.setBorder(null);
         jPanel1.add(stunde2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, -1, -1));
 
         minute1.setBackground(new java.awt.Color(46, 49, 117));
         minute1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         minute1.setForeground(new java.awt.Color(240, 240, 240));
         minute1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60" }));
+        minute1.setBorder(null);
         jPanel1.add(minute1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N

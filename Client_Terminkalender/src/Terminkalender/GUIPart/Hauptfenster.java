@@ -168,6 +168,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         StringBuilder cl = new StringBuilder();
         int i = 0;
 
+        eventMessage.setText("Hallo!");
         for (Termin termin : dieserMonat) {
             //String tag = termin.getDatum().toString().substring(0, 1);
 
@@ -183,9 +184,20 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             String tuiDate = termin.getDatum().toString();
             //JOptionPane.showMessageDialog(null, tuiDate, "InfoBox: 2 Datum", JOptionPane.INFORMATION_MESSAGE);
 
+            
+            
             if (calenderDate.equals(tuiDate)) {
                 termineListeModel.addElement(termin.getTitel()+ " um " + termin.getBeginn().toString());
                 i++;
+                
+                if (i == 1) {
+                    eventMessage.setText("Sie haben " + i + " Ereignis am " + tuiDate);
+                }
+                
+                if (i > 1) {
+                    eventMessage.setText("Sie haben " + i + " Ereignisse am " + tuiDate);
+                }
+                            
             }
             cl.setLength(0);
          }
@@ -252,8 +264,11 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
                 String getSt = sb.toString();
                 String twooLines = day + "\n" + getSt;
-                if (ld.getDayOfMonth() == day && monat == ld.getMonthValue()) {
+                button[x].setForeground(Color.white);
+                
+                if (ld.getDayOfMonth() == day && monat == ld.getMonthValue() && year == ld.getYear()) {
                     button[x].setForeground(Color.red);
+                    button[x].setBackground(new Color(29,30,66));
                 }
                 
                 tagBekommen[x] = day;
@@ -441,7 +456,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jLabel14 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        eventMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -1261,7 +1276,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         });
         jScrollPane3.setViewportView(termineListe);
 
-        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 170, 380));
+        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 170, 450));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(240, 240, 240));
@@ -1430,10 +1445,11 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
         mainPanel.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, -1));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel5.setText("Hallo!");
-        mainPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, -1, -1));
+        eventMessage.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        eventMessage.setForeground(new java.awt.Color(240, 240, 240));
+        eventMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        eventMessage.setText("Hallo!");
+        mainPanel.add(eventMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 22, 380, 30));
 
         getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 0, -1, 580));
 
@@ -1520,6 +1536,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         } else {
             JOptionPane.showMessageDialog(null, "Geben Sie bitte einen gültigen Benutzername an", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
+            
         }
         
     }//GEN-LAST:event_showAddKontaktMouseClicked
@@ -1547,6 +1564,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         else if (size == 0){
             showRemoveKontakt.setEnabled(false);
             JOptionPane.showMessageDialog(null, "Die Liste ist doch leer !", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
+            
         }
         else{
             JOptionPane.showMessageDialog(null, "Ein Problem ist aufgetretten", "Kontakt entfernen - Termin Kalender", JOptionPane.WARNING_MESSAGE);
@@ -1881,6 +1899,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JButton day9;
     private javax.swing.JLabel dienstagLabel;
     private javax.swing.JLabel donnerstagLabel;
+    private javax.swing.JLabel eventMessage;
     private javax.swing.JLabel freitagLabel;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel jLabel1;
@@ -1893,7 +1912,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JList<String> jList1;

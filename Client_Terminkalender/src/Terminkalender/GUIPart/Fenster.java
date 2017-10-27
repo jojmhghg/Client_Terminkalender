@@ -31,6 +31,7 @@ public class Fenster extends javax.swing.JFrame {
     public Fenster(LauncherInterface stub) {
         initComponents();
         this.stub = stub;
+        infoBoxPanel.setVisible(false);
         
     }
 
@@ -45,10 +46,20 @@ public class Fenster extends javax.swing.JFrame {
         try{
             sitzungsID = stub.einloggen(username, password);
             if(sitzungsID < 0){
-                JOptionPane.showMessageDialog(null, "Falsches Passwort. Anmelden gescheitert!", "Anmelden", JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "Falsches Passwort. Anmelden gescheitert!", "Anmelden", JOptionPane.ERROR_MESSAGE);
+                infoBoxText.setText("Falsches Passwort. Anmelden gescheitert!");
+                
+                //infoBoxPanel.setBackground(new Color(153,0,51));
+                infoBoxPanel.setVisible(true);
+                
+            
             }
             else{
-                JOptionPane.showMessageDialog(null, "Anmeldung erfolgreich!", "anmelden", JOptionPane.INFORMATION_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "Anmeldung erfolgreich!", "anmelden", JOptionPane.INFORMATION_MESSAGE);
+                infoBoxText.setText("Anmeldung erfolgreich!");
+                
+                infoBoxPanel.setBackground(Color.green);
+                infoBoxPanel.setVisible(true);
                 
                 this.setVisible(false);
                 
@@ -60,7 +71,9 @@ public class Fenster extends javax.swing.JFrame {
             }  
         }
         catch(BenutzerException e){
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Anmelden", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, e.getMessage(), "Anmelden", JOptionPane.ERROR_MESSAGE);
+            infoBoxText.setText(e.getMessage());
+            infoBoxPanel.setVisible(true);
         }  
     }
 
@@ -93,6 +106,8 @@ public class Fenster extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
+        infoBoxPanel = new javax.swing.JPanel();
+        infoBoxText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -304,14 +319,24 @@ public class Fenster extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(46, 49, 117));
-        jLabel10.setText("MADE BY ZUSE TEAM");
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 310, 20));
+        jLabel10.setText("MADE BY ZUSE TEAM 2017");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 300, 20));
+
+        infoBoxPanel.setBackground(new java.awt.Color(153, 0, 51));
+        infoBoxPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        infoBoxText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        infoBoxText.setForeground(new java.awt.Color(240, 240, 240));
+        infoBoxText.setText("jLabel3");
+        infoBoxPanel.add(infoBoxText, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 200, -1));
+
+        jPanel2.add(infoBoxPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, 230, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -356,7 +381,7 @@ public class Fenster extends javax.swing.JFrame {
     private void anmeldenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMouseClicked
         // TODO add your handling code here:
         
-        anmeldenPanel.setBackground(new Color(66, 47, 124));
+        anmeldenPanel.setBackground(new Color(46,49,117));
         
         String username, password;
 
@@ -415,7 +440,7 @@ public class Fenster extends javax.swing.JFrame {
 
     private void anmeldenLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMousePressed
         // TODO add your handling code here:
-        anmeldenPanel.setBackground(new Color(46,49,117));
+        anmeldenPanel.setBackground(new Color(66, 47, 124));
     }//GEN-LAST:event_anmeldenLabelMousePressed
 
     /**
@@ -459,6 +484,8 @@ public class Fenster extends javax.swing.JFrame {
     private javax.swing.JPanel anmeldenPanel;
     private javax.swing.JLabel beendenLabel;
     private javax.swing.JPanel beendenPanel;
+    private javax.swing.JPanel infoBoxPanel;
+    private javax.swing.JLabel infoBoxText;
     private javax.swing.JTextField jBenutzernameField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
