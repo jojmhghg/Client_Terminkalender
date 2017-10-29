@@ -167,11 +167,11 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         }
         
         if (zeitJetzt > 12 || zeitJetzt < 18) {
-            eventMessage.setText("Guten Tag!, " + stub.getUsername(sitzungsID));
+            eventMessage.setText("Guten Tag, " + stub.getUsername(sitzungsID));
         }
         
         if (zeitJetzt > 18 || zeitJetzt < 6) {
-            eventMessage.setText("Guten Abend!, " + stub.getUsername(sitzungsID));
+            eventMessage.setText("Guten Abend, " + stub.getUsername(sitzungsID));
         }
         
     }
