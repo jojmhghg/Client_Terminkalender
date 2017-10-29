@@ -5,8 +5,6 @@ package Terminkalender;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import Terminkalender.BenutzerException;
 import Terminkalender.LauncherInterface;
 import Terminkalender.Teilnehmer;
@@ -57,17 +55,16 @@ public class TerminInhalt extends javax.swing.JFrame {
         fillTeilnehmerlist();
 
     }
-    
-    private void fillTeilnehmerlist() throws RemoteException, BenutzerException, TerminException{
+
+    private void fillTeilnehmerlist() throws RemoteException, BenutzerException, TerminException {
         teilnehmerListeModel.clear();
-        for(Teilnehmer teilnehmer : stub.getTermin(terminID, sitzungsID).getTeilnehmerliste()){
-            if(teilnehmer.checkIstTeilnehmer()){
-                teilnehmerListeModel.addElement(teilnehmer.getUsername() + " (nimmt Teil)" );
-            }
-            else{
+        for (Teilnehmer teilnehmer : stub.getTermin(terminID, sitzungsID).getTeilnehmerliste()) {
+            if (teilnehmer.checkIstTeilnehmer()) {
+                teilnehmerListeModel.addElement(teilnehmer.getUsername() + " (nimmt Teil)");
+            } else {
                 teilnehmerListeModel.addElement(teilnehmer.getUsername() + " (offen)");
             }
-            
+
         }
     }
 
@@ -75,10 +72,7 @@ public class TerminInhalt extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
     //.setModel(legen1);
-    
-    
     public void zeigeTerminInhalt() throws RemoteException, BenutzerException, TerminException {
         boolean teilnehmerBoolean = false;
         DefaultListModel legen1 = new DefaultListModel();
@@ -90,51 +84,46 @@ public class TerminInhalt extends javax.swing.JFrame {
             }
         }
 
-        
-            titel.setText(stub.getTermin(terminID, sitzungsID).getTitel());
-            JOptionPane.showMessageDialog(null, stub.getTermin(terminID, sitzungsID).getTitel(), "InfoBox: titel", JOptionPane.INFORMATION_MESSAGE);
-            datum.setText(stub.getTermin(terminID, sitzungsID).getDatum().toString());
-            
-            startZeit.setText(stub.getTermin(terminID, sitzungsID).getBeginn().toString());
-            endZeit.setText(stub.getTermin(terminID, sitzungsID).getEnde().toString());
-            
-            if (stub.getTermin(terminID, sitzungsID).getNotiz().length() > 20) {
-                notiz.setText(stub.getTermin(terminID, sitzungsID).getNotiz().substring(0, 20) + "...(5)");
-            } 
-            
-            if (stub.getTermin(terminID, sitzungsID).getEditierbar()) {
-                //TODO SETBUTTON
-                System.out.println("Bearbeitungsrecht: Jeder");
+        titel.setText(stub.getTermin(terminID, sitzungsID).getTitel());
+        JOptionPane.showMessageDialog(null, stub.getTermin(terminID, sitzungsID).getTitel(), "InfoBox: titel", JOptionPane.INFORMATION_MESSAGE);
+        datum.setText(stub.getTermin(terminID, sitzungsID).getDatum().toString());
+
+        startZeit.setText(stub.getTermin(terminID, sitzungsID).getBeginn().toString());
+        endZeit.setText(stub.getTermin(terminID, sitzungsID).getEnde().toString());
+
+        if (stub.getTermin(terminID, sitzungsID).getNotiz().length() > 20) {
+            notiz.setText(stub.getTermin(terminID, sitzungsID).getNotiz().substring(0, 20) + "...(5)");
+        }
+
+        if (stub.getTermin(terminID, sitzungsID).getEditierbar()) {
+            //TODO SETBUTTON
+            System.out.println("Bearbeitungsrecht: Jeder");
+        } else {
+            notiz.setText(stub.getTermin(terminID, sitzungsID).getNotiz() + "(5)");
+        }
+        ort.setText(stub.getTermin(terminID, sitzungsID).getOrt());
+
+        terminersteller.setText(stub.getTermin(terminID, sitzungsID).getOwner());
+        //System.out.println("Termin löschen");
+        //System.out.println("zurück(0)");
+        //System.out.print("Eingabe: ");
+        notiz.setText(stub.getTermin(terminID, sitzungsID).getNotiz());
+
+        for (Teilnehmer teilnehmer : stub.getTermin(terminID, sitzungsID).getTeilnehmerliste()) {
+            //getteilnehmer.setText(teilnehmer.getUsername());
+
+            if (teilnehmer.checkIstTeilnehmer()) {
+                legen1.addElement(teilnehmer.getUsername() + " (nimmt Teil)");
+            } else {
+                legen1.addElement(teilnehmer.getUsername() + " (noch offen)");
             }
-            
-            else {
-                notiz.setText(stub.getTermin(terminID, sitzungsID).getNotiz() + "(5)");
-            }
-            ort.setText(stub.getTermin(terminID, sitzungsID).getOrt());
-                      
-            terminersteller.setText(stub.getTermin(terminID, sitzungsID).getOwner());
-            //System.out.println("Termin löschen");
-            //System.out.println("zurück(0)");
-            //System.out.print("Eingabe: ");
-            notiz.setText(stub.getTermin(terminID, sitzungsID).getNotiz());
-            
-            for(Teilnehmer teilnehmer : stub.getTermin(terminID, sitzungsID).getTeilnehmerliste()){
-                //getteilnehmer.setText(teilnehmer.getUsername());
-                
-                
-                if(teilnehmer.checkIstTeilnehmer()){
-                    legen1.addElement(teilnehmer.getUsername() + " (nimmt Teil)");
-                }
-                else{
-                    legen1.addElement(teilnehmer.getUsername() + " (noch offen)");
-                }
-            }
+        }
         if (!teilnehmerBoolean) {
             bearbeitenLabel.setVisible(false);
         }
-        
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -158,12 +147,9 @@ public class TerminInhalt extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         titel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        addTeilnehmerTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         teilnehmerliste = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
-        addTeilnahmeLabel = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -243,17 +229,6 @@ public class TerminInhalt extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(46, 49, 117));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        addTeilnehmerTextField.setBackground(new java.awt.Color(29, 30, 66));
-        addTeilnehmerTextField.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        addTeilnehmerTextField.setForeground(new java.awt.Color(240, 240, 240));
-        addTeilnehmerTextField.setToolTipText("");
-        addTeilnehmerTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addTeilnehmerTextFieldActionPerformed(evt);
-            }
-        });
-        jPanel3.add(addTeilnehmerTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 30));
-
         teilnehmerliste.setBackground(new java.awt.Color(29, 30, 66));
         teilnehmerliste.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         teilnehmerliste.setForeground(new java.awt.Color(240, 240, 240));
@@ -264,41 +239,12 @@ public class TerminInhalt extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(teilnehmerliste);
 
-        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 200, 130));
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 200, 180));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(240, 240, 240));
         jLabel4.setText("Teilnehmer");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        addTeilnahmeLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        addTeilnahmeLabel.setForeground(new java.awt.Color(240, 240, 240));
-        addTeilnahmeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        addTeilnahmeLabel.setText("+");
-        addTeilnahmeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addTeilnahmeLabelMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                addTeilnahmeLabelMousePressed(evt);
-            }
-        });
-        jPanel3.add(addTeilnahmeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 40, 30));
-
-        jPanel7.setBackground(new java.awt.Color(29, 30, 66));
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 40, 30));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 220, 230));
 
@@ -392,7 +338,7 @@ public class TerminInhalt extends javax.swing.JFrame {
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, -1, -1));
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, -1, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -4, 490, 520));
 
@@ -400,14 +346,10 @@ public class TerminInhalt extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addTeilnehmerTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTeilnehmerTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addTeilnehmerTextFieldActionPerformed
-
     private void bearbeitenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bearbeitenLabelMouseClicked
         // TODO add your handling code here:
         bearbeitenLabel.setForeground(Color.gray);
-        /*        try {
+        try {
             // TODO add your handling code here:
             TerminInhaltBearbeiten tIB = new TerminInhaltBearbeiten(terminID, stub, sitzungsID);
             this.dispose();
@@ -415,7 +357,7 @@ public class TerminInhalt extends javax.swing.JFrame {
             tIB.bearbeiteTerminInhalt();
         } catch (RemoteException | BenutzerException | TerminException | SQLException | Datum.DatumException | Zeit.ZeitException ex) {
             Logger.getLogger(TerminInhalt.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }  
     }//GEN-LAST:event_bearbeitenLabelMouseClicked
 
     private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
@@ -430,28 +372,6 @@ public class TerminInhalt extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
-
-    private void addTeilnahmeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addTeilnahmeLabelMouseClicked
-        // TODO add your handling code here:
-        addTeilnahmeLabel.setForeground(Color.gray);
-        
-        String username = addTeilnehmerTextField.getText();
-        if (username.length() > 0) {
-            try {
-                stub.addTerminteilnehmer(terminID, username, sitzungsID);
-                fillTeilnehmerlist();
-                addTeilnehmerTextField.setText("");
-                
-            } catch (RemoteException | BenutzerException | SQLException | TerminException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Teilnehmer hinzufügen - Terminansicht", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_addTeilnahmeLabelMouseClicked
-
-    private void addTeilnahmeLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addTeilnahmeLabelMousePressed
-        // TODO add your handling code here:
-        addTeilnahmeLabel.setForeground(Color.white);
-    }//GEN-LAST:event_addTeilnahmeLabelMousePressed
 
     private void bearbeitenLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bearbeitenLabelMousePressed
         // TODO add your handling code here:
@@ -509,8 +429,6 @@ public class TerminInhalt extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel addTeilnahmeLabel;
-    private javax.swing.JTextField addTeilnehmerTextField;
     private javax.swing.JLabel bearbeitenLabel;
     private javax.swing.JLabel datum;
     private javax.swing.JLabel endZeit;
@@ -527,7 +445,6 @@ public class TerminInhalt extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea notiz;

@@ -18,7 +18,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -47,7 +49,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     Fenster fenster;
     DefaultListModel meldungModel = new DefaultListModel();
     LinkedList<Termin> dieserMonat;
-    
+
     //Niros globale Variablen
     LocalDate ld = LocalDate.now();
     int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
@@ -56,30 +58,35 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     String day = "";
     JPanel d;
     JButton[] button = new JButton[42];
-    int [] tagBekommen = new int[42];
+    int[] tagBekommen = new int[42];
     int daySelector;
-   
 
     /**
      * Creates new form HauptFenster
+     *
      * @param stub
      * @param sitzungsID
      * @param fenster
      */
-    public Hauptfenster(LauncherInterface stub,int sitzungsID, Fenster fenster) {
+    public Hauptfenster(LauncherInterface stub, int sitzungsID, Fenster fenster) {
         initComponents();
-        
+
         this.stub = stub;
         this.sitzungsID = sitzungsID;
         this.fenster = fenster;
-        
+
         jList1.setModel(listModel);
         termineListe.setModel(termineListeModel);
         daySelector = 0;
         initKalender();
+        try {
+            gruess();
+        } catch (RemoteException | BenutzerException ex) {
+            Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    private void initKalender(){
+
+    private void initKalender() {
         button[0] = day1;
         button[1] = day2;
         button[2] = day3;
@@ -122,10 +129,10 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         button[39] = day40;
         button[40] = day41;
         button[41] = day42;
-        
+
         for (int x = 0; x < 42; x++) {
             final int selection = x;
-            
+
             button[x].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
@@ -133,7 +140,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                         termineListeModel.clear();
                         daySelector = selection;
                         day = button[selection].getActionCommand();
-                        
+
                         int monat1 = month + 1;
                         zeigeTerminInhalt(tagBekommen[selection], monat1, year);
                         //CalenderInhalt start = new CalenderInhalt();
@@ -148,8 +155,28 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         displayDate();
 
     }
+
+    private void gruess() throws RemoteException, BenutzerException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        zumProfil.setText(stub.getUsername(sitzungsID));
+        
+        int zeitJetzt = Integer.parseInt(timeStamp.substring(9, 11));
+        //JOptionPane.showMessageDialog(null, "Guten Morgen!, " + stub.getVorname(sitzungsID), "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
+        if (zeitJetzt > 6 || zeitJetzt < 12) {
+            eventMessage.setText("Guten Morgen, " + stub.getUsername(sitzungsID));
+        }
+        
+        if (zeitJetzt > 12 || zeitJetzt < 18) {
+            eventMessage.setText("Guten Tag!, " + stub.getUsername(sitzungsID));
+        }
+        
+        if (zeitJetzt > 18 || zeitJetzt < 6) {
+            eventMessage.setText("Guten Abend!, " + stub.getUsername(sitzungsID));
+        }
+        
+    }
     
-        public void zeigeTerminInhalt(int day, int monat, int jahr) throws RemoteException, TerminException, BenutzerException {
+    public void zeigeTerminInhalt(int day, int monat, int jahr) throws RemoteException, TerminException, BenutzerException {
 
         //int tag = Integer.parseInt(day);
         //JOptionPane.showMessageDialog(null, day, "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
@@ -163,12 +190,12 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         //}
         termineListe.setModel(termineListeModel);
 
-
         StringBuilder sb = new StringBuilder();
         StringBuilder cl = new StringBuilder();
         int i = 0;
 
-        eventMessage.setText("Hallo!");
+        gruess();
+
         for (Termin termin : dieserMonat) {
             //String tag = termin.getDatum().toString().substring(0, 1);
 
@@ -184,33 +211,31 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             String tuiDate = termin.getDatum().toString();
             //JOptionPane.showMessageDialog(null, tuiDate, "InfoBox: 2 Datum", JOptionPane.INFORMATION_MESSAGE);
 
-            
-            
             if (calenderDate.equals(tuiDate)) {
-                termineListeModel.addElement(termin.getTitel()+ " um " + termin.getBeginn().toString());
+                termineListeModel.addElement(termin.getTitel() + " um " + termin.getBeginn().toString());
                 i++;
-                
+
                 if (i == 1) {
                     eventMessage.setText("Sie haben " + i + " Ereignis am " + tuiDate);
                 }
-                
+
                 if (i > 1) {
                     eventMessage.setText("Sie haben " + i + " Ereignisse am " + tuiDate);
                 }
-                            
+
             }
             cl.setLength(0);
-         }
+        }
     }
-    
-     public void displayDate() {
+
+    public void displayDate() {
         for (int x = 0; x < 42; x++)//for loop
         {
             button[x].setText("");//set text
         }
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM YYYY");
         java.util.Calendar cal = java.util.Calendar.getInstance();
-  
+
         cal.set(year, month, 1);
 
         int dayOfWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
@@ -242,7 +267,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
                     String calenderDate = cl.toString();
                     String tuiDate = termin.getDatum().toString();
- 
+
                     if (calenderDate.equals(tuiDate)) {
                         String titel = termin.getTitel();
                         String[] parts = titel.split(" ");
@@ -265,14 +290,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 String getSt = sb.toString();
                 String twooLines = day + "\n" + getSt;
                 button[x].setForeground(Color.white);
-                
+
                 if (ld.getDayOfMonth() == day && monat == ld.getMonthValue() && year == ld.getYear()) {
                     button[x].setForeground(Color.red);
-                    button[x].setBackground(new Color(29,30,66));
+                    button[x].setBackground(new Color(29, 30, 66));
                 }
-                
+
                 tagBekommen[x] = day;
-                
+
                 button[x].setText("<html>" + twooLines.replaceAll("\\n", "<br>") + "</html>");
                 sb.setLength(0);
             }
@@ -285,8 +310,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             Logger.getLogger(CalenderPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-     
-     public String setPickedDate() {
+
+    public String setPickedDate() {
         //if condition
         if (day.equals("")) {
             return day;
@@ -296,10 +321,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         cal.set(year, month, Integer.parseInt(day));
         return sdf.format(cal.getTime());
     }
-     
-    
-     
-     /*private void zeigeTerminInhalt() throws RemoteException, TerminException, BenutzerException {
+
+    /*private void zeigeTerminInhalt() throws RemoteException, TerminException, BenutzerException {
         int i = 0;
         Datum datum = null;
         try {
@@ -313,15 +336,13 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
         }
     }*/
-    
     /**
-    * Standart Konstrucktor
-    */
+     * Standart Konstrucktor
+     */
     public Hauptfenster() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
     /**
      *
      * @author Edwrard Nana
@@ -345,14 +366,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         }
 
     }
-    
+
     DefaultListModel event = new DefaultListModel();
 
     public void AddEvent(String eventname) {
         benachList.setModel(event);
         event.addElement(eventname);
     }
-    
+
     public void loechEvent(String eventname) {
         benachList.setModel(event);
         event.removeElement(eventname);
@@ -455,7 +476,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jPanel12 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
+        zumProfil = new javax.swing.JLabel();
         eventMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -637,12 +658,17 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(29, 30, 66));
         jLabel1.setText("Kalender");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
         jPanel7.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 150, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(29, 30, 66));
-        jLabel3.setText("MADE BY ZUSE TEAM");
-        jPanel7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
+        jLabel3.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel3.setText("MADE BY ZUSE TEAM 2017");
+        jPanel7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, -1));
 
         jPanel6.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 200, 100));
 
@@ -652,7 +678,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         calendarPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         headerPanel.setBackground(new java.awt.Color(46, 49, 117));
-        headerPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         headerPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         dateLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -1276,16 +1301,16 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         });
         jScrollPane3.setViewportView(termineListe);
 
-        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 170, 450));
+        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 170, 350));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(240, 240, 240));
         jLabel7.setText("Alle Termine");
         jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
 
-        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 190, 490));
+        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 190, 390));
 
-        mainPanel.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 60, 200, 520));
+        mainPanel.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 160, 200, 420));
 
         jPanel10.setBackground(new java.awt.Color(46, 49, 117));
         jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1367,7 +1392,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        mainPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 20, -1, -1));
+        mainPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, -1));
 
         jPanel12.setBackground(new java.awt.Color(46, 49, 117));
         jPanel12.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1411,19 +1436,19 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         });
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("Zum Profil");
-        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
+        zumProfil.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        zumProfil.setForeground(new java.awt.Color(240, 240, 240));
+        zumProfil.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        zumProfil.setText("Zum Profil");
+        zumProfil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel15MouseClicked(evt);
+                zumProfilMouseClicked(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel15MousePressed(evt);
+                zumProfilMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jLabel15MouseReleased(evt);
+                zumProfilMouseReleased(evt);
             }
         });
 
@@ -1433,23 +1458,21 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addComponent(zumProfil, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(zumProfil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
         );
 
-        mainPanel.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, -1));
+        mainPanel.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 70, 180, 80));
 
         eventMessage.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         eventMessage.setForeground(new java.awt.Color(240, 240, 240));
         eventMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         eventMessage.setText("Hallo!");
-        mainPanel.add(eventMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 22, 380, 30));
+        mainPanel.add(eventMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, 390, 30));
 
         getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 0, -1, 580));
 
@@ -1473,13 +1496,13 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     private void benachListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_benachListMouseClicked
         int size = meldungModel.getSize();
-        if(!(size == 0)){
+        if (!(size == 0)) {
             new EventDet(benachList.getSelectedValue(), stub, sitzungsID, benachList.getSelectedIndex(), this).setVisible(true);
         }
     }//GEN-LAST:event_benachListMouseClicked
-    
+
     private void benachListComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_benachListComponentShown
-        
+
     }//GEN-LAST:event_benachListComponentShown
 
     private void day6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_day6ActionPerformed
@@ -1514,11 +1537,11 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         } catch (RemoteException | BenutzerException ex) {
             Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jList1MouseClicked
 
     private void showAddKontaktMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showAddKontaktMouseClicked
-        
+
         showAddKontakt.setForeground(Color.white);
         //AddKontakt start= new AddKontakt(stub,sitzungsID);
         //start.setVisible(true);
@@ -1536,9 +1559,9 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         } else {
             JOptionPane.showMessageDialog(null, "Geben Sie bitte einen gültigen Benutzername an", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
-            
+
         }
-        
+
     }//GEN-LAST:event_showAddKontaktMouseClicked
 
     private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
@@ -1552,7 +1575,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         //start.setVisible(true);
         int selectedIndex = jList1.getSelectedIndex();
         int size = listModel.getSize();
-        if (selectedIndex != -1){
+        if (selectedIndex != -1) {
             try {
                 stub.removeKontakt(listModel.get(selectedIndex).toString(), sitzungsID);
                 listModel.remove(selectedIndex);
@@ -1560,16 +1583,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             } catch (BenutzerException | RemoteException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontakt entfernen - Termin Kalender", JOptionPane.ERROR_MESSAGE);
             }
-        }
-        else if (size == 0){
+        } else if (size == 0) {
             showRemoveKontakt.setEnabled(false);
             JOptionPane.showMessageDialog(null, "Die Liste ist doch leer !", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
-            
-        }
-        else{
+
+        } else {
             JOptionPane.showMessageDialog(null, "Ein Problem ist aufgetretten", "Kontakt entfernen - Termin Kalender", JOptionPane.WARNING_MESSAGE);
         }
-        
+
         //fillList();
     }//GEN-LAST:event_showRemoveKontaktMouseClicked
 
@@ -1583,14 +1604,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     private void termineListeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_termineListeMouseClicked
         int size = termineListeModel.getSize();
-        if(!(size == 0)){
+        if (!(size == 0)) {
             try {
                 final int selection = daySelector;
-                int terminID = stub.getTermineAmTag(new Datum(tagBekommen[selection],month+1,year), sitzungsID).get(termineListe.getSelectedIndex()).getID();
+                int terminID = stub.getTermineAmTag(new Datum(tagBekommen[selection], month + 1, year), sitzungsID).get(termineListe.getSelectedIndex()).getID();
 
                 new TerminInhalt(terminID, stub, sitzungsID).setVisible(true);
             } catch (RemoteException | BenutzerException | TerminException | Datum.DatumException ex) {
-                JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_termineListeMouseClicked
@@ -1627,14 +1648,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         ausloggen();
     }//GEN-LAST:event_jPanel12MouseClicked
 
-    private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
+    private void zumProfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zumProfilMouseClicked
         // TODO add your handling code here:
-        jLabel15.setForeground(Color.white);
+        zumProfil.setForeground(Color.white);
         YourProfil profil;
         profil = new YourProfil(stub, sitzungsID);
         profil.fillProfil();
         profil.setVisible(true);
-    }//GEN-LAST:event_jLabel15MouseClicked
+    }//GEN-LAST:event_zumProfilMouseClicked
 
     private void jPanel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel13MouseClicked
         // TODO add your handling code here:
@@ -1673,31 +1694,31 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     private void jLabel17MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseReleased
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jLabel17MouseReleased
 
     private void jLabel12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseReleased
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jLabel12MouseReleased
 
     private void jLabel13MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel13MouseReleased
 
-    private void jLabel15MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseReleased
+    private void zumProfilMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zumProfilMouseReleased
         // TODO add your handling code here:
-       
-    }//GEN-LAST:event_jLabel15MouseReleased
+
+    }//GEN-LAST:event_zumProfilMouseReleased
 
     private void showAddKontaktMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showAddKontaktMouseReleased
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_showAddKontaktMouseReleased
 
     private void showRemoveKontaktMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showRemoveKontaktMouseReleased
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_showRemoveKontaktMouseReleased
 
     private void contactUsernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactUsernameFieldActionPerformed
@@ -1738,27 +1759,33 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jLabel13.setForeground(Color.gray);
     }//GEN-LAST:event_jLabel13MousePressed
 
-    private void jLabel15MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MousePressed
+    private void zumProfilMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zumProfilMousePressed
         // TODO add your handling code here:
-        jLabel15.setForeground(Color.gray);
-    }//GEN-LAST:event_jLabel15MousePressed
+        zumProfil.setForeground(Color.gray);
+    }//GEN-LAST:event_zumProfilMousePressed
 
-    public void ausloggen(){
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        Version startVersion = new Version();
+        startVersion.setVisible(true);
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    public void ausloggen() {
         try {
-            
+
             stub.ausloggen(sitzungsID);
             //this.setVisible(false);
             this.dispose();
             this.fenster.setVisible(true);
             /*GUI out = new GUI();
             out.startGUI();         */
-            } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     /**
-     *  Fuele Kontaktliste auf
+     * Fuele Kontaktliste auf
      */
     public void fillContactList() {
         int i = 0;
@@ -1772,14 +1799,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-     /**
+
+    /**
      * Fuele Meldung liste auf
      */
     public void fillMeldList() {
         meldungModel = new DefaultListModel();
-        int i=0 ;
-            try {
+        int i = 0;
+        try {
             for (Meldungen meldung : stub.getMeldungen(sitzungsID)) {
                 i++;
                 if (meldung.getStatus()) {
@@ -1790,31 +1817,31 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 }
 
             }
-                
-            } catch (RemoteException ex) {
-                JOptionPane.showMessageDialog(null,ex.getMessage(), "Benachrichtigungen aktualisierung", JOptionPane.ERROR_MESSAGE);
-            } catch (BenutzerException ex) {
-                JOptionPane.showMessageDialog(null,ex.getMessage(), "Benachrichtigungen aktualisierung", JOptionPane.ERROR_MESSAGE);
-            }
-        
+
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Benachrichtigungen aktualisierung", JOptionPane.ERROR_MESSAGE);
+        } catch (BenutzerException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Benachrichtigungen aktualisierung", JOptionPane.ERROR_MESSAGE);
+        }
+
         benachList.setModel(meldungModel);
     }
-    
+
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
 
             if (jList1.getSelectedIndex() == -1) {
-            //No selection, disable add button.
+                //No selection, disable add button.
                 showAddKontakt.setEnabled(false);
 
             } else {
-            //Selection, enable the remove button.
+                //Selection, enable the remove button.
                 showRemoveKontakt.setEnabled(true);
             }
         }
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -1836,7 +1863,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
 
@@ -1847,8 +1874,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         });
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> benachList;
@@ -1907,7 +1933,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
@@ -1941,7 +1966,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JLabel showRemoveKontakt;
     private javax.swing.JLabel sonntagLabel;
     private javax.swing.JList<String> termineListe;
+    private javax.swing.JLabel zumProfil;
     // End of variables declaration//GEN-END:variables
 
-    
 }

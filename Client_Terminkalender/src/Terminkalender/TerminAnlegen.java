@@ -9,6 +9,8 @@ import Terminkalender.GUIPart.Hauptfenster;
 import java.awt.Color;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 
 /**
@@ -39,6 +41,17 @@ public class TerminAnlegen extends javax.swing.JFrame {
         this.stub = stub;
         this.sitzungsID = sitzungsID;
         this.hf = hf;
+        
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        tag1.setSelectedItem(timeStamp.substring(6, 8));
+        monat1.setSelectedItem(timeStamp.substring(4, 6));
+        jahr1.setSelectedItem(timeStamp.substring(0, 4));
+
+        stunde1.setSelectedItem(timeStamp.substring(9, 11));
+        minute1.setSelectedItem(timeStamp.substring(11, 13));
+        
+        stunde2.setSelectedItem(timeStamp.substring(9, 11));
+        minute2.setSelectedItem(timeStamp.substring(11, 13));
 
     }
 
@@ -259,7 +272,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(240, 240, 240));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("abbrechen");
+        jLabel8.setText("Abbrechen");
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel8MouseClicked(evt);
