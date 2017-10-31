@@ -91,16 +91,9 @@ public class Fenster extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        regButton = new javax.swing.JButton();
         jBenutzernameField = new javax.swing.JTextField();
         jPasswortField = new javax.swing.JPasswordField();
-        anmeldenPanel = new javax.swing.JPanel();
-        anmeldenLabel = new javax.swing.JLabel();
-        beendenPanel = new javax.swing.JPanel();
-        beendenLabel = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -108,6 +101,9 @@ public class Fenster extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         infoBoxPanel = new javax.swing.JPanel();
         infoBoxText = new javax.swing.JLabel();
+        pwVergessenButton = new javax.swing.JButton();
+        anmeldenButton = new javax.swing.JButton();
+        beendenButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -117,6 +113,7 @@ public class Fenster extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 58)); // NOI18N
@@ -136,41 +133,17 @@ public class Fenster extends javax.swing.JFrame {
         jLabel2.setText("Noch kein Account ?");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 306, -1, 40));
 
-        jPanel6.setBackground(new java.awt.Color(29, 30, 66));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel6MouseClicked(evt);
+        regButton.setBackground(new java.awt.Color(29, 30, 66));
+        regButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        regButton.setForeground(new java.awt.Color(240, 240, 240));
+        regButton.setText("Registrieren");
+        regButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        regButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regButtonActionPerformed(evt);
             }
         });
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Registrieren");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel7MousePressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, 150, 30));
+        jPanel1.add(regButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 309, 140, 30));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 310, 360));
 
@@ -188,122 +161,6 @@ public class Fenster extends javax.swing.JFrame {
         jPasswortField.setForeground(new java.awt.Color(240, 240, 240));
         jPasswortField.setBorder(null);
         jPanel2.add(jPasswortField, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 190, 30));
-
-        anmeldenPanel.setBackground(new java.awt.Color(46, 49, 117));
-        anmeldenPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                anmeldenPanelMouseClicked(evt);
-            }
-        });
-
-        anmeldenLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        anmeldenLabel.setForeground(new java.awt.Color(240, 240, 240));
-        anmeldenLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        anmeldenLabel.setText("Anmelden");
-        anmeldenLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                anmeldenLabelMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                anmeldenLabelMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                anmeldenLabelMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                anmeldenLabelMouseReleased(evt);
-            }
-        });
-        anmeldenLabel.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                anmeldenLabelKeyPressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout anmeldenPanelLayout = new javax.swing.GroupLayout(anmeldenPanel);
-        anmeldenPanel.setLayout(anmeldenPanelLayout);
-        anmeldenPanelLayout.setHorizontalGroup(
-            anmeldenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(anmeldenPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(anmeldenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        anmeldenPanelLayout.setVerticalGroup(
-            anmeldenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(anmeldenLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(anmeldenPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 160, 40));
-
-        beendenPanel.setBackground(new java.awt.Color(46, 49, 117));
-        beendenPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                beendenPanelMouseClicked(evt);
-            }
-        });
-
-        beendenLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        beendenLabel.setForeground(new java.awt.Color(240, 240, 240));
-        beendenLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        beendenLabel.setText("Beenden");
-        beendenLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                beendenLabelMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout beendenPanelLayout = new javax.swing.GroupLayout(beendenPanel);
-        beendenPanel.setLayout(beendenPanelLayout);
-        beendenPanelLayout.setHorizontalGroup(
-            beendenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(beendenPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(beendenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        beendenPanelLayout.setVerticalGroup(
-            beendenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(beendenLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(beendenPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 330, 150, -1));
-
-        jPanel7.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel7MouseClicked(evt);
-            }
-        });
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Passwort vergessen?");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel8MousePressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8)
-                .addContainerGap(11, Short.MAX_VALUE))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 220, 150, 20));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(240, 240, 240));
@@ -332,6 +189,42 @@ public class Fenster extends javax.swing.JFrame {
 
         jPanel2.add(infoBoxPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, 230, 40));
 
+        pwVergessenButton.setBackground(new java.awt.Color(46, 49, 117));
+        pwVergessenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        pwVergessenButton.setForeground(new java.awt.Color(240, 240, 240));
+        pwVergessenButton.setText("Passwort vergessen?");
+        pwVergessenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pwVergessenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pwVergessenButtonActionPerformed(evt);
+            }
+        });
+        jPanel2.add(pwVergessenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, 160, 20));
+
+        anmeldenButton.setBackground(new java.awt.Color(46, 49, 117));
+        anmeldenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        anmeldenButton.setForeground(new java.awt.Color(240, 240, 240));
+        anmeldenButton.setText("Anmelden");
+        anmeldenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        anmeldenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anmeldenButtonActionPerformed(evt);
+            }
+        });
+        jPanel2.add(anmeldenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 160, 40));
+
+        beendenButton.setBackground(new java.awt.Color(46, 49, 117));
+        beendenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        beendenButton.setForeground(new java.awt.Color(240, 240, 240));
+        beendenButton.setText("Beenden");
+        beendenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        beendenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                beendenButtonActionPerformed(evt);
+            }
+        });
+        jPanel2.add(beendenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(517, 330, 150, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -351,38 +244,20 @@ public class Fenster extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jBenutzernameFieldActionPerformed
 
-    private void anmeldenPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenPanelMouseClicked
+    private void pwVergessenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwVergessenButtonActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_anmeldenPanelMouseClicked
+        ForgotPassword resetPW = new ForgotPassword(stub,sitzungsID);
+        resetPW.setVisible(true);
+    }//GEN-LAST:event_pwVergessenButtonActionPerformed
 
-    private void beendenPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beendenPanelMouseClicked
+    private void beendenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beendenButtonActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_beendenPanelMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_beendenButtonActionPerformed
 
-    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+    private void anmeldenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anmeldenButtonActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jPanel7MouseClicked
-
-    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jPanel6MouseClicked
-
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        // TODO add your handling code here:
-        jLabel7.setForeground(Color.WHITE);
-        Registrieren start = new Registrieren(stub);
-        start.setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
-
-    private void anmeldenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMouseClicked
-        // TODO add your handling code here:
-        
-        anmeldenPanel.setBackground(new Color(46,49,117));
-        
+                
         String username, password;
 
         username = this.jBenutzernameField.getText();
@@ -400,48 +275,13 @@ public class Fenster extends javax.swing.JFrame {
         } catch (Zeit.ZeitException e) {
             JOptionPane.showInputDialog(e.getMessage());
         }
-    }//GEN-LAST:event_anmeldenLabelMouseClicked
+    }//GEN-LAST:event_anmeldenButtonActionPerformed
 
-    private void beendenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beendenLabelMouseClicked
+    private void regButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regButtonActionPerformed
         // TODO add your handling code here:
-        beendenPanel.setBackground(new Color(86, 16, 16));
-        System.exit(0);
-    }//GEN-LAST:event_beendenLabelMouseClicked
-
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        // TODO add your handling code here:
-        jLabel8.setForeground(Color.WHITE);
-        ForgotPassword resetPW = new ForgotPassword(stub,sitzungsID);
-        resetPW.setVisible(true);
-    }//GEN-LAST:event_jLabel8MouseClicked
-
-    private void anmeldenLabelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_anmeldenLabelKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_anmeldenLabelKeyPressed
-
-    private void anmeldenLabelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_anmeldenLabelMouseReleased
-
-    private void anmeldenLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMouseEntered
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_anmeldenLabelMouseEntered
-
-    private void jLabel8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MousePressed
-        // TODO add your handling code here:
-        jLabel8.setForeground(Color.gray);
-    }//GEN-LAST:event_jLabel8MousePressed
-
-    private void jLabel7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MousePressed
-        // TODO add your handling code here:
-        jLabel7.setForeground(Color.gray);
-    }//GEN-LAST:event_jLabel7MousePressed
-
-    private void anmeldenLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anmeldenLabelMousePressed
-        // TODO add your handling code here:
-        anmeldenPanel.setBackground(new Color(66, 47, 124));
-    }//GEN-LAST:event_anmeldenLabelMousePressed
+        Registrieren start = new Registrieren(stub);
+        start.setVisible(true);
+    }//GEN-LAST:event_regButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -480,10 +320,8 @@ public class Fenster extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel anmeldenLabel;
-    private javax.swing.JPanel anmeldenPanel;
-    private javax.swing.JLabel beendenLabel;
-    private javax.swing.JPanel beendenPanel;
+    private javax.swing.JButton anmeldenButton;
+    private javax.swing.JButton beendenButton;
     private javax.swing.JPanel infoBoxPanel;
     private javax.swing.JLabel infoBoxText;
     private javax.swing.JTextField jBenutzernameField;
@@ -492,15 +330,13 @@ public class Fenster extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPasswordField jPasswortField;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JButton pwVergessenButton;
+    private javax.swing.JButton regButton;
     // End of variables declaration//GEN-END:variables
 }

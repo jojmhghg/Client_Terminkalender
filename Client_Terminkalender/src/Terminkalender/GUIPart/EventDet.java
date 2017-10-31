@@ -77,12 +77,9 @@ public class EventDet extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         eventLabel = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
+        annehmenButton = new javax.swing.JButton();
+        loeschenButton = new javax.swing.JButton();
+        ablehnenButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Benachrichtigung Event");
@@ -92,6 +89,7 @@ public class EventDet extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         eventLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -105,104 +103,41 @@ public class EventDet extends javax.swing.JFrame {
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 484, 220));
 
-        jPanel5.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel5MouseClicked(evt);
+        annehmenButton.setBackground(new java.awt.Color(46, 49, 117));
+        annehmenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        annehmenButton.setForeground(new java.awt.Color(240, 240, 240));
+        annehmenButton.setText("Annehmen");
+        annehmenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        annehmenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                annehmenButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(annehmenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, 130, 40));
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Annehmen");
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
+        loeschenButton.setBackground(new java.awt.Color(46, 49, 117));
+        loeschenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        loeschenButton.setForeground(new java.awt.Color(240, 240, 240));
+        loeschenButton.setText("Löschen");
+        loeschenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        loeschenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loeschenButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(loeschenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 120, 40));
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 110, 30));
-
-        jPanel6.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel6MouseClicked(evt);
+        ablehnenButton.setBackground(new java.awt.Color(46, 49, 117));
+        ablehnenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        ablehnenButton.setForeground(new java.awt.Color(240, 240, 240));
+        ablehnenButton.setText("Ablehnen");
+        ablehnenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ablehnenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ablehnenButtonActionPerformed(evt);
             }
         });
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Ablehnen");
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel12MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 110, -1));
-
-        jPanel7.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel7MouseClicked(evt);
-            }
-        });
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Löschen");
-        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel13MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 240, 110, -1));
+        jPanel2.add(ablehnenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 120, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -219,7 +154,8 @@ public class EventDet extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+    private void annehmenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annehmenButtonActionPerformed
+        // TODO add your handling code here:
         try {
             Anfrage anfrage = (Anfrage) stub.getMeldungen(sitzungsID).get(index);
             boolean check = false;
@@ -249,14 +185,9 @@ public class EventDet extends javax.swing.JFrame {
         } catch (TerminException | SQLException | RemoteException | BenutzerException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jLabel11MouseClicked
+    }//GEN-LAST:event_annehmenButtonActionPerformed
 
-    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jPanel5MouseClicked
-
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+    private void ablehnenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ablehnenButtonActionPerformed
         // TODO add your handling code here:
         try {
             Anfrage anfrage = (Anfrage) stub.getMeldungen(sitzungsID).get(index);
@@ -287,14 +218,9 @@ public class EventDet extends javax.swing.JFrame {
         } catch (SQLException | RemoteException | BenutzerException | TerminException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jLabel12MouseClicked
+    }//GEN-LAST:event_ablehnenButtonActionPerformed
 
-    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jPanel6MouseClicked
-
-    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+    private void loeschenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loeschenButtonActionPerformed
         // TODO add your handling code here:
         try {
             Anfrage anfrage = (Anfrage) stub.getMeldungen(sitzungsID).get(index);
@@ -325,12 +251,7 @@ public class EventDet extends javax.swing.JFrame {
         } catch (RemoteException | BenutzerException | SQLException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jLabel13MouseClicked
-
-    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jPanel7MouseClicked
+    }//GEN-LAST:event_loeschenButtonActionPerformed
 
     
     /**
@@ -369,15 +290,12 @@ public class EventDet extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ablehnenButton;
+    private javax.swing.JButton annehmenButton;
     private javax.swing.JLabel eventLabel;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
+    private javax.swing.JButton loeschenButton;
     // End of variables declaration//GEN-END:variables
 }

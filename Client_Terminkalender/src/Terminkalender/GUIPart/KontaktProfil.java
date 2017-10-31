@@ -58,12 +58,11 @@ public class KontaktProfil extends javax.swing.JFrame {
         nachnameField = new javax.swing.JTextField();
         emailField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
+        zurButton = new javax.swing.JButton();
 
         setResizable(false);
 
@@ -71,6 +70,7 @@ public class KontaktProfil extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Terminkalender/GUIPart/if_Account_1891016.png"))); // NOI18N
 
@@ -83,7 +83,7 @@ public class KontaktProfil extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -98,7 +98,7 @@ public class KontaktProfil extends javax.swing.JFrame {
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 0, 230, 300));
@@ -147,43 +147,21 @@ public class KontaktProfil extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(240, 240, 240));
         jLabel4.setText("E-Mail Adresse");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 102, -1));
-
-        jPanel4.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel4MouseClicked(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("zurück");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 250, 160, 40));
         jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 210, 180, 10));
         jPanel2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, 180, 10));
         jPanel2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 110, 180, 10));
         jPanel2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 160, 180, 10));
+
+        zurButton.setBackground(new java.awt.Color(46, 49, 117));
+        zurButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        zurButton.setForeground(new java.awt.Color(240, 240, 240));
+        zurButton.setText("zurück");
+        zurButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zurButtonActionPerformed(evt);
+            }
+        });
+        jPanel2.add(zurButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(423, 253, 140, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -206,14 +184,10 @@ public class KontaktProfil extends javax.swing.JFrame {
         //Not in use
     }//GEN-LAST:event_usernameFieldActionPerformed
 
-    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-        
-    }//GEN-LAST:event_jPanel4MouseClicked
-
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+    private void zurButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zurButtonActionPerformed
         // TODO add your handling code here:
         dispose();
-    }//GEN-LAST:event_jLabel5MouseClicked
+    }//GEN-LAST:event_zurButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,12 +231,10 @@ public class KontaktProfil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -270,5 +242,6 @@ public class KontaktProfil extends javax.swing.JFrame {
     private javax.swing.JTextField nachnameField;
     private javax.swing.JTextField usernameField;
     private javax.swing.JTextField vornameField;
+    private javax.swing.JButton zurButton;
     // End of variables declaration//GEN-END:variables
 }

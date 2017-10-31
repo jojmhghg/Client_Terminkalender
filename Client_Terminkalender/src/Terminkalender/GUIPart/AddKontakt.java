@@ -71,8 +71,7 @@ public class AddKontakt extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        hinzufuegenLabel = new javax.swing.JPanel();
-        hinzufuegenlabel1 = new javax.swing.JLabel();
+        hinzufuegenButton = new javax.swing.JButton();
 
         setTitle("Add Kontakt - Termin Kalender");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -98,6 +97,7 @@ public class AddKontakt extends javax.swing.JFrame {
         jPanel1.add(userNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 220, -1));
 
         jPanel3.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -111,41 +111,17 @@ public class AddKontakt extends javax.swing.JFrame {
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 420, 190));
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 220, 10));
 
-        hinzufuegenLabel.setBackground(new java.awt.Color(46, 49, 117));
-        hinzufuegenLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                hinzufuegenLabelMouseClicked(evt);
+        hinzufuegenButton.setBackground(new java.awt.Color(46, 49, 117));
+        hinzufuegenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        hinzufuegenButton.setForeground(new java.awt.Color(240, 240, 240));
+        hinzufuegenButton.setText("Hinzufügen");
+        hinzufuegenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        hinzufuegenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hinzufuegenButtonActionPerformed(evt);
             }
         });
-
-        hinzufuegenlabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        hinzufuegenlabel1.setForeground(new java.awt.Color(240, 240, 240));
-        hinzufuegenlabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        hinzufuegenlabel1.setText("Hinzufügen");
-        hinzufuegenlabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                hinzufuegenlabel1MouseClicked(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                hinzufuegenlabel1MouseReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout hinzufuegenLabelLayout = new javax.swing.GroupLayout(hinzufuegenLabel);
-        hinzufuegenLabel.setLayout(hinzufuegenLabelLayout);
-        hinzufuegenLabelLayout.setHorizontalGroup(
-            hinzufuegenLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hinzufuegenLabelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(hinzufuegenlabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        hinzufuegenLabelLayout.setVerticalGroup(
-            hinzufuegenLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(hinzufuegenlabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(hinzufuegenLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 250, 120, 30));
+        jPanel1.add(hinzufuegenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 240, 140, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,9 +144,8 @@ public class AddKontakt extends javax.swing.JFrame {
          //username = this.userNameField.getText();
     }//GEN-LAST:event_userNameFieldActionPerformed
 
-    private void hinzufuegenlabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hinzufuegenlabel1MouseClicked
-        hinzufuegenLabel.setBackground(new Color(66, 47, 124));
-        
+    private void hinzufuegenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hinzufuegenButtonActionPerformed
+        // TODO add your handling code here:
         String username;
         username = this.userNameField.getText();
         //int sitzungsID;
@@ -182,16 +157,7 @@ public class AddKontakt extends javax.swing.JFrame {
         } catch (RemoteException e) {
             JOptionPane.showInputDialog(e.getMessage());
         }
-    }//GEN-LAST:event_hinzufuegenlabel1MouseClicked
-
-    private void hinzufuegenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hinzufuegenLabelMouseClicked
-        
-    }//GEN-LAST:event_hinzufuegenLabelMouseClicked
-
-    private void hinzufuegenlabel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hinzufuegenlabel1MouseReleased
-        // TODO add your handling code here:
-        hinzufuegenLabel.setBackground(new Color(46,49,117));
-    }//GEN-LAST:event_hinzufuegenlabel1MouseReleased
+    }//GEN-LAST:event_hinzufuegenButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -229,8 +195,7 @@ public class AddKontakt extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel hinzufuegenLabel;
-    private javax.swing.JLabel hinzufuegenlabel1;
+    private javax.swing.JButton hinzufuegenButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

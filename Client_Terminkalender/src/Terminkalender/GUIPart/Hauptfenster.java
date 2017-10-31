@@ -395,10 +395,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jLabel8 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        showAddKontakt = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        showRemoveKontakt = new javax.swing.JLabel();
+        showAddKontakt = new javax.swing.JButton();
+        showRemoveKontakt = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         benachList = new javax.swing.JList<>();
@@ -469,15 +467,12 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jScrollPane3 = new javax.swing.JScrollPane();
         termineListe = new javax.swing.JList<>();
         jLabel7 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         zumProfil = new javax.swing.JLabel();
         eventMessage = new javax.swing.JLabel();
+        neuTermButton = new javax.swing.JButton();
+        aktButton = new javax.swing.JButton();
+        abmButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
@@ -493,16 +488,18 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         contactUsernameField.setBackground(new java.awt.Color(29, 30, 66));
         contactUsernameField.setForeground(new java.awt.Color(240, 240, 240));
+        contactUsernameField.setBorder(null);
         contactUsernameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 contactUsernameFieldActionPerformed(evt);
             }
         });
-        jPanel2.add(contactUsernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 35, 120, 20));
+        jPanel2.add(contactUsernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 35, 110, 20));
 
         jScrollPane1.setBackground(new java.awt.Color(29, 30, 66));
         jScrollPane1.setBorder(null);
@@ -532,91 +529,36 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(240, 240, 240));
         jLabel8.setText("Kontaktliste");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 2, -1, 20));
 
-        jPanel8.setBackground(new java.awt.Color(29, 30, 66));
-        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel8MouseClicked(evt);
-            }
-        });
-
+        showAddKontakt.setBackground(new java.awt.Color(29, 30, 66));
         showAddKontakt.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         showAddKontakt.setForeground(new java.awt.Color(240, 240, 240));
-        showAddKontakt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         showAddKontakt.setText("Hinzufügen");
-        showAddKontakt.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                showAddKontaktMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                showAddKontaktMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                showAddKontaktMouseReleased(evt);
+        showAddKontakt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        showAddKontakt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showAddKontaktActionPerformed(evt);
             }
         });
+        jPanel2.add(showAddKontakt, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 33, 90, 20));
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(showAddKontakt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(showAddKontakt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel2.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 80, -1));
-
-        jPanel9.setBackground(new java.awt.Color(29, 30, 66));
-        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel9MouseClicked(evt);
-            }
-        });
-
+        showRemoveKontakt.setBackground(new java.awt.Color(29, 30, 66));
         showRemoveKontakt.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         showRemoveKontakt.setForeground(new java.awt.Color(240, 240, 240));
-        showRemoveKontakt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         showRemoveKontakt.setText("Entfernen");
-        showRemoveKontakt.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                showRemoveKontaktMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                showRemoveKontaktMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                showRemoveKontaktMouseReleased(evt);
+        showRemoveKontakt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        showRemoveKontakt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showRemoveKontaktActionPerformed(evt);
             }
         });
+        jPanel2.add(showRemoveKontakt, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 193, 90, 20));
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(showRemoveKontakt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(showRemoveKontakt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel2.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, -1, -1));
-
-        jPanel6.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 230, 231));
+        jPanel6.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 230, 231));
 
         jPanel1.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         benachList.setModel(new javax.swing.AbstractListModel<String>() {
@@ -626,6 +568,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         });
         benachList.setBackground(new java.awt.Color(29, 30, 66));
         benachList.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        benachList.setForeground(new java.awt.Color(240, 240, 240));
         benachList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 benachListMouseClicked(evt);
@@ -643,11 +586,12 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(240, 240, 240));
         jLabel11.setText("Benachrichtigungen");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 2, -1, 20));
 
-        jPanel6.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 230, 190));
+        jPanel6.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 230, 190));
 
         jPanel7.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel7.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -672,12 +616,13 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
         jPanel6.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 200, 100));
 
-        mainPanel.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 580));
+        mainPanel.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 580));
 
         calendarPanel.setBackground(new java.awt.Color(29, 30, 66));
         calendarPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         headerPanel.setBackground(new java.awt.Color(46, 49, 117));
+        headerPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         headerPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         dateLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -737,7 +682,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day8.setBackground(new java.awt.Color(46, 49, 117));
         day8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day8.setForeground(new java.awt.Color(240, 240, 240));
-        day8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day8.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day8.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -747,7 +692,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day3.setBackground(new java.awt.Color(46, 49, 117));
         day3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day3.setForeground(new java.awt.Color(240, 240, 240));
-        day3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -757,7 +702,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day4.setBackground(new java.awt.Color(46, 49, 117));
         day4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day4.setForeground(new java.awt.Color(240, 240, 240));
-        day4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day4.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -767,7 +712,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day5.setBackground(new java.awt.Color(46, 49, 117));
         day5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day5.setForeground(new java.awt.Color(240, 240, 240));
-        day5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day5.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day5.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -782,7 +727,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day6.setBackground(new java.awt.Color(46, 49, 117));
         day6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day6.setForeground(new java.awt.Color(240, 240, 240));
-        day6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day6.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -797,7 +742,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day2.setBackground(new java.awt.Color(46, 49, 117));
         day2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day2.setForeground(new java.awt.Color(240, 240, 240));
-        day2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -807,7 +752,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day7.setBackground(new java.awt.Color(46, 49, 117));
         day7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day7.setForeground(new java.awt.Color(240, 240, 240));
-        day7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -817,7 +762,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day1.setBackground(new java.awt.Color(46, 49, 117));
         day1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day1.setForeground(new java.awt.Color(240, 240, 240));
-        day1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -827,7 +772,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day15.setBackground(new java.awt.Color(46, 49, 117));
         day15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day15.setForeground(new java.awt.Color(240, 240, 240));
-        day15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day15.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day15.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day15.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -837,7 +782,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day29.setBackground(new java.awt.Color(46, 49, 117));
         day29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day29.setForeground(new java.awt.Color(240, 240, 240));
-        day29.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day29.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day29.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day29.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day29.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -847,7 +792,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day39.setBackground(new java.awt.Color(46, 49, 117));
         day39.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day39.setForeground(new java.awt.Color(240, 240, 240));
-        day39.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day39.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day39.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day39.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day39.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -857,7 +802,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day22.setBackground(new java.awt.Color(46, 49, 117));
         day22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day22.setForeground(new java.awt.Color(240, 240, 240));
-        day22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day22.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day22.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day22.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -867,7 +812,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day30.setBackground(new java.awt.Color(46, 49, 117));
         day30.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day30.setForeground(new java.awt.Color(240, 240, 240));
-        day30.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day30.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day30.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day30.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day30.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -877,7 +822,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day23.setBackground(new java.awt.Color(46, 49, 117));
         day23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day23.setForeground(new java.awt.Color(240, 240, 240));
-        day23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day23.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day23.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day23.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -887,7 +832,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day16.setBackground(new java.awt.Color(46, 49, 117));
         day16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day16.setForeground(new java.awt.Color(240, 240, 240));
-        day16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day16.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day16.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day16.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -902,7 +847,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day9.setBackground(new java.awt.Color(46, 49, 117));
         day9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day9.setForeground(new java.awt.Color(240, 240, 240));
-        day9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day9.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -917,7 +862,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day36.setBackground(new java.awt.Color(46, 49, 117));
         day36.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day36.setForeground(new java.awt.Color(240, 240, 240));
-        day36.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day36.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day36.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day36.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day36.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -932,7 +877,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day37.setBackground(new java.awt.Color(46, 49, 117));
         day37.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day37.setForeground(new java.awt.Color(240, 240, 240));
-        day37.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day37.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day37.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day37.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day37.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -942,7 +887,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day10.setBackground(new java.awt.Color(46, 49, 117));
         day10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day10.setForeground(new java.awt.Color(240, 240, 240));
-        day10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day10.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day10.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day10.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -952,7 +897,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day17.setBackground(new java.awt.Color(46, 49, 117));
         day17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day17.setForeground(new java.awt.Color(240, 240, 240));
-        day17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day17.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day17.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day17.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -962,7 +907,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day24.setBackground(new java.awt.Color(46, 49, 117));
         day24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day24.setForeground(new java.awt.Color(240, 240, 240));
-        day24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day24.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day24.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day24.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -972,7 +917,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day31.setBackground(new java.awt.Color(46, 49, 117));
         day31.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day31.setForeground(new java.awt.Color(240, 240, 240));
-        day31.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day31.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day31.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day31.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day31.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -982,7 +927,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day38.setBackground(new java.awt.Color(46, 49, 117));
         day38.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day38.setForeground(new java.awt.Color(240, 240, 240));
-        day38.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day38.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day38.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day38.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day38.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -992,7 +937,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day11.setBackground(new java.awt.Color(46, 49, 117));
         day11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day11.setForeground(new java.awt.Color(240, 240, 240));
-        day11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day11.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day11.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day11.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1002,7 +947,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day18.setBackground(new java.awt.Color(46, 49, 117));
         day18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day18.setForeground(new java.awt.Color(240, 240, 240));
-        day18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day18.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day18.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day18.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1012,7 +957,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day25.setBackground(new java.awt.Color(46, 49, 117));
         day25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day25.setForeground(new java.awt.Color(240, 240, 240));
-        day25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day25.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day25.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day25.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day25.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1027,7 +972,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day32.setBackground(new java.awt.Color(46, 49, 117));
         day32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day32.setForeground(new java.awt.Color(240, 240, 240));
-        day32.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day32.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day32.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day32.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day32.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1037,7 +982,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day40.setBackground(new java.awt.Color(46, 49, 117));
         day40.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day40.setForeground(new java.awt.Color(240, 240, 240));
-        day40.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day40.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day40.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day40.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day40.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1047,7 +992,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day12.setBackground(new java.awt.Color(46, 49, 117));
         day12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day12.setForeground(new java.awt.Color(240, 240, 240));
-        day12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day12.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day12.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day12.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1057,7 +1002,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day19.setBackground(new java.awt.Color(46, 49, 117));
         day19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day19.setForeground(new java.awt.Color(240, 240, 240));
-        day19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day19.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day19.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day19.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1067,7 +1012,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day13.setBackground(new java.awt.Color(46, 49, 117));
         day13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day13.setForeground(new java.awt.Color(240, 240, 240));
-        day13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day13.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day13.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day13.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1077,7 +1022,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day26.setBackground(new java.awt.Color(46, 49, 117));
         day26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day26.setForeground(new java.awt.Color(240, 240, 240));
-        day26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day26.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day26.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day26.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1087,7 +1032,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day33.setBackground(new java.awt.Color(46, 49, 117));
         day33.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day33.setForeground(new java.awt.Color(240, 240, 240));
-        day33.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day33.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day33.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day33.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day33.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1097,7 +1042,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day34.setBackground(new java.awt.Color(46, 49, 117));
         day34.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day34.setForeground(new java.awt.Color(240, 240, 240));
-        day34.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day34.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day34.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day34.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day34.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1107,7 +1052,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day20.setBackground(new java.awt.Color(46, 49, 117));
         day20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day20.setForeground(new java.awt.Color(240, 240, 240));
-        day20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day20.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day20.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day20.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1117,7 +1062,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day41.setBackground(new java.awt.Color(46, 49, 117));
         day41.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day41.setForeground(new java.awt.Color(240, 240, 240));
-        day41.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day41.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day41.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day41.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day41.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1127,7 +1072,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day42.setBackground(new java.awt.Color(46, 49, 117));
         day42.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day42.setForeground(new java.awt.Color(240, 240, 240));
-        day42.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day42.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day42.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day42.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day42.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1142,7 +1087,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day27.setBackground(new java.awt.Color(46, 49, 117));
         day27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day27.setForeground(new java.awt.Color(240, 240, 240));
-        day27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day27.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day27.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day27.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day27.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1152,7 +1097,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day14.setBackground(new java.awt.Color(46, 49, 117));
         day14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day14.setForeground(new java.awt.Color(240, 240, 240));
-        day14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day14.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day14.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day14.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1162,7 +1107,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day21.setBackground(new java.awt.Color(46, 49, 117));
         day21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day21.setForeground(new java.awt.Color(240, 240, 240));
-        day21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day21.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day21.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day21.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day21.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1172,7 +1117,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day28.setBackground(new java.awt.Color(46, 49, 117));
         day28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day28.setForeground(new java.awt.Color(240, 240, 240));
-        day28.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day28.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day28.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day28.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day28.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1182,7 +1127,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day35.setBackground(new java.awt.Color(46, 49, 117));
         day35.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         day35.setForeground(new java.awt.Color(240, 240, 240));
-        day35.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day35.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
         day35.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         day35.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         day35.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1192,6 +1137,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         calendarPanel.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 710, 460));
 
         jPanel14.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel14.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel14.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel14MouseClicked(evt);
@@ -1223,7 +1169,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel14Layout.setVerticalGroup(
@@ -1236,6 +1182,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         calendarPanel.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 80, -1));
 
         jPanel15.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel15.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel15.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel15MouseClicked(evt);
@@ -1263,8 +1210,9 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
-                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1281,6 +1229,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         termineListe.setBackground(new java.awt.Color(29, 30, 66));
@@ -1301,135 +1250,19 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         });
         jScrollPane3.setViewportView(termineListe);
 
-        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 170, 350));
+        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 160, 350));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(240, 240, 240));
         jLabel7.setText("Alle Termine");
-        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
+        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 2, -1, 20));
 
-        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 190, 390));
+        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 390));
 
         mainPanel.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 160, 200, 420));
 
-        jPanel10.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel10MouseClicked(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Neuen Termin");
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel12MouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel12MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jLabel12MouseReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        mainPanel.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 120, -1));
-
-        jPanel11.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel11MouseClicked(evt);
-            }
-        });
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Aktualisieren");
-        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel13MouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel13MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jLabel13MouseReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        mainPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, -1));
-
-        jPanel12.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel12MouseClicked(evt);
-            }
-        });
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Abmelden");
-        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel14MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        mainPanel.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 20, -1, -1));
-
         jPanel13.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel13.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel13.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel13MouseClicked(evt);
@@ -1458,12 +1291,12 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(zumProfil, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                .addComponent(zumProfil, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(zumProfil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+            .addComponent(zumProfil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
         );
 
         mainPanel.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 70, 180, 80));
@@ -1473,6 +1306,42 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         eventMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         eventMessage.setText("Hallo!");
         mainPanel.add(eventMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, 390, 30));
+
+        neuTermButton.setBackground(new java.awt.Color(46, 49, 117));
+        neuTermButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        neuTermButton.setForeground(new java.awt.Color(240, 240, 240));
+        neuTermButton.setText("Neuen Termin");
+        neuTermButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        neuTermButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                neuTermButtonActionPerformed(evt);
+            }
+        });
+        mainPanel.add(neuTermButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 130, 30));
+
+        aktButton.setBackground(new java.awt.Color(46, 49, 117));
+        aktButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        aktButton.setForeground(new java.awt.Color(240, 240, 240));
+        aktButton.setText("Aktualisieren");
+        aktButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        aktButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aktButtonActionPerformed(evt);
+            }
+        });
+        mainPanel.add(aktButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 20, 130, 30));
+
+        abmButton.setBackground(new java.awt.Color(46, 49, 117));
+        abmButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        abmButton.setForeground(new java.awt.Color(240, 240, 240));
+        abmButton.setText("Abmelden");
+        abmButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        abmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abmButtonActionPerformed(evt);
+            }
+        });
+        mainPanel.add(abmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1027, 20, 130, 30));
 
         getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 0, -1, 580));
 
@@ -1540,64 +1409,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     }//GEN-LAST:event_jList1MouseClicked
 
-    private void showAddKontaktMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showAddKontaktMouseClicked
-
-        showAddKontakt.setForeground(Color.white);
-        //AddKontakt start= new AddKontakt(stub,sitzungsID);
-        //start.setVisible(true);
-        String contact = contactUsernameField.getText();
-        if (contact.length() > 0) {
-            try {
-                //if (contact.length() >= 0) {
-                //AddKontakt add = new AddKontakt(stub,sitzungsID);
-                stub.addKontakt(contact, sitzungsID);
-                listModel.addElement(contact);
-                contactUsernameField.setText("");
-                showRemoveKontakt.setEnabled(true);
-            } catch (RemoteException | BenutzerException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontakt hinzufügen - Termin Kalender", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Geben Sie bitte einen gültigen Benutzername an", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
-
-        }
-
-    }//GEN-LAST:event_showAddKontaktMouseClicked
-
-    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jPanel8MouseClicked
-
-    private void showRemoveKontaktMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showRemoveKontaktMouseClicked
-        showRemoveKontakt.setForeground(Color.white);
-        //RemoveKontakt start = new RemoveKontakt(stub,sitzungsID);
-        //start.setVisible(true);
-        int selectedIndex = jList1.getSelectedIndex();
-        int size = listModel.getSize();
-        if (selectedIndex != -1) {
-            try {
-                stub.removeKontakt(listModel.get(selectedIndex).toString(), sitzungsID);
-                listModel.remove(selectedIndex);
-                selectedIndex--;
-            } catch (BenutzerException | RemoteException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontakt entfernen - Termin Kalender", JOptionPane.ERROR_MESSAGE);
-            }
-        } else if (size == 0) {
-            showRemoveKontakt.setEnabled(false);
-            JOptionPane.showMessageDialog(null, "Die Liste ist doch leer !", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Ein Problem ist aufgetretten", "Kontakt entfernen - Termin Kalender", JOptionPane.WARNING_MESSAGE);
-        }
-
-        //fillList();
-    }//GEN-LAST:event_showRemoveKontaktMouseClicked
-
-    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel9MouseClicked
-
     private void termineListeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_termineListeMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_termineListeMouseEntered
@@ -1615,38 +1426,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         }
     }//GEN-LAST:event_termineListeMouseClicked
-
-    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel10MouseClicked
-
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
-        // TODO add your handling code here:
-        jLabel12.setForeground(Color.white);
-        TerminAnlegen startTA = new TerminAnlegen(stub, sitzungsID, this);
-        startTA.setVisible(true);
-    }//GEN-LAST:event_jLabel12MouseClicked
-
-    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
-        // TODO add your handling code here:
-        jLabel13.setForeground(Color.white);
-        fillMeldList();
-        displayDate();
-    }//GEN-LAST:event_jLabel13MouseClicked
-
-    private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel11MouseClicked
-
-    private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
-        // TODO add your handling code here:
-        ausloggen();
-    }//GEN-LAST:event_jLabel14MouseClicked
-
-    private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
-        // TODO add your handling code here:
-        ausloggen();
-    }//GEN-LAST:event_jPanel12MouseClicked
 
     private void zumProfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zumProfilMouseClicked
         // TODO add your handling code here:
@@ -1697,43 +1476,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
     }//GEN-LAST:event_jLabel17MouseReleased
 
-    private void jLabel12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseReleased
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jLabel12MouseReleased
-
-    private void jLabel13MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel13MouseReleased
-
     private void zumProfilMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zumProfilMouseReleased
         // TODO add your handling code here:
 
     }//GEN-LAST:event_zumProfilMouseReleased
 
-    private void showAddKontaktMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showAddKontaktMouseReleased
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_showAddKontaktMouseReleased
-
-    private void showRemoveKontaktMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showRemoveKontaktMouseReleased
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_showRemoveKontaktMouseReleased
-
     private void contactUsernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactUsernameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_contactUsernameFieldActionPerformed
-
-    private void showAddKontaktMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showAddKontaktMousePressed
-        // TODO add your handling code here:
-        showAddKontakt.setForeground(Color.gray);
-    }//GEN-LAST:event_showAddKontaktMousePressed
-
-    private void showRemoveKontaktMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showRemoveKontaktMousePressed
-        // TODO add your handling code here:
-        showRemoveKontakt.setForeground(Color.gray);
-    }//GEN-LAST:event_showRemoveKontaktMousePressed
 
     private void jLabel16MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MousePressed
         // TODO add your handling code here:
@@ -1744,20 +1494,10 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel16MouseEntered
 
-    private void jLabel12MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MousePressed
-        // TODO add your handling code here:
-        jLabel12.setForeground(Color.gray);
-    }//GEN-LAST:event_jLabel12MousePressed
-
     private void jLabel17MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MousePressed
         // TODO add your handling code here:
         jLabel17.setForeground(Color.gray);
     }//GEN-LAST:event_jLabel17MousePressed
-
-    private void jLabel13MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MousePressed
-        // TODO add your handling code here:
-        jLabel13.setForeground(Color.gray);
-    }//GEN-LAST:event_jLabel13MousePressed
 
     private void zumProfilMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zumProfilMousePressed
         // TODO add your handling code here:
@@ -1769,6 +1509,64 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         Version startVersion = new Version();
         startVersion.setVisible(true);
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void showAddKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAddKontaktActionPerformed
+        // TODO add your handling code here:
+        String contact = contactUsernameField.getText();
+        if (contact.length() > 0) {
+            try {
+                //if (contact.length() >= 0) {
+                //AddKontakt add = new AddKontakt(stub,sitzungsID);
+                stub.addKontakt(contact, sitzungsID);
+                listModel.addElement(contact);
+                contactUsernameField.setText("");
+                showRemoveKontakt.setEnabled(true);
+            } catch (RemoteException | BenutzerException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontakt hinzufügen - Termin Kalender", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Geben Sie bitte einen gültigen Benutzername an", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
+
+        }
+    }//GEN-LAST:event_showAddKontaktActionPerformed
+
+    private void showRemoveKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRemoveKontaktActionPerformed
+        // TODO add your handling code here:
+        int selectedIndex = jList1.getSelectedIndex();
+        int size = listModel.getSize();
+        if (selectedIndex != -1) {
+            try {
+                stub.removeKontakt(listModel.get(selectedIndex).toString(), sitzungsID);
+                listModel.remove(selectedIndex);
+                selectedIndex--;
+            } catch (BenutzerException | RemoteException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontakt entfernen - Termin Kalender", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (size == 0) {
+            showRemoveKontakt.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "Die Liste ist doch leer !", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Ein Problem ist aufgetretten", "Kontakt entfernen - Termin Kalender", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_showRemoveKontaktActionPerformed
+
+    private void neuTermButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neuTermButtonActionPerformed
+        // TODO add your handling code here:
+        TerminAnlegen startTA = new TerminAnlegen(stub, sitzungsID, this);
+        startTA.setVisible(true);
+    }//GEN-LAST:event_neuTermButtonActionPerformed
+
+    private void aktButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aktButtonActionPerformed
+        // TODO add your handling code here:
+        fillMeldList();
+        displayDate();
+    }//GEN-LAST:event_aktButtonActionPerformed
+
+    private void abmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abmButtonActionPerformed
+        // TODO add your handling code here:
+        ausloggen();
+    }//GEN-LAST:event_abmButtonActionPerformed
 
     public void ausloggen() {
         try {
@@ -1877,6 +1675,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton abmButton;
+    private javax.swing.JButton aktButton;
     private javax.swing.JList<String> benachList;
     private javax.swing.JPanel calendarPanel;
     private javax.swing.JTextField contactUsernameField;
@@ -1930,9 +1730,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
@@ -1941,9 +1738,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JLabel jLabel8;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -1953,17 +1747,16 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel mittwochLabel;
     private javax.swing.JLabel montagLabel;
+    private javax.swing.JButton neuTermButton;
     private javax.swing.JLabel samstagLabel;
-    private javax.swing.JLabel showAddKontakt;
-    private javax.swing.JLabel showRemoveKontakt;
+    private javax.swing.JButton showAddKontakt;
+    private javax.swing.JButton showRemoveKontakt;
     private javax.swing.JLabel sonntagLabel;
     private javax.swing.JList<String> termineListe;
     private javax.swing.JLabel zumProfil;

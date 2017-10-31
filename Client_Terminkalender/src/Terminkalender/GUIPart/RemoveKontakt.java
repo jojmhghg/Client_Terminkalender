@@ -70,10 +70,9 @@ public class RemoveKontakt extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
+        entButton = new javax.swing.JButton();
 
         setTitle("Kontakt entfernen - Termin Kalender");
         setResizable(false);
@@ -88,6 +87,7 @@ public class RemoveKontakt extends javax.swing.JFrame {
         jPanel1.add(userNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 220, 40));
 
         jPanel3.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -99,42 +99,24 @@ public class RemoveKontakt extends javax.swing.JFrame {
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, -1, -1));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 420, 190));
-
-        jPanel5.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel5MouseClicked(evt);
-            }
-        });
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Entfernen");
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 240, -1, -1));
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 220, 10));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(240, 240, 240));
         jLabel1.setText("Geben Sie bitte Ihr Benutzername ein");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, -1, -1));
+
+        entButton.setBackground(new java.awt.Color(46, 49, 117));
+        entButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        entButton.setForeground(new java.awt.Color(240, 240, 240));
+        entButton.setText("Entfernen");
+        entButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        entButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(entButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 250, 120, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,7 +135,8 @@ public class RemoveKontakt extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+    private void entButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entButtonActionPerformed
+        // TODO add your handling code here:
         String username;
         username = this.userNameField.getText();
         
@@ -163,11 +146,7 @@ public class RemoveKontakt extends javax.swing.JFrame {
         } catch (RemoteException e) {
             JOptionPane.showInputDialog(e.getMessage());
         }
-    }//GEN-LAST:event_jLabel11MouseClicked
-
-    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
-        
-    }//GEN-LAST:event_jPanel5MouseClicked
+    }//GEN-LAST:event_entButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,13 +184,12 @@ public class RemoveKontakt extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton entButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField userNameField;
     // End of variables declaration//GEN-END:variables

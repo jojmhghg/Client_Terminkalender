@@ -67,16 +67,14 @@ public class YourProfil extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jSeparator6 = new javax.swing.JSeparator();
         jSeparator7 = new javax.swing.JSeparator();
+        acceptButton = new javax.swing.JButton();
+        abbrButton = new javax.swing.JButton();
 
         setTitle("Profil - Termin Kalender");
         setResizable(false);
@@ -152,6 +150,7 @@ public class YourProfil extends javax.swing.JFrame {
         jPanel3.add(neuesPWField, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 270, 150, 34));
 
         jPanel2.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Terminkalender/GUIPart/if_Account_1891016.png"))); // NOI18N
@@ -163,72 +162,36 @@ public class YourProfil extends javax.swing.JFrame {
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, -1));
 
         jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 350));
-
-        jPanel5.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel5MouseClicked(evt);
-            }
-        });
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Bestätigen");
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, -1, -1));
-
-        jPanel6.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel6MouseClicked(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Abbrechen");
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel12MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, -1, -1));
         jPanel3.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 160, 190, 10));
         jPanel3.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 60, 190, 10));
         jPanel3.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 190, 10));
         jPanel3.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 210, 190, 10));
         jPanel3.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 260, 190, 10));
         jPanel3.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 310, 190, 10));
+
+        acceptButton.setBackground(new java.awt.Color(46, 49, 117));
+        acceptButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        acceptButton.setForeground(new java.awt.Color(240, 240, 240));
+        acceptButton.setText("Bestätigen");
+        acceptButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        acceptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                acceptButtonActionPerformed(evt);
+            }
+        });
+        jPanel3.add(acceptButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 340, 140, 30));
+
+        abbrButton.setBackground(new java.awt.Color(46, 49, 117));
+        abbrButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        abbrButton.setForeground(new java.awt.Color(240, 240, 240));
+        abbrButton.setText("Abbrechen");
+        abbrButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        abbrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abbrButtonActionPerformed(evt);
+            }
+        });
+        jPanel3.add(abbrButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, 140, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -238,7 +201,9 @@ public class YourProfil extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 2, Short.MAX_VALUE))
         );
 
         pack();
@@ -249,15 +214,7 @@ public class YourProfil extends javax.swing.JFrame {
         //Not in use 
     }//GEN-LAST:event_usernameFieldActionPerformed
 
-    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel5MouseClicked
-
-    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel6MouseClicked
-
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+    private void acceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptButtonActionPerformed
         // TODO add your handling code here:
         neuerNachname = nachnameField.getText();
         neuerVorname = vornameField.getText();
@@ -289,12 +246,12 @@ public class YourProfil extends javax.swing.JFrame {
         } catch (RemoteException | BenutzerException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane,ex.getMessage(), "Profil ändern - Termin Kalender", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jLabel11MouseClicked
+    }//GEN-LAST:event_acceptButtonActionPerformed
 
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+    private void abbrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abbrButtonActionPerformed
         // TODO add your handling code here:
         dispose();
-    }//GEN-LAST:event_jLabel12MouseClicked
+    }//GEN-LAST:event_abbrButtonActionPerformed
 
     /**
      * fuelle die Felder von der Profil Seite
@@ -351,11 +308,11 @@ public class YourProfil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton abbrButton;
+    private javax.swing.JButton acceptButton;
     private javax.swing.JPasswordField altesPWField;
     private javax.swing.JTextField emailField;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -365,8 +322,6 @@ public class YourProfil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;

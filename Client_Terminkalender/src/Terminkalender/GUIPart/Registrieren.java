@@ -74,13 +74,11 @@ public class Registrieren extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
+        regButton = new javax.swing.JButton();
+        abbrButton = new javax.swing.JButton();
 
         setResizable(false);
 
@@ -118,6 +116,7 @@ public class Registrieren extends javax.swing.JFrame {
         jPanel2.add(regEmailField, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 128, -1));
 
         jPanel3.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -129,75 +128,33 @@ public class Registrieren extends javax.swing.JFrame {
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 130, -1));
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 220, 270));
-
-        jPanel5.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel5MouseClicked(evt);
-            }
-        });
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Abbrechen");
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 240, 110, -1));
         jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 160, 10));
-
-        jPanel6.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel6MouseClicked(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Registrieren");
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel12MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 240, 120, -1));
         jPanel2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 40, 160, 10));
         jPanel2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 100, 160, 10));
+
+        regButton.setBackground(new java.awt.Color(46, 49, 117));
+        regButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        regButton.setForeground(new java.awt.Color(240, 240, 240));
+        regButton.setText("Registrieren");
+        regButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        regButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regButtonActionPerformed(evt);
+            }
+        });
+        jPanel2.add(regButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 240, 130, 30));
+
+        abbrButton.setBackground(new java.awt.Color(46, 49, 117));
+        abbrButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        abbrButton.setForeground(new java.awt.Color(240, 240, 240));
+        abbrButton.setText("Abbrechen");
+        abbrButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        abbrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abbrButtonActionPerformed(evt);
+            }
+        });
+        jPanel2.add(abbrButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 240, 130, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -214,20 +171,16 @@ public class Registrieren extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+    private void abbrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abbrButtonActionPerformed
+        // TODO add your handling code here:
         regUsername.setText(null);
         regPassword.setText(null);
         regEmail.setText(null);
 
         this.setVisible(false);
-    }//GEN-LAST:event_jLabel11MouseClicked
+    }//GEN-LAST:event_abbrButtonActionPerformed
 
-    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jPanel5MouseClicked
-
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+    private void regButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regButtonActionPerformed
         // TODO add your handling code here:
         String username, password, email;
 
@@ -245,12 +198,7 @@ public class Registrieren extends javax.swing.JFrame {
         catch (SQLException ex) {
             Logger.getLogger(Registrieren.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jLabel12MouseClicked
-
-    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jPanel6MouseClicked
+    }//GEN-LAST:event_regButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -296,17 +244,15 @@ public class Registrieren extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
+    private javax.swing.JButton abbrButton;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JButton regButton;
     private javax.swing.JLabel regEmail;
     private javax.swing.JTextField regEmailField;
     private javax.swing.JLabel regPassword;
