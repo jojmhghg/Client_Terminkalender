@@ -7,7 +7,6 @@ package Terminkalender.GUIPart;
 
 import Terminkalender.BenutzerException;
 import Terminkalender.LauncherInterface;
-import java.awt.Color;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -64,78 +63,59 @@ public class AddKontakt extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         userNameField = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        hinzufuegenButton = new javax.swing.JButton();
+        addKontakt = new javax.swing.JButton();
 
         setTitle("Add Kontakt - Termin Kalender");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setResizable(false);
         setType(java.awt.Window.Type.POPUP);
 
-        jPanel1.setBackground(new java.awt.Color(29, 30, 66));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(240, 240, 240));
         jLabel1.setText("Username des Kontakts");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 180, -1));
 
-        userNameField.setBackground(new java.awt.Color(29, 30, 66));
-        userNameField.setForeground(new java.awt.Color(240, 240, 240));
-        userNameField.setBorder(null);
         userNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userNameFieldActionPerformed(evt);
             }
         });
-        jPanel1.add(userNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 220, -1));
 
-        jPanel3.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel7.setText("Add Kontakt");
-        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Terminkalender/GUIPart/if_Account_1891016.png"))); // NOI18N
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, -1, -1));
-
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 420, 190));
-        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 220, 10));
-
-        hinzufuegenButton.setBackground(new java.awt.Color(46, 49, 117));
-        hinzufuegenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        hinzufuegenButton.setForeground(new java.awt.Color(240, 240, 240));
-        hinzufuegenButton.setText("Hinzufügen");
-        hinzufuegenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        hinzufuegenButton.addActionListener(new java.awt.event.ActionListener() {
+        addKontakt.setText("Hinzufügen");
+        addKontakt.setActionCommand("addKontakt");
+        addKontakt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hinzufuegenButtonActionPerformed(evt);
+                addKontaktActionPerformed(evt);
             }
         });
-        jPanel1.add(hinzufuegenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 240, 140, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(userNameField)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(153, 153, 153)
+                        .addComponent(addKontakt)))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(userNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(addKontakt)
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void userNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameFieldActionPerformed
@@ -144,8 +124,8 @@ public class AddKontakt extends javax.swing.JFrame {
          //username = this.userNameField.getText();
     }//GEN-LAST:event_userNameFieldActionPerformed
 
-    private void hinzufuegenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hinzufuegenButtonActionPerformed
-        // TODO add your handling code here:
+    private void addKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addKontaktActionPerformed
+
         String username;
         username = this.userNameField.getText();
         //int sitzungsID;
@@ -157,7 +137,7 @@ public class AddKontakt extends javax.swing.JFrame {
         } catch (RemoteException e) {
             JOptionPane.showInputDialog(e.getMessage());
         }
-    }//GEN-LAST:event_hinzufuegenButtonActionPerformed
+    }//GEN-LAST:event_addKontaktActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,13 +175,8 @@ public class AddKontakt extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton hinzufuegenButton;
+    private javax.swing.JButton addKontakt;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField userNameField;
     // End of variables declaration//GEN-END:variables
 
