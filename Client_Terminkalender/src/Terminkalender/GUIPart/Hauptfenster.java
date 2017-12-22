@@ -18,7 +18,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -47,7 +49,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     Fenster fenster;
     DefaultListModel meldungModel = new DefaultListModel();
     LinkedList<Termin> dieserMonat;
-    
+
     //Niros globale Variablen
     LocalDate ld = LocalDate.now();
     int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
@@ -56,30 +58,35 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     String day = "";
     JPanel d;
     JButton[] button = new JButton[42];
-    int [] tagBekommen = new int[42];
+    int[] tagBekommen = new int[42];
     int daySelector;
-   
 
     /**
      * Creates new form HauptFenster
+     *
      * @param stub
      * @param sitzungsID
      * @param fenster
      */
-    public Hauptfenster(LauncherInterface stub,int sitzungsID, Fenster fenster) {
+    public Hauptfenster(LauncherInterface stub, int sitzungsID, Fenster fenster) {
         initComponents();
-        
+
         this.stub = stub;
         this.sitzungsID = sitzungsID;
         this.fenster = fenster;
-        
+
         jList1.setModel(listModel);
         termineListe.setModel(termineListeModel);
         daySelector = 0;
         initKalender();
+        try {
+            gruess();
+        } catch (RemoteException | BenutzerException ex) {
+            Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    private void initKalender(){
+
+    private void initKalender() {
         button[0] = day1;
         button[1] = day2;
         button[2] = day3;
@@ -122,10 +129,10 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         button[39] = day40;
         button[40] = day41;
         button[41] = day42;
-        
+
         for (int x = 0; x < 42; x++) {
             final int selection = x;
-            
+
             button[x].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
@@ -133,7 +140,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                         termineListeModel.clear();
                         daySelector = selection;
                         day = button[selection].getActionCommand();
-                        
+
                         int monat1 = month + 1;
                         zeigeTerminInhalt(tagBekommen[selection], monat1, year);
                         //CalenderInhalt start = new CalenderInhalt();
@@ -148,8 +155,28 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         displayDate();
 
     }
+
+    private void gruess() throws RemoteException, BenutzerException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        zumProfil.setText(stub.getUsername(sitzungsID));
+        
+        int zeitJetzt = Integer.parseInt(timeStamp.substring(9, 11));
+        //JOptionPane.showMessageDialog(null, "Guten Morgen!, " + stub.getVorname(sitzungsID), "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
+        if (zeitJetzt > 6 || zeitJetzt < 12) {
+            eventMessage.setText("Guten Morgen, " + stub.getUsername(sitzungsID));
+        }
+        
+        if (zeitJetzt > 12 || zeitJetzt < 18) {
+            eventMessage.setText("Guten Tag, " + stub.getUsername(sitzungsID));
+        }
+        
+        if (zeitJetzt > 18 || zeitJetzt < 6) {
+            eventMessage.setText("Guten Abend, " + stub.getUsername(sitzungsID));
+        }
+        
+    }
     
-        public void zeigeTerminInhalt(int day, int monat, int jahr) throws RemoteException, TerminException, BenutzerException {
+    public void zeigeTerminInhalt(int day, int monat, int jahr) throws RemoteException, TerminException, BenutzerException {
 
         //int tag = Integer.parseInt(day);
         //JOptionPane.showMessageDialog(null, day, "InfoBox: day", JOptionPane.INFORMATION_MESSAGE);
@@ -163,10 +190,11 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         //}
         termineListe.setModel(termineListeModel);
 
-
         StringBuilder sb = new StringBuilder();
         StringBuilder cl = new StringBuilder();
         int i = 0;
+
+        gruess();
 
         for (Termin termin : dieserMonat) {
             //String tag = termin.getDatum().toString().substring(0, 1);
@@ -184,21 +212,30 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             //JOptionPane.showMessageDialog(null, tuiDate, "InfoBox: 2 Datum", JOptionPane.INFORMATION_MESSAGE);
 
             if (calenderDate.equals(tuiDate)) {
-                termineListeModel.addElement(termin.getTitel()+ " um " + termin.getBeginn().toString());
+                termineListeModel.addElement(termin.getTitel() + " um " + termin.getBeginn().toString());
                 i++;
+
+                if (i == 1) {
+                    eventMessage.setText("Sie haben " + i + " Ereignis am " + tuiDate);
+                }
+
+                if (i > 1) {
+                    eventMessage.setText("Sie haben " + i + " Ereignisse am " + tuiDate);
+                }
+
             }
             cl.setLength(0);
-         }
+        }
     }
-    
-     public void displayDate() {
+
+    public void displayDate() {
         for (int x = 0; x < 42; x++)//for loop
         {
             button[x].setText("");//set text
         }
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM YYYY");
         java.util.Calendar cal = java.util.Calendar.getInstance();
-  
+
         cal.set(year, month, 1);
 
         int dayOfWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
@@ -230,7 +267,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
                     String calenderDate = cl.toString();
                     String tuiDate = termin.getDatum().toString();
- 
+
                     if (calenderDate.equals(tuiDate)) {
                         String titel = termin.getTitel();
                         String[] parts = titel.split(" ");
@@ -252,12 +289,15 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 
                 String getSt = sb.toString();
                 String twooLines = day + "\n" + getSt;
-                if (ld.getDayOfMonth() == day && monat == ld.getMonthValue()) {
+                button[x].setForeground(Color.white);
+
+                if (ld.getDayOfMonth() == day && monat == ld.getMonthValue() && year == ld.getYear()) {
                     button[x].setForeground(Color.red);
+                    button[x].setBackground(new Color(29, 30, 66));
                 }
-                
+
                 tagBekommen[x] = day;
-                
+
                 button[x].setText("<html>" + twooLines.replaceAll("\\n", "<br>") + "</html>");
                 sb.setLength(0);
             }
@@ -270,8 +310,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             Logger.getLogger(CalenderPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-     
-     public String setPickedDate() {
+
+    public String setPickedDate() {
         //if condition
         if (day.equals("")) {
             return day;
@@ -281,10 +321,8 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         cal.set(year, month, Integer.parseInt(day));
         return sdf.format(cal.getTime());
     }
-     
-    
-     
-     /*private void zeigeTerminInhalt() throws RemoteException, TerminException, BenutzerException {
+
+    /*private void zeigeTerminInhalt() throws RemoteException, TerminException, BenutzerException {
         int i = 0;
         Datum datum = null;
         try {
@@ -298,15 +336,13 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
         }
     }*/
-    
     /**
-    * Standart Konstrucktor
-    */
+     * Standart Konstrucktor
+     */
     public Hauptfenster() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
     /**
      *
      * @author Edwrard Nana
@@ -330,14 +366,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         }
 
     }
-    
+
     DefaultListModel event = new DefaultListModel();
 
     public void AddEvent(String eventname) {
         benachList.setModel(event);
         event.addElement(eventname);
     }
-    
+
     public void loechEvent(String eventname) {
         benachList.setModel(event);
         event.removeElement(eventname);
@@ -353,24 +389,25 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        contactUsernameField = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jLabel8 = new javax.swing.JLabel();
+        showAddKontakt = new javax.swing.JButton();
+        showRemoveKontakt = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         benachList = new javax.swing.JList<>();
-        jPanel2 = new javax.swing.JPanel();
-        contactUsernameField = new javax.swing.JTextField();
-        showAddKontakt = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        showRemoveKontakt = new javax.swing.JButton();
-        showProfilButon = new javax.swing.JButton();
-        abmeldenButton = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         calendarPanel = new javax.swing.JPanel();
         headerPanel = new javax.swing.JPanel();
-        previousButton = new javax.swing.JButton();
         dateLabel = new javax.swing.JLabel();
-        nextButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         dienstagLabel = new javax.swing.JLabel();
         donnerstagLabel = new javax.swing.JLabel();
@@ -421,62 +458,55 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         day21 = new javax.swing.JButton();
         day28 = new javax.swing.JButton();
         day35 = new javax.swing.JButton();
-        newTerminButton = new javax.swing.JButton();
-        benachaktuel = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         termineListe = new javax.swing.JList<>();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        zumProfil = new javax.swing.JLabel();
+        eventMessage = new javax.swing.JLabel();
+        neuTermButton = new javax.swing.JButton();
+        aktButton = new javax.swing.JButton();
+        abmButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Benachrichtigungen", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        mainPanel.setBackground(new java.awt.Color(21, 22, 48));
+        mainPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        benachList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = {};
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        benachList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                benachListMouseClicked(evt);
-            }
-        });
-        benachList.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                benachListComponentShown(evt);
-            }
-        });
-        jScrollPane2.setViewportView(benachList);
+        jPanel6.setBackground(new java.awt.Color(29, 30, 66));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
-        );
+        jPanel2.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Kontaktliste", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
-
-        showAddKontakt.setText("Hinzufügen");
-        showAddKontakt.addActionListener(new java.awt.event.ActionListener() {
+        contactUsernameField.setBackground(new java.awt.Color(29, 30, 66));
+        contactUsernameField.setForeground(new java.awt.Color(240, 240, 240));
+        contactUsernameField.setBorder(null);
+        contactUsernameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showAddKontaktActionPerformed(evt);
+                contactUsernameFieldActionPerformed(evt);
             }
         });
+        jPanel2.add(contactUsernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 35, 110, 20));
 
+        jScrollPane1.setBackground(new java.awt.Color(29, 30, 66));
+        jScrollPane1.setBorder(null);
+
+        jList1.setBackground(new java.awt.Color(29, 30, 66));
+        jList1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jList1.setForeground(new java.awt.Color(240, 240, 240));
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -494,537 +524,717 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         });
         jScrollPane1.setViewportView(jList1);
 
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 210, 110));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel8.setText("Kontaktliste");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 2, -1, 20));
+
+        showAddKontakt.setBackground(new java.awt.Color(29, 30, 66));
+        showAddKontakt.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        showAddKontakt.setForeground(new java.awt.Color(240, 240, 240));
+        showAddKontakt.setText("Hinzufügen");
+        showAddKontakt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        showAddKontakt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showAddKontaktActionPerformed(evt);
+            }
+        });
+        jPanel2.add(showAddKontakt, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 33, 90, 20));
+
+        showRemoveKontakt.setBackground(new java.awt.Color(29, 30, 66));
+        showRemoveKontakt.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        showRemoveKontakt.setForeground(new java.awt.Color(240, 240, 240));
         showRemoveKontakt.setText("Entfernen");
+        showRemoveKontakt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         showRemoveKontakt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showRemoveKontaktActionPerformed(evt);
             }
         });
+        jPanel2.add(showRemoveKontakt, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 193, 90, 20));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(contactUsernameField)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(showAddKontakt)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                        .addComponent(showRemoveKontakt)))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(contactUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(showAddKontakt)
-                    .addComponent(showRemoveKontakt))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        jPanel6.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 230, 231));
 
-        showProfilButon.setText("Zum Profil");
-        showProfilButon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showProfilButonActionPerformed(evt);
+        jPanel1.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        benachList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        benachList.setBackground(new java.awt.Color(29, 30, 66));
+        benachList.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        benachList.setForeground(new java.awt.Color(240, 240, 240));
+        benachList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                benachListMouseClicked(evt);
             }
         });
-
-        abmeldenButton.setText("Abmelden");
-        abmeldenButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                abmeldenButtonActionPerformed(evt);
+        benachList.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                benachListComponentShown(evt);
             }
         });
+        jScrollPane2.setViewportView(benachList);
 
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 210, 140));
 
-        headerPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel11.setText("Benachrichtigungen");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 2, -1, 20));
 
-        previousButton.setText("<<");
-        previousButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                previousButtonActionPerformed(evt);
+        jPanel6.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 230, 190));
+
+        jPanel7.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel7.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel2.setText("Termin");
+        jPanel7.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(29, 30, 66));
+        jLabel1.setText("Kalender");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
             }
         });
+        jPanel7.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 150, -1));
 
-        dateLabel.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel3.setText("MADE BY ZUSE TEAM 2017");
+        jPanel7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, -1));
+
+        jPanel6.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 200, 100));
+
+        mainPanel.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 580));
+
+        calendarPanel.setBackground(new java.awt.Color(29, 30, 66));
+        calendarPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        headerPanel.setBackground(new java.awt.Color(46, 49, 117));
+        headerPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        headerPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        dateLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        dateLabel.setForeground(new java.awt.Color(240, 240, 240));
+        dateLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dateLabel.setText("Datum:");
+        headerPanel.add(dateLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 210, -1));
 
-        nextButton.setText(">>");
-        nextButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nextButtonActionPerformed(evt);
-            }
-        });
+        calendarPanel.add(headerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 330, 40));
 
-        javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
-        headerPanel.setLayout(headerPanelLayout);
-        headerPanelLayout.setHorizontalGroup(
-            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerPanelLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(previousButton)
-                .addGap(247, 247, 247)
-                .addComponent(dateLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
-                .addComponent(nextButton)
-                .addGap(22, 22, 22))
-        );
-        headerPanelLayout.setVerticalGroup(
-            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(previousButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(dateLabel)
-                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setBackground(new java.awt.Color(21, 22, 48));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         dienstagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        dienstagLabel.setForeground(new java.awt.Color(240, 240, 240));
         dienstagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dienstagLabel.setText("Mo");
+        jPanel3.add(dienstagLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 79, 30));
 
         donnerstagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        donnerstagLabel.setForeground(new java.awt.Color(240, 240, 240));
         donnerstagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         donnerstagLabel.setText("Mi");
+        jPanel3.add(donnerstagLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 85, 30));
 
         mittwochLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        mittwochLabel.setForeground(new java.awt.Color(240, 240, 240));
         mittwochLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mittwochLabel.setText("Di");
+        jPanel3.add(mittwochLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 85, 30));
 
         montagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        montagLabel.setForeground(new java.awt.Color(240, 240, 240));
         montagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         montagLabel.setText("So");
         montagLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel3.add(montagLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 82, 30));
 
         samstagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        samstagLabel.setForeground(new java.awt.Color(240, 240, 240));
         samstagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         samstagLabel.setText("Fr");
+        jPanel3.add(samstagLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, 83, 30));
 
         sonntagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        sonntagLabel.setForeground(new java.awt.Color(240, 240, 240));
         sonntagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sonntagLabel.setText("Sa");
+        jPanel3.add(sonntagLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 97, 30));
 
         freitagLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        freitagLabel.setForeground(new java.awt.Color(240, 240, 240));
         freitagLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         freitagLabel.setText("Do");
+        jPanel3.add(freitagLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 0, 85, 30));
 
-        day8.setBackground(new java.awt.Color(255, 255, 255));
-        day8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day8.setBackground(new java.awt.Color(46, 49, 117));
+        day8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day8.setForeground(new java.awt.Color(240, 240, 240));
+        day8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day8.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day8.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day8.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 100, 70));
 
-        day3.setBackground(new java.awt.Color(255, 255, 255));
-        day3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day3.setBackground(new java.awt.Color(46, 49, 117));
+        day3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day3.setForeground(new java.awt.Color(240, 240, 240));
+        day3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day3.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 100, 70));
 
-        day4.setBackground(new java.awt.Color(255, 255, 255));
-        day4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day4.setBackground(new java.awt.Color(46, 49, 117));
+        day4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day4.setForeground(new java.awt.Color(240, 240, 240));
+        day4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day4.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day4.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 100, 70));
 
-        day5.setBackground(new java.awt.Color(255, 255, 255));
-        day5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day5.setBackground(new java.awt.Color(46, 49, 117));
+        day5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day5.setForeground(new java.awt.Color(240, 240, 240));
+        day5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day5.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day5.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day5.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         day5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 day5ActionPerformed(evt);
             }
         });
+        jPanel3.add(day5, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 30, 100, 70));
 
-        day6.setBackground(new java.awt.Color(255, 255, 255));
-        day6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day6.setBackground(new java.awt.Color(46, 49, 117));
+        day6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day6.setForeground(new java.awt.Color(240, 240, 240));
+        day6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day6.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day6.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         day6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 day6ActionPerformed(evt);
             }
         });
+        jPanel3.add(day6, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 30, 100, 70));
 
-        day2.setBackground(new java.awt.Color(255, 255, 255));
-        day2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day2.setBackground(new java.awt.Color(46, 49, 117));
+        day2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day2.setForeground(new java.awt.Color(240, 240, 240));
+        day2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day2.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 100, 70));
 
-        day7.setBackground(new java.awt.Color(255, 255, 255));
-        day7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day7.setBackground(new java.awt.Color(46, 49, 117));
+        day7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day7.setForeground(new java.awt.Color(240, 240, 240));
+        day7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day7.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day7, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 30, 100, 70));
 
-        day1.setBackground(new java.awt.Color(255, 255, 255));
-        day1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day1.setBackground(new java.awt.Color(46, 49, 117));
+        day1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day1.setForeground(new java.awt.Color(240, 240, 240));
+        day1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 100, 70));
 
-        day15.setBackground(new java.awt.Color(255, 255, 255));
-        day15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day15.setBackground(new java.awt.Color(46, 49, 117));
+        day15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day15.setForeground(new java.awt.Color(240, 240, 240));
+        day15.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day15.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day15.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day15.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 100, 70));
 
-        day29.setBackground(new java.awt.Color(255, 255, 255));
-        day29.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day29.setBackground(new java.awt.Color(46, 49, 117));
+        day29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day29.setForeground(new java.awt.Color(240, 240, 240));
+        day29.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day29.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day29.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day29.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day29.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 100, 70));
 
-        day39.setBackground(new java.awt.Color(255, 255, 255));
-        day39.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day39.setBackground(new java.awt.Color(46, 49, 117));
+        day39.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day39.setForeground(new java.awt.Color(240, 240, 240));
+        day39.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day39.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day39.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day39.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day39.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day39, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 380, 100, 70));
 
-        day22.setBackground(new java.awt.Color(255, 255, 255));
-        day22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day22.setBackground(new java.awt.Color(46, 49, 117));
+        day22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day22.setForeground(new java.awt.Color(240, 240, 240));
+        day22.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day22.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day22.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day22.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 100, 70));
 
-        day30.setBackground(new java.awt.Color(255, 255, 255));
-        day30.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day30.setBackground(new java.awt.Color(46, 49, 117));
+        day30.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day30.setForeground(new java.awt.Color(240, 240, 240));
+        day30.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day30.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day30.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day30.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day30.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day30, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 100, 70));
 
-        day23.setBackground(new java.awt.Color(255, 255, 255));
-        day23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day23.setBackground(new java.awt.Color(46, 49, 117));
+        day23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day23.setForeground(new java.awt.Color(240, 240, 240));
+        day23.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day23.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day23.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day23.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day23, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 240, 100, 70));
 
-        day16.setBackground(new java.awt.Color(255, 255, 255));
-        day16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day16.setBackground(new java.awt.Color(46, 49, 117));
+        day16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day16.setForeground(new java.awt.Color(240, 240, 240));
+        day16.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day16.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day16.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day16.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         day16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 day16ActionPerformed(evt);
             }
         });
+        jPanel3.add(day16, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 100, 70));
 
-        day9.setBackground(new java.awt.Color(255, 255, 255));
-        day9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day9.setBackground(new java.awt.Color(46, 49, 117));
+        day9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day9.setForeground(new java.awt.Color(240, 240, 240));
+        day9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day9.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day9.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         day9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 day9ActionPerformed(evt);
             }
         });
+        jPanel3.add(day9, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 100, 70));
 
-        day36.setBackground(new java.awt.Color(255, 255, 255));
-        day36.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day36.setBackground(new java.awt.Color(46, 49, 117));
+        day36.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day36.setForeground(new java.awt.Color(240, 240, 240));
+        day36.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day36.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day36.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day36.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day36.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         day36.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 day36ActionPerformed(evt);
             }
         });
+        jPanel3.add(day36, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 100, 70));
 
-        day37.setBackground(new java.awt.Color(255, 255, 255));
-        day37.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day37.setBackground(new java.awt.Color(46, 49, 117));
+        day37.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day37.setForeground(new java.awt.Color(240, 240, 240));
+        day37.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day37.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day37.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day37.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day37.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day37, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, 100, 70));
 
-        day10.setBackground(new java.awt.Color(255, 255, 255));
-        day10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day10.setBackground(new java.awt.Color(46, 49, 117));
+        day10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day10.setForeground(new java.awt.Color(240, 240, 240));
+        day10.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day10.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day10.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day10.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day10, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, 100, 70));
 
-        day17.setBackground(new java.awt.Color(255, 255, 255));
-        day17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day17.setBackground(new java.awt.Color(46, 49, 117));
+        day17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day17.setForeground(new java.awt.Color(240, 240, 240));
+        day17.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day17.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day17.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day17.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day17, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 100, 70));
 
-        day24.setBackground(new java.awt.Color(255, 255, 255));
-        day24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day24.setBackground(new java.awt.Color(46, 49, 117));
+        day24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day24.setForeground(new java.awt.Color(240, 240, 240));
+        day24.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day24.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day24.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day24.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day24, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 100, 70));
 
-        day31.setBackground(new java.awt.Color(255, 255, 255));
-        day31.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day31.setBackground(new java.awt.Color(46, 49, 117));
+        day31.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day31.setForeground(new java.awt.Color(240, 240, 240));
+        day31.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day31.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day31.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day31.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day31.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day31, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, 100, 70));
 
-        day38.setBackground(new java.awt.Color(255, 255, 255));
-        day38.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day38.setBackground(new java.awt.Color(46, 49, 117));
+        day38.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day38.setForeground(new java.awt.Color(240, 240, 240));
+        day38.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day38.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day38.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day38.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day38.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day38, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 380, 100, 70));
 
-        day11.setBackground(new java.awt.Color(255, 255, 255));
-        day11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day11.setBackground(new java.awt.Color(46, 49, 117));
+        day11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day11.setForeground(new java.awt.Color(240, 240, 240));
+        day11.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day11.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day11.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day11.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day11, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, 100, 70));
 
-        day18.setBackground(new java.awt.Color(255, 255, 255));
-        day18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day18.setBackground(new java.awt.Color(46, 49, 117));
+        day18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day18.setForeground(new java.awt.Color(240, 240, 240));
+        day18.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day18.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day18.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day18.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day18, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 170, 100, 70));
 
-        day25.setBackground(new java.awt.Color(255, 255, 255));
-        day25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day25.setBackground(new java.awt.Color(46, 49, 117));
+        day25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day25.setForeground(new java.awt.Color(240, 240, 240));
+        day25.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day25.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day25.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day25.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day25.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         day25.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 day25ActionPerformed(evt);
             }
         });
+        jPanel3.add(day25, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 240, 100, 70));
 
-        day32.setBackground(new java.awt.Color(255, 255, 255));
-        day32.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day32.setBackground(new java.awt.Color(46, 49, 117));
+        day32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day32.setForeground(new java.awt.Color(240, 240, 240));
+        day32.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day32.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day32.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day32.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day32.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day32, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 310, 100, 70));
 
-        day40.setBackground(new java.awt.Color(255, 255, 255));
-        day40.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day40.setBackground(new java.awt.Color(46, 49, 117));
+        day40.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day40.setForeground(new java.awt.Color(240, 240, 240));
+        day40.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day40.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day40.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day40.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day40.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day40, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, 100, 70));
 
-        day12.setBackground(new java.awt.Color(255, 255, 255));
-        day12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day12.setBackground(new java.awt.Color(46, 49, 117));
+        day12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day12.setForeground(new java.awt.Color(240, 240, 240));
+        day12.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day12.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day12.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day12.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day12, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, 100, 70));
 
-        day19.setBackground(new java.awt.Color(255, 255, 255));
-        day19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day19.setBackground(new java.awt.Color(46, 49, 117));
+        day19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day19.setForeground(new java.awt.Color(240, 240, 240));
+        day19.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day19.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day19.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day19.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day19, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 170, 100, 70));
 
-        day13.setBackground(new java.awt.Color(255, 255, 255));
-        day13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day13.setBackground(new java.awt.Color(46, 49, 117));
+        day13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day13.setForeground(new java.awt.Color(240, 240, 240));
+        day13.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day13.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day13.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day13.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day13, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 100, 70));
 
-        day26.setBackground(new java.awt.Color(255, 255, 255));
-        day26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day26.setBackground(new java.awt.Color(46, 49, 117));
+        day26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day26.setForeground(new java.awt.Color(240, 240, 240));
+        day26.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day26.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day26.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day26.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day26, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 240, 100, 70));
 
-        day33.setBackground(new java.awt.Color(255, 255, 255));
-        day33.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day33.setBackground(new java.awt.Color(46, 49, 117));
+        day33.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day33.setForeground(new java.awt.Color(240, 240, 240));
+        day33.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day33.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day33.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day33.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day33.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day33, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, 100, 70));
 
-        day34.setBackground(new java.awt.Color(255, 255, 255));
-        day34.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day34.setBackground(new java.awt.Color(46, 49, 117));
+        day34.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day34.setForeground(new java.awt.Color(240, 240, 240));
+        day34.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day34.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day34.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day34.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day34.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day34, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 310, 100, 70));
 
-        day20.setBackground(new java.awt.Color(255, 255, 255));
-        day20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day20.setBackground(new java.awt.Color(46, 49, 117));
+        day20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day20.setForeground(new java.awt.Color(240, 240, 240));
+        day20.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day20.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day20.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day20.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day20, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 170, 100, 70));
 
-        day41.setBackground(new java.awt.Color(255, 255, 255));
-        day41.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        day41.setBackground(new java.awt.Color(46, 49, 117));
+        day41.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day41.setForeground(new java.awt.Color(240, 240, 240));
+        day41.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day41.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day41.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day41.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day41.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day41, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 380, 100, 70));
 
-        day42.setBackground(new java.awt.Color(255, 255, 255));
-        day42.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        day27.setBackground(new java.awt.Color(255, 255, 255));
-        day27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        day14.setBackground(new java.awt.Color(255, 255, 255));
-        day14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        day21.setBackground(new java.awt.Color(255, 255, 255));
-        day21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        day28.setBackground(new java.awt.Color(255, 255, 255));
-        day28.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        day35.setBackground(new java.awt.Color(255, 255, 255));
-        day35.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(montagLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                                .addComponent(day8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(day15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(day22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(day1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(day36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(day29, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(day30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dienstagLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addComponent(day2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(day3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(mittwochLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                    .addComponent(day10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(day4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(donnerstagLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                    .addComponent(day39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(day40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(freitagLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                    .addComponent(day12, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                    .addComponent(day19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(day6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(samstagLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                    .addComponent(day13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(day7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sonntagLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                    .addComponent(day42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day28, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(day35, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(montagLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dienstagLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mittwochLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(donnerstagLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(freitagLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(samstagLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sonntagLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(day3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day5, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day7, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(day8, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day9, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day10, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day11, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day12, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day13, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day14, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(day15, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(day17, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(day18, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(day19, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(day20, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(day21, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(day22, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(day24, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(day25, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(day26, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(day27, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(day28, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(day29, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(day36, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(day30, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(day37, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(day31, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(day38, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(day32, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(day39, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(day33, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(day34, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(day40, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(day41, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(day35, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(day42, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(day23, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(day16, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout calendarPanelLayout = new javax.swing.GroupLayout(calendarPanel);
-        calendarPanel.setLayout(calendarPanelLayout);
-        calendarPanelLayout.setHorizontalGroup(
-            calendarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, calendarPanelLayout.createSequentialGroup()
-                .addGroup(calendarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(headerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        calendarPanelLayout.setVerticalGroup(
-            calendarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(calendarPanelLayout.createSequentialGroup()
-                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        newTerminButton.setText("Neuen Termin");
-        newTerminButton.addActionListener(new java.awt.event.ActionListener() {
+        day42.setBackground(new java.awt.Color(46, 49, 117));
+        day42.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day42.setForeground(new java.awt.Color(240, 240, 240));
+        day42.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day42.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day42.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day42.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day42.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        day42.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newTerminButtonActionPerformed(evt);
+                day42ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(day42, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 380, 100, 70));
+
+        day27.setBackground(new java.awt.Color(46, 49, 117));
+        day27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day27.setForeground(new java.awt.Color(240, 240, 240));
+        day27.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day27.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day27.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day27.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day27.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day27, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 240, 100, 70));
+
+        day14.setBackground(new java.awt.Color(46, 49, 117));
+        day14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day14.setForeground(new java.awt.Color(240, 240, 240));
+        day14.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day14.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day14.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day14.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day14, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 100, 100, 70));
+
+        day21.setBackground(new java.awt.Color(46, 49, 117));
+        day21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day21.setForeground(new java.awt.Color(240, 240, 240));
+        day21.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day21.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day21.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day21.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day21.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day21, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 170, 100, 70));
+
+        day28.setBackground(new java.awt.Color(46, 49, 117));
+        day28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day28.setForeground(new java.awt.Color(240, 240, 240));
+        day28.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day28.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day28.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day28.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day28.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day28, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 240, 100, 70));
+
+        day35.setBackground(new java.awt.Color(46, 49, 117));
+        day35.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        day35.setForeground(new java.awt.Color(240, 240, 240));
+        day35.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(21, 22, 48), 2, true));
+        day35.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        day35.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        day35.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        day35.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(day35, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 310, 100, 70));
+
+        calendarPanel.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 710, 460));
+
+        jPanel14.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel14.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel14MouseClicked(evt);
             }
         });
 
-        benachaktuel.setText("Aktualisieren");
-        benachaktuel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                benachaktuelActionPerformed(evt);
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("<<");
+        jLabel16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel16MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel16MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel16MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jLabel16MouseReleased(evt);
             }
         });
 
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                        .addComponent(newTerminButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(benachaktuel)
-                        .addGap(18, 18, 18)
-                        .addComponent(showProfilButon)
-                        .addGap(17, 17, 17)
-                        .addComponent(abmeldenButton))
-                    .addComponent(calendarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(29, 29, 29)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(abmeldenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(showProfilButon)
-                                        .addComponent(newTerminButton)
-                                        .addComponent(benachaktuel)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(calendarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Alle Termine", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        calendarPanel.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 80, -1));
 
+        jPanel15.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel15.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel15MouseClicked(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText(">>");
+        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel17MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel17MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jLabel17MouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        calendarPanel.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 10, 80, -1));
+
+        mainPanel.add(calendarPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 700, 510));
+
+        jPanel5.setBackground(new java.awt.Color(29, 30, 66));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel4.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        termineListe.setBackground(new java.awt.Color(29, 30, 66));
+        termineListe.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        termineListe.setForeground(new java.awt.Color(240, 240, 240));
         termineListe.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -1040,106 +1250,104 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         });
         jScrollPane3.setViewportView(termineListe);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 160, 350));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel7.setText("Alle Termine");
+        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 2, -1, 20));
+
+        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 390));
+
+        mainPanel.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 160, 200, 420));
+
+        jPanel13.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel13.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel13MouseClicked(evt);
+            }
+        });
+
+        zumProfil.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        zumProfil.setForeground(new java.awt.Color(240, 240, 240));
+        zumProfil.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        zumProfil.setText("Zum Profil");
+        zumProfil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                zumProfilMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                zumProfilMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                zumProfilMouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(zumProfil, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 5, Short.MAX_VALUE))
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(zumProfil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        mainPanel.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 70, 180, 80));
+
+        eventMessage.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        eventMessage.setForeground(new java.awt.Color(240, 240, 240));
+        eventMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        eventMessage.setText("Hallo!");
+        mainPanel.add(eventMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, 390, 30));
+
+        neuTermButton.setBackground(new java.awt.Color(46, 49, 117));
+        neuTermButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        neuTermButton.setForeground(new java.awt.Color(240, 240, 240));
+        neuTermButton.setText("Neuen Termin");
+        neuTermButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        neuTermButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                neuTermButtonActionPerformed(evt);
+            }
+        });
+        mainPanel.add(neuTermButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 130, 30));
+
+        aktButton.setBackground(new java.awt.Color(46, 49, 117));
+        aktButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        aktButton.setForeground(new java.awt.Color(240, 240, 240));
+        aktButton.setText("Aktualisieren");
+        aktButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        aktButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aktButtonActionPerformed(evt);
+            }
+        });
+        mainPanel.add(aktButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 20, 130, 30));
+
+        abmButton.setBackground(new java.awt.Color(46, 49, 117));
+        abmButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        abmButton.setForeground(new java.awt.Color(240, 240, 240));
+        abmButton.setText("Abmelden");
+        abmButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        abmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abmButtonActionPerformed(evt);
+            }
+        });
+        mainPanel.add(abmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1027, 20, 130, 30));
+
+        getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 0, -1, 580));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void showRemoveKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRemoveKontaktActionPerformed
-        //RemoveKontakt start = new RemoveKontakt(stub,sitzungsID);
-        //start.setVisible(true);
-        int selectedIndex = jList1.getSelectedIndex();
-        int size = listModel.getSize();
-        if (selectedIndex != -1){
-            try {
-                stub.removeKontakt(listModel.get(selectedIndex).toString(), sitzungsID);
-                listModel.remove(selectedIndex);
-                selectedIndex--;
-            } catch (BenutzerException | RemoteException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontakt entfernen - Termin Kalender", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        else if (size == 0){
-            showRemoveKontakt.setEnabled(false);
-            JOptionPane.showMessageDialog(null, "Die Liste ist doch leer !", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Ein Problem ist aufgetretten", "Kontakt entfernen - Termin Kalender", JOptionPane.WARNING_MESSAGE);
-        }
-        
-        //fillList();
-        
-    }//GEN-LAST:event_showRemoveKontaktActionPerformed
-
-    private void showAddKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAddKontaktActionPerformed
-        //AddKontakt start= new AddKontakt(stub,sitzungsID);
-        //start.setVisible(true);
-        String contact = contactUsernameField.getText();
-        if (contact.length() > 0) {
-            try {
-                //if (contact.length() >= 0) {
-                //AddKontakt add = new AddKontakt(stub,sitzungsID);
-                stub.addKontakt(contact, sitzungsID);
-                listModel.addElement(contact);
-                contactUsernameField.setText("");
-                showRemoveKontakt.setEnabled(true);
-            } catch (RemoteException | BenutzerException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontakt hinzufügen - Termin Kalender", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Geben Sie bitte einen gültigen Benutzername an", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_showAddKontaktActionPerformed
 
     private void jList1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jList1ComponentShown
 //        int i = 0;
@@ -1155,31 +1363,15 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
 //        }
     }//GEN-LAST:event_jList1ComponentShown
 
-    private void abmeldenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abmeldenButtonActionPerformed
-        ausloggen();
-    }//GEN-LAST:event_abmeldenButtonActionPerformed
-
-    private void showProfilButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showProfilButonActionPerformed
-        YourProfil profil;
-        profil = new YourProfil(stub, sitzungsID);
-        profil.fillProfil();
-        profil.setVisible(true);
-    }//GEN-LAST:event_showProfilButonActionPerformed
-
     private void benachListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_benachListMouseClicked
         int size = meldungModel.getSize();
-        if(!(size == 0)){
+        if (!(size == 0)) {
             new EventDet(benachList.getSelectedValue(), stub, sitzungsID, benachList.getSelectedIndex(), this).setVisible(true);
         }
     }//GEN-LAST:event_benachListMouseClicked
-    
-    private void benachaktuelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_benachaktuelActionPerformed
-        fillMeldList();
-        displayDate();
-    }//GEN-LAST:event_benachaktuelActionPerformed
 
     private void benachListComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_benachListComponentShown
-        
+
     }//GEN-LAST:event_benachListComponentShown
 
     private void day6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_day6ActionPerformed
@@ -1206,39 +1398,6 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         // TODO add your handling code here:
     }//GEN-LAST:event_day25ActionPerformed
 
-    private void newTerminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTerminButtonActionPerformed
-        TerminAnlegen startTA = new TerminAnlegen(stub, sitzungsID, this);
-        startTA.setVisible(true);
-    }//GEN-LAST:event_newTerminButtonActionPerformed
-
-    private void previousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousButtonActionPerformed
-        month--;
-        displayDate();
-    }//GEN-LAST:event_previousButtonActionPerformed
-
-    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-        month++;
-        displayDate();
-    }//GEN-LAST:event_nextButtonActionPerformed
-
-    private void termineListeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_termineListeMouseClicked
-        int size = termineListeModel.getSize();
-        if(!(size == 0)){
-            try {
-                final int selection = daySelector;
-                int terminID = stub.getTermineAmTag(new Datum(tagBekommen[selection],month+1,year), sitzungsID).get(termineListe.getSelectedIndex()).getID();
-
-                new TerminInhalt(terminID, stub, sitzungsID).setVisible(true);
-            } catch (RemoteException | BenutzerException | TerminException | Datum.DatumException ex) {
-                JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_termineListeMouseClicked
-
-    private void termineListeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_termineListeMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_termineListeMouseEntered
-
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         KontaktProfil profil;
         try {
@@ -1247,25 +1406,184 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         } catch (RemoteException | BenutzerException ex) {
             Logger.getLogger(Hauptfenster.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jList1MouseClicked
 
-    public void ausloggen(){
+    private void termineListeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_termineListeMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_termineListeMouseEntered
+
+    private void termineListeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_termineListeMouseClicked
+        int size = termineListeModel.getSize();
+        if (!(size == 0)) {
+            try {
+                final int selection = daySelector;
+                int terminID = stub.getTermineAmTag(new Datum(tagBekommen[selection], month + 1, year), sitzungsID).get(termineListe.getSelectedIndex()).getID();
+
+                new TerminInhalt(terminID, stub, sitzungsID).setVisible(true);
+            } catch (RemoteException | BenutzerException | TerminException | Datum.DatumException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_termineListeMouseClicked
+
+    private void zumProfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zumProfilMouseClicked
+        // TODO add your handling code here:
+        zumProfil.setForeground(Color.white);
+        YourProfil profil;
+        profil = new YourProfil(stub, sitzungsID);
+        profil.fillProfil();
+        profil.setVisible(true);
+    }//GEN-LAST:event_zumProfilMouseClicked
+
+    private void jPanel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel13MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel13MouseClicked
+
+    private void jLabel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseClicked
+        // TODO add your handling code here:
+        jLabel16.setForeground(Color.white);
+        month--;
+        displayDate();
+    }//GEN-LAST:event_jLabel16MouseClicked
+
+    private void jPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel14MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel14MouseClicked
+
+    private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
+        // TODO add your handling code here:
+        jLabel17.setForeground(Color.white);
+        month++;
+        displayDate();
+    }//GEN-LAST:event_jLabel17MouseClicked
+
+    private void jPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel15MouseClicked
+
+    private void day42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_day42ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_day42ActionPerformed
+
+    private void jLabel16MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseReleased
+        // TODO add your handling code here:
+        jLabel16.setForeground(Color.WHITE);
+    }//GEN-LAST:event_jLabel16MouseReleased
+
+    private void jLabel17MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseReleased
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jLabel17MouseReleased
+
+    private void zumProfilMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zumProfilMouseReleased
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_zumProfilMouseReleased
+
+    private void contactUsernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactUsernameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contactUsernameFieldActionPerformed
+
+    private void jLabel16MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MousePressed
+        // TODO add your handling code here:
+        jLabel16.setForeground(Color.gray);
+    }//GEN-LAST:event_jLabel16MousePressed
+
+    private void jLabel16MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel16MouseEntered
+
+    private void jLabel17MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MousePressed
+        // TODO add your handling code here:
+        jLabel17.setForeground(Color.gray);
+    }//GEN-LAST:event_jLabel17MousePressed
+
+    private void zumProfilMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zumProfilMousePressed
+        // TODO add your handling code here:
+        zumProfil.setForeground(Color.gray);
+    }//GEN-LAST:event_zumProfilMousePressed
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        Version startVersion = new Version();
+        startVersion.setVisible(true);
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void showAddKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAddKontaktActionPerformed
+        // TODO add your handling code here:
+        String contact = contactUsernameField.getText();
+        if (contact.length() > 0) {
+            try {
+                //if (contact.length() >= 0) {
+                //AddKontakt add = new AddKontakt(stub,sitzungsID);
+                stub.addKontakt(contact, sitzungsID);
+                listModel.addElement(contact);
+                contactUsernameField.setText("");
+                showRemoveKontakt.setEnabled(true);
+            } catch (RemoteException | BenutzerException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontakt hinzufügen - Termin Kalender", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Geben Sie bitte einen gültigen Benutzername an", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
+
+        }
+    }//GEN-LAST:event_showAddKontaktActionPerformed
+
+    private void showRemoveKontaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRemoveKontaktActionPerformed
+        // TODO add your handling code here:
+        int selectedIndex = jList1.getSelectedIndex();
+        int size = listModel.getSize();
+        if (selectedIndex != -1) {
+            try {
+                stub.removeKontakt(listModel.get(selectedIndex).toString(), sitzungsID);
+                listModel.remove(selectedIndex);
+                selectedIndex--;
+            } catch (BenutzerException | RemoteException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Kontakt entfernen - Termin Kalender", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (size == 0) {
+            showRemoveKontakt.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "Die Liste ist doch leer !", "Hauptfenster - Termin Kalender", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Ein Problem ist aufgetretten", "Kontakt entfernen - Termin Kalender", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_showRemoveKontaktActionPerformed
+
+    private void neuTermButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neuTermButtonActionPerformed
+        // TODO add your handling code here:
+        TerminAnlegen startTA = new TerminAnlegen(stub, sitzungsID, this);
+        startTA.setVisible(true);
+    }//GEN-LAST:event_neuTermButtonActionPerformed
+
+    private void aktButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aktButtonActionPerformed
+        // TODO add your handling code here:
+        fillMeldList();
+        displayDate();
+    }//GEN-LAST:event_aktButtonActionPerformed
+
+    private void abmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abmButtonActionPerformed
+        // TODO add your handling code here:
+        ausloggen();
+    }//GEN-LAST:event_abmButtonActionPerformed
+
+    public void ausloggen() {
         try {
-            
+
             stub.ausloggen(sitzungsID);
             //this.setVisible(false);
             this.dispose();
             this.fenster.setVisible(true);
             /*GUI out = new GUI();
             out.startGUI();         */
-            } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(null,ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     /**
-     *  Fuele Kontaktliste auf
+     * Fuele Kontaktliste auf
      */
     public void fillContactList() {
         int i = 0;
@@ -1279,14 +1597,14 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Hauptfenster", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-     /**
+
+    /**
      * Fuele Meldung liste auf
      */
     public void fillMeldList() {
         meldungModel = new DefaultListModel();
-        int i=0 ;
-            try {
+        int i = 0;
+        try {
             for (Meldungen meldung : stub.getMeldungen(sitzungsID)) {
                 i++;
                 if (meldung.getStatus()) {
@@ -1297,31 +1615,31 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
                 }
 
             }
-                
-            } catch (RemoteException ex) {
-                JOptionPane.showMessageDialog(null,ex.getMessage(), "Benachrichtigungen aktualisierung", JOptionPane.ERROR_MESSAGE);
-            } catch (BenutzerException ex) {
-                JOptionPane.showMessageDialog(null,ex.getMessage(), "Benachrichtigungen aktualisierung", JOptionPane.ERROR_MESSAGE);
-            }
-        
+
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Benachrichtigungen aktualisierung", JOptionPane.ERROR_MESSAGE);
+        } catch (BenutzerException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Benachrichtigungen aktualisierung", JOptionPane.ERROR_MESSAGE);
+        }
+
         benachList.setModel(meldungModel);
     }
-    
+
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
 
             if (jList1.getSelectedIndex() == -1) {
-            //No selection, disable add button.
+                //No selection, disable add button.
                 showAddKontakt.setEnabled(false);
 
             } else {
-            //Selection, enable the remove button.
+                //Selection, enable the remove button.
                 showRemoveKontakt.setEnabled(true);
             }
         }
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -1343,7 +1661,7 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
 
@@ -1354,13 +1672,12 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
             }
         });
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton abmeldenButton;
+    private javax.swing.JButton abmButton;
+    private javax.swing.JButton aktButton;
     private javax.swing.JList<String> benachList;
-    private javax.swing.JButton benachaktuel;
     private javax.swing.JPanel calendarPanel;
     private javax.swing.JTextField contactUsernameField;
     private javax.swing.JLabel dateLabel;
@@ -1408,32 +1725,41 @@ public class Hauptfenster extends javax.swing.JFrame implements ListSelectionLis
     private javax.swing.JButton day9;
     private javax.swing.JLabel dienstagLabel;
     private javax.swing.JLabel donnerstagLabel;
+    private javax.swing.JLabel eventMessage;
     private javax.swing.JLabel freitagLabel;
     private javax.swing.JPanel headerPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel mittwochLabel;
     private javax.swing.JLabel montagLabel;
-    private javax.swing.JButton newTerminButton;
-    private javax.swing.JButton nextButton;
-    private javax.swing.JButton previousButton;
+    private javax.swing.JButton neuTermButton;
     private javax.swing.JLabel samstagLabel;
     private javax.swing.JButton showAddKontakt;
-    private javax.swing.JButton showProfilButon;
     private javax.swing.JButton showRemoveKontakt;
     private javax.swing.JLabel sonntagLabel;
     private javax.swing.JList<String> termineListe;
+    private javax.swing.JLabel zumProfil;
     // End of variables declaration//GEN-END:variables
 
-    
 }

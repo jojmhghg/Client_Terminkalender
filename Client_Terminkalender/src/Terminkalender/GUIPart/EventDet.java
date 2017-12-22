@@ -73,88 +73,89 @@ public class EventDet extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        annehmButton = new javax.swing.JButton();
-        ablehnButton = new javax.swing.JButton();
-        loechButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         eventLabel = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        annehmenButton = new javax.swing.JButton();
+        loeschenButton = new javax.swing.JButton();
+        ablehnenButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Benachrichtigung Event");
+        setResizable(false);
 
-        annehmButton.setText("Annehmen");
-        annehmButton.addActionListener(new java.awt.event.ActionListener() {
+        jPanel2.setBackground(new java.awt.Color(29, 30, 66));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setBackground(new java.awt.Color(46, 49, 117));
+        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        eventLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        eventLabel.setForeground(new java.awt.Color(240, 240, 240));
+        jPanel3.add(eventLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 51, 460, 160));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel7.setText("Nachricht");
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 484, 220));
+
+        annehmenButton.setBackground(new java.awt.Color(46, 49, 117));
+        annehmenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        annehmenButton.setForeground(new java.awt.Color(240, 240, 240));
+        annehmenButton.setText("Annehmen");
+        annehmenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        annehmenButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                annehmButtonActionPerformed(evt);
+                annehmenButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(annehmenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, 130, 40));
 
-        ablehnButton.setText("Ablehnen");
-        ablehnButton.addActionListener(new java.awt.event.ActionListener() {
+        loeschenButton.setBackground(new java.awt.Color(46, 49, 117));
+        loeschenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        loeschenButton.setForeground(new java.awt.Color(240, 240, 240));
+        loeschenButton.setText("Löschen");
+        loeschenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        loeschenButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ablehnButtonActionPerformed(evt);
+                loeschenButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(loeschenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 120, 40));
 
-        loechButton.setText("Löschen");
-        loechButton.addActionListener(new java.awt.event.ActionListener() {
+        ablehnenButton.setBackground(new java.awt.Color(46, 49, 117));
+        ablehnenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        ablehnenButton.setForeground(new java.awt.Color(240, 240, 240));
+        ablehnenButton.setText("Ablehnen");
+        ablehnenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ablehnenButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loechButtonActionPerformed(evt);
+                ablehnenButtonActionPerformed(evt);
             }
         });
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nachricht", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(eventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(eventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jPanel2.add(ablehnenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 120, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(annehmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(76, 76, 76)
-                        .addComponent(ablehnButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(loechButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(51, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(annehmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ablehnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loechButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void annehmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annehmButtonActionPerformed
+    private void annehmenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annehmenButtonActionPerformed
+        // TODO add your handling code here:
         try {
             Anfrage anfrage = (Anfrage) stub.getMeldungen(sitzungsID).get(index);
             boolean check = false;
@@ -184,42 +185,11 @@ public class EventDet extends javax.swing.JFrame {
         } catch (TerminException | SQLException | RemoteException | BenutzerException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_annehmButtonActionPerformed
+    }//GEN-LAST:event_annehmenButtonActionPerformed
 
-    private void loechButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loechButtonActionPerformed
-         try {
-            Anfrage anfrage = (Anfrage) stub.getMeldungen(sitzungsID).get(index);
-            boolean nochOffen = true;
-            
-            try{
-                stub.getTermin(anfrage.getTermin().getID(), sitzungsID);  
-                for(Teilnehmer teilnehmer : anfrage.getTermin().getTeilnehmerliste()){
-                    if(teilnehmer.getUsername().equals(stub.getUsername(sitzungsID)) && teilnehmer.checkIstTeilnehmer()){
-                        stub.deleteMeldung(index , sitzungsID);
-                        hauptfenster.fillMeldList();
-                        JOptionPane.showMessageDialog(null, "Deine Benachrichtigung Wurde gelöscht");
-                        nochOffen = false;
-                    }
-                }   
-            } catch (RemoteException | BenutzerException | TerminException ex) {
-                stub.deleteMeldung(index , sitzungsID);
-                hauptfenster.fillMeldList();
-                JOptionPane.showMessageDialog(null, "Deine Benachrichtigung Wurde gelöscht");
-                nochOffen = false;
-            }
-            
-            if(nochOffen){
-                JOptionPane.showMessageDialog(null, "Meldung kann erst gelöscht werden, nachdem der Termin angenommen oder abgelehnt wurde");
-            } 
-            dispose();
-            
-        } catch (RemoteException | BenutzerException | SQLException ex) {
-            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_loechButtonActionPerformed
-
-    private void ablehnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ablehnButtonActionPerformed
-         try {
+    private void ablehnenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ablehnenButtonActionPerformed
+        // TODO add your handling code here:
+        try {
             Anfrage anfrage = (Anfrage) stub.getMeldungen(sitzungsID).get(index);
             boolean check = false;
             
@@ -248,7 +218,40 @@ public class EventDet extends javax.swing.JFrame {
         } catch (SQLException | RemoteException | BenutzerException | TerminException ex) {
             Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_ablehnButtonActionPerformed
+    }//GEN-LAST:event_ablehnenButtonActionPerformed
+
+    private void loeschenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loeschenButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            Anfrage anfrage = (Anfrage) stub.getMeldungen(sitzungsID).get(index);
+            boolean nochOffen = true;
+            
+            try{
+                stub.getTermin(anfrage.getTermin().getID(), sitzungsID);  
+                for(Teilnehmer teilnehmer : anfrage.getTermin().getTeilnehmerliste()){
+                    if(teilnehmer.getUsername().equals(stub.getUsername(sitzungsID)) && teilnehmer.checkIstTeilnehmer()){
+                        stub.deleteMeldung(index , sitzungsID);
+                        hauptfenster.fillMeldList();
+                        JOptionPane.showMessageDialog(null, "Deine Benachrichtigung Wurde gelöscht");
+                        nochOffen = false;
+                    }
+                }   
+            } catch (RemoteException | BenutzerException | TerminException ex) {
+                stub.deleteMeldung(index , sitzungsID);
+                hauptfenster.fillMeldList();
+                JOptionPane.showMessageDialog(null, "Deine Benachrichtigung Wurde gelöscht");
+                nochOffen = false;
+            }
+            
+            if(nochOffen){
+                JOptionPane.showMessageDialog(null, "Meldung kann erst gelöscht werden, nachdem der Termin angenommen oder abgelehnt wurde");
+            } 
+            dispose();
+            
+        } catch (RemoteException | BenutzerException | SQLException ex) {
+            Logger.getLogger(EventDet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_loeschenButtonActionPerformed
 
     
     /**
@@ -287,10 +290,12 @@ public class EventDet extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ablehnButton;
-    private javax.swing.JButton annehmButton;
+    private javax.swing.JButton ablehnenButton;
+    private javax.swing.JButton annehmenButton;
     private javax.swing.JLabel eventLabel;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton loechButton;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton loeschenButton;
     // End of variables declaration//GEN-END:variables
 }
