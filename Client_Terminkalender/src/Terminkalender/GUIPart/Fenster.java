@@ -10,7 +10,6 @@ import Terminkalender.Datum;
 import Terminkalender.LauncherInterface;
 import Terminkalender.TerminException;
 import Terminkalender.Zeit;
-import java.awt.Color;
 import java.rmi.RemoteException;
 import javax.swing.JOptionPane;
 
@@ -31,7 +30,6 @@ public class Fenster extends javax.swing.JFrame {
     public Fenster(LauncherInterface stub) {
         initComponents();
         this.stub = stub;
-        infoBoxPanel.setVisible(false);
         
     }
 
@@ -46,20 +44,10 @@ public class Fenster extends javax.swing.JFrame {
         try{
             sitzungsID = stub.einloggen(username, password);
             if(sitzungsID < 0){
-                //JOptionPane.showMessageDialog(null, "Falsches Passwort. Anmelden gescheitert!", "Anmelden", JOptionPane.ERROR_MESSAGE);
-                infoBoxText.setText("Falsches Passwort. Anmelden gescheitert!");
-                
-                //infoBoxPanel.setBackground(new Color(153,0,51));
-                infoBoxPanel.setVisible(true);
-                
-            
+                JOptionPane.showMessageDialog(null, "Falsches Passwort. Anmelden gescheitert!", "Anmelden", JOptionPane.ERROR_MESSAGE);
             }
             else{
-                //JOptionPane.showMessageDialog(null, "Anmeldung erfolgreich!", "anmelden", JOptionPane.INFORMATION_MESSAGE);
-                infoBoxText.setText("Anmeldung erfolgreich!");
-                
-                infoBoxPanel.setBackground(Color.green);
-                infoBoxPanel.setVisible(true);
+                JOptionPane.showMessageDialog(null, "Anmeldung erfolgreich!", "anmelden", JOptionPane.INFORMATION_MESSAGE);
                 
                 this.setVisible(false);
                 
@@ -71,9 +59,7 @@ public class Fenster extends javax.swing.JFrame {
             }  
         }
         catch(BenutzerException e){
-            //JOptionPane.showMessageDialog(null, e.getMessage(), "Anmelden", JOptionPane.ERROR_MESSAGE);
-            infoBoxText.setText(e.getMessage());
-            infoBoxPanel.setVisible(true);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Anmelden", JOptionPane.ERROR_MESSAGE);
         }  
     }
 
@@ -86,178 +72,157 @@ public class Fenster extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
+        jBenutzername = new javax.swing.JLabel();
+        jPasswort = new javax.swing.JLabel();
+        jBenutzernameField = new javax.swing.JTextField();
+        jAnmelden = new javax.swing.JButton();
+        jRegistrieren = new javax.swing.JButton();
+        jPasswortField = new javax.swing.JPasswordField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        forgotPasswordButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        regButton = new javax.swing.JButton();
-        jBenutzernameField = new javax.swing.JTextField();
-        jPasswortField = new javax.swing.JPasswordField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
-        jLabel10 = new javax.swing.JLabel();
-        infoBoxPanel = new javax.swing.JPanel();
-        infoBoxText = new javax.swing.JLabel();
-        pwVergessenButton = new javax.swing.JButton();
-        anmeldenButton = new javax.swing.JButton();
         beendenButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Termin Kalender");
-        setResizable(false);
 
-        jPanel2.setBackground(new java.awt.Color(29, 30, 66));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jBenutzername.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jBenutzername.setText("Benutzername");
 
-        jPanel1.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPasswort.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jPasswort.setText("Passwort");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 58)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(29, 30, 66));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Kalender");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 370, 200));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Termin ");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-100, -30, 370, 200));
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setForeground(java.awt.SystemColor.activeCaption);
-        jLabel2.setText("Noch kein Account ?");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 306, -1, 40));
-
-        regButton.setBackground(new java.awt.Color(29, 30, 66));
-        regButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        regButton.setForeground(new java.awt.Color(240, 240, 240));
-        regButton.setText("Registrieren");
-        regButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        regButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                regButtonActionPerformed(evt);
-            }
-        });
-        jPanel1.add(regButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 309, 140, 30));
-
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 310, 360));
-
-        jBenutzernameField.setBackground(new java.awt.Color(29, 30, 66));
-        jBenutzernameField.setForeground(new java.awt.Color(240, 240, 240));
-        jBenutzernameField.setBorder(null);
         jBenutzernameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBenutzernameFieldActionPerformed(evt);
             }
         });
-        jPanel2.add(jBenutzernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 80, 190, 30));
 
-        jPasswortField.setBackground(new java.awt.Color(29, 30, 66));
-        jPasswortField.setForeground(new java.awt.Color(240, 240, 240));
-        jPasswortField.setBorder(null);
-        jPanel2.add(jPasswortField, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 190, 30));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel5.setText("Passwort");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 170, -1, 18));
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel9.setText("Benutzername");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, -1, 18));
-        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 190, 190, 10));
-        jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 120, 190, 10));
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(46, 49, 117));
-        jLabel10.setText("MADE BY ZUSE TEAM 2017");
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 300, 20));
-
-        infoBoxPanel.setBackground(new java.awt.Color(153, 0, 51));
-        infoBoxPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        infoBoxText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        infoBoxText.setForeground(new java.awt.Color(240, 240, 240));
-        infoBoxText.setText("jLabel3");
-        infoBoxPanel.add(infoBoxText, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 200, -1));
-
-        jPanel2.add(infoBoxPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, 230, 40));
-
-        pwVergessenButton.setBackground(new java.awt.Color(46, 49, 117));
-        pwVergessenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        pwVergessenButton.setForeground(new java.awt.Color(240, 240, 240));
-        pwVergessenButton.setText("Passwort vergessen?");
-        pwVergessenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        pwVergessenButton.addActionListener(new java.awt.event.ActionListener() {
+        jAnmelden.setText("Anmelden");
+        jAnmelden.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pwVergessenButtonActionPerformed(evt);
+                jAnmeldenActionPerformed(evt);
             }
         });
-        jPanel2.add(pwVergessenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, 160, 20));
 
-        anmeldenButton.setBackground(new java.awt.Color(46, 49, 117));
-        anmeldenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        anmeldenButton.setForeground(new java.awt.Color(240, 240, 240));
-        anmeldenButton.setText("Anmelden");
-        anmeldenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        anmeldenButton.addActionListener(new java.awt.event.ActionListener() {
+        jRegistrieren.setText("Registrieren");
+        jRegistrieren.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                anmeldenButtonActionPerformed(evt);
+                jRegistrierenActionPerformed(evt);
             }
         });
-        jPanel2.add(anmeldenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 160, 40));
 
-        beendenButton.setBackground(new java.awt.Color(46, 49, 117));
-        beendenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        beendenButton.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Termin Kalender");
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Terminkalender/GUIPart/if_Calendar_728916.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(63, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addContainerGap(84, Short.MAX_VALUE))
+        );
+
+        forgotPasswordButton.setText("Passwort vergessen ?");
+        forgotPasswordButton.setBorder(null);
+        forgotPasswordButton.setBorderPainted(false);
+        forgotPasswordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forgotPasswordButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setForeground(java.awt.SystemColor.activeCaption);
+        jLabel2.setText("Noch kein Account ?");
+
         beendenButton.setText("Beenden");
-        beendenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         beendenButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 beendenButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(beendenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(517, 330, 150, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBenutzername)
+                    .addComponent(jPasswort, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(beendenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jBenutzernameField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPasswortField)
+                            .addComponent(jAnmelden, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(forgotPasswordButton, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jRegistrieren, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(66, 66, 66))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jRegistrieren, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(80, 80, 80)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jBenutzername, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBenutzernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jPasswort, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPasswortField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(forgotPasswordButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jAnmelden, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(beendenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(73, 73, 73))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBenutzernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBenutzernameFieldActionPerformed
+    private void jAnmeldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAnmeldenActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jBenutzernameFieldActionPerformed
-
-    private void pwVergessenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwVergessenButtonActionPerformed
-        // TODO add your handling code here:
-        ForgotPassword resetPW = new ForgotPassword(stub,sitzungsID);
-        resetPW.setVisible(true);
-    }//GEN-LAST:event_pwVergessenButtonActionPerformed
-
-    private void beendenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beendenButtonActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_beendenButtonActionPerformed
-
-    private void anmeldenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anmeldenButtonActionPerformed
-        // TODO add your handling code here:
-                
         String username, password;
 
         username = this.jBenutzernameField.getText();
@@ -275,13 +240,26 @@ public class Fenster extends javax.swing.JFrame {
         } catch (Zeit.ZeitException e) {
             JOptionPane.showInputDialog(e.getMessage());
         }
-    }//GEN-LAST:event_anmeldenButtonActionPerformed
+    }//GEN-LAST:event_jAnmeldenActionPerformed
 
-    private void regButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regButtonActionPerformed
+    private void jRegistrierenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRegistrierenActionPerformed
         // TODO add your handling code here:
         Registrieren start = new Registrieren(stub);
         start.setVisible(true);
-    }//GEN-LAST:event_regButtonActionPerformed
+    }//GEN-LAST:event_jRegistrierenActionPerformed
+
+    private void forgotPasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forgotPasswordButtonActionPerformed
+        ForgotPassword resetPW = new ForgotPassword(stub,sitzungsID);
+        resetPW.setVisible(true);
+    }//GEN-LAST:event_forgotPasswordButtonActionPerformed
+
+    private void jBenutzernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBenutzernameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBenutzernameFieldActionPerformed
+
+    private void beendenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beendenButtonActionPerformed
+       System.exit(0);
+    }//GEN-LAST:event_beendenButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,23 +298,17 @@ public class Fenster extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton anmeldenButton;
     private javax.swing.JButton beendenButton;
-    private javax.swing.JPanel infoBoxPanel;
-    private javax.swing.JLabel infoBoxText;
+    private javax.swing.JButton forgotPasswordButton;
+    private javax.swing.JButton jAnmelden;
+    private javax.swing.JLabel jBenutzername;
     private javax.swing.JTextField jBenutzernameField;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jPasswort;
     private javax.swing.JPasswordField jPasswortField;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JButton pwVergessenButton;
-    private javax.swing.JButton regButton;
+    private javax.swing.JButton jRegistrieren;
     // End of variables declaration//GEN-END:variables
 }
