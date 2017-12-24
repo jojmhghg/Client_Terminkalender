@@ -49,7 +49,7 @@ public class Fenster extends javax.swing.JFrame {
                 //JOptionPane.showMessageDialog(null, "Falsches Passwort. Anmelden gescheitert!", "Anmelden", JOptionPane.ERROR_MESSAGE);
                 infoBoxText.setText("Falsches Passwort. Anmelden gescheitert!");
                 
-                //infoBoxPanel.setBackground(new Color(153,0,51));
+                //infoBoxPanel.setBackground(new Color(0,102,0));
                 infoBoxPanel.setVisible(true);
                 
             
@@ -58,7 +58,7 @@ public class Fenster extends javax.swing.JFrame {
                 //JOptionPane.showMessageDialog(null, "Anmeldung erfolgreich!", "anmelden", JOptionPane.INFORMATION_MESSAGE);
                 infoBoxText.setText("Anmeldung erfolgreich!");
                 
-                infoBoxPanel.setBackground(Color.green);
+                infoBoxPanel.setBackground(new Color(0,102,0));
                 infoBoxPanel.setVisible(true);
                 
                 this.setVisible(false);

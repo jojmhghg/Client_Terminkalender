@@ -60,8 +60,14 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
         terminersteller.setText(stub.getTermin(terminID, sitzungsID).getOwner());
         teilnehmerliste.setModel(teilnehmerListeModel);
         notiz.setText(stub.getTermin(terminID, sitzungsID).getNotiz());
+        try {
+            bearbeiteTerminInhalt();
+        } catch (SQLException | Datum.DatumException | Zeit.ZeitException ex) {
+            Logger.getLogger(TerminInhaltBearbeiten.class.getName()).log(Level.SEVERE, null, ex);
+        }
         fillTeilnehmerlist();
-
+        
+        
     }
 
     private void fillTeilnehmerlist() throws RemoteException, BenutzerException, TerminException {
@@ -125,13 +131,11 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
                 legen1.addElement(teilnehmer.getUsername() + " (noch offen)");
             }
         }
-        if (!teilnehmerBoolean) {
-            bearbeitenLabel.setVisible(false);
-        }
+        
 
     }
 
-    public void bearbeiteTerminInhalt() throws RemoteException, BenutzerException, TerminException, SQLException, Datum.DatumException, Zeit.ZeitException {
+    private void bearbeiteTerminInhalt() throws RemoteException, BenutzerException, TerminException, SQLException, Datum.DatumException, Zeit.ZeitException {
         boolean teilnehmerBOOLEAN = false;
         DefaultListModel legen1 = new DefaultListModel();
         teilnehmerliste.setModel(legen1);
@@ -141,8 +145,8 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
                 teilnehmerBOOLEAN = tn.checkIstTeilnehmer();
             }
         }
-        tag1.setSelectedItem(stub.getTermin(terminID, sitzungsID).getDatum().toString().substring(0, 1));
-        monat1.setSelectedItem(stub.getTermin(terminID, sitzungsID).getDatum().toString().substring(3, 4));
+        tag1.setSelectedItem(stub.getTermin(terminID, sitzungsID).getDatum().toString().substring(0, 2));
+        monat1.setSelectedItem(stub.getTermin(terminID, sitzungsID).getDatum().toString().substring(3, 5));
         jahr1.setSelectedItem(stub.getTermin(terminID, sitzungsID).getDatum().toString().substring(6, 10));
 
         //tag2S = Integer.valueOf((String)tag2.getSelectedItem());
@@ -222,16 +226,11 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         teilnehmerliste = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
-        addTeilnahmeLabel = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
+        addTeilnahmeButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         notiz = new javax.swing.JTextArea();
-        jPanel5 = new javax.swing.JPanel();
-        bearbeitenLabel = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
         tag1 = new javax.swing.JComboBox<>();
         monat1 = new javax.swing.JComboBox<>();
         jahr1 = new javax.swing.JComboBox<>();
@@ -241,6 +240,8 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
         minute2 = new javax.swing.JComboBox<>();
         ort = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
+        abbrechenButton = new javax.swing.JButton();
+        speichernButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -322,34 +323,17 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
         jLabel4.setText("Teilnehmer");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        addTeilnahmeLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        addTeilnahmeLabel.setForeground(new java.awt.Color(240, 240, 240));
-        addTeilnahmeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        addTeilnahmeLabel.setText("+");
-        addTeilnahmeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addTeilnahmeLabelMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                addTeilnahmeLabelMousePressed(evt);
+        addTeilnahmeButton.setBackground(new java.awt.Color(29, 30, 66));
+        addTeilnahmeButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        addTeilnahmeButton.setForeground(new java.awt.Color(240, 240, 240));
+        addTeilnahmeButton.setText("+");
+        addTeilnahmeButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        addTeilnahmeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTeilnahmeButtonActionPerformed(evt);
             }
         });
-        jPanel3.add(addTeilnahmeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 40, 30));
-
-        jPanel7.setBackground(new java.awt.Color(29, 30, 66));
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 40, 30));
+        jPanel3.add(addTeilnahmeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 40, 30));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 220, 230));
 
@@ -370,79 +354,6 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
         jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 450, 90));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 470, 140));
-
-        jPanel5.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel5MouseClicked(evt);
-            }
-        });
-
-        bearbeitenLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        bearbeitenLabel.setForeground(new java.awt.Color(240, 240, 240));
-        bearbeitenLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        bearbeitenLabel.setText("speichern");
-        bearbeitenLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bearbeitenLabelMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                bearbeitenLabelMousePressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bearbeitenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(bearbeitenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 470, 130, 30));
-
-        jPanel6.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel6MouseClicked(evt);
-            }
-        });
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("abbrechen");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, -1, 30));
 
         tag1.setBackground(new java.awt.Color(46, 49, 117));
         tag1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -509,6 +420,30 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
         jPanel1.add(ort, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, 140, -1));
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 140, 10));
 
+        abbrechenButton.setBackground(new java.awt.Color(46, 49, 117));
+        abbrechenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        abbrechenButton.setForeground(new java.awt.Color(240, 240, 240));
+        abbrechenButton.setText("abbrechen");
+        abbrechenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        abbrechenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abbrechenButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(abbrechenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 470, 140, 30));
+
+        speichernButton1.setBackground(new java.awt.Color(46, 49, 117));
+        speichernButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        speichernButton1.setForeground(new java.awt.Color(240, 240, 240));
+        speichernButton1.setText("speichern");
+        speichernButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        speichernButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                speichernButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(speichernButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 470, 140, 30));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -4, 490, 520));
 
         pack();
@@ -519,7 +454,41 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_addTeilnehmerTextFieldActionPerformed
 
-    private void bearbeitenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bearbeitenLabelMouseClicked
+    private void tag1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tag1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tag1ActionPerformed
+
+    private void minute2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minute2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_minute2ActionPerformed
+
+    private void ortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ortActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ortActionPerformed
+
+    private void addTeilnahmeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTeilnahmeButtonActionPerformed
+        
+        String username = addTeilnehmerTextField.getText();
+        if (username.length() > 0) {
+            try {
+                stub.addTerminteilnehmer(terminID, username, sitzungsID);
+                fillTeilnehmerlist();
+                addTeilnehmerTextField.setText("");
+                
+            } catch (RemoteException | BenutzerException | SQLException | TerminException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Teilnehmer hinzufügen - Terminansicht", JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+
+    }//GEN-LAST:event_addTeilnahmeButtonActionPerformed
+
+    private void abbrechenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abbrechenButtonActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_abbrechenButtonActionPerformed
+
+    private void speichernButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernButton1ActionPerformed
+        // TODO add your handling code here:
         try {
             tag1S = Integer.valueOf((String) tag1.getSelectedItem());
             //tag2S = Integer.valueOf((String)tag2.getSelectedItem());
@@ -534,71 +503,18 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
             stub.changeTermintitel(terminID, titel.getText(), sitzungsID);
             stub.changeTermindatum(terminID, new Datum(tag1S, monat1S, jahr1S), sitzungsID);
             stub.changeTerminbeginn(terminID, new Zeit(stunde1S, minute1S), sitzungsID);
-            stub.changeTerminbeginn(terminID, new Zeit(stunde2S, minute2S), sitzungsID);
+            stub.changeTerminende(terminID, new Zeit(stunde2S, minute2S), sitzungsID);
             stub.changeTerminort(terminID, ort.getText(), sitzungsID);
             stub.changeTerminnotiz(terminID, notiz.getText(), sitzungsID);
 
-            TerminInhalt startagain = new TerminInhalt(terminID, stub, sitzungsID);
-            startagain.setVisible(true);
-
+            //TerminInhalt startagain = new TerminInhalt(terminID, stub, sitzungsID);
+            //startagain.setVisible(true);
+            this.dispose();
+            
         } catch (BenutzerException | RemoteException | TerminException | SQLException | Datum.DatumException | Zeit.ZeitException ex) {
             Logger.getLogger(TerminInhaltBearbeiten.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-    }//GEN-LAST:event_bearbeitenLabelMouseClicked
-
-    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
-
-    }//GEN-LAST:event_jPanel5MouseClicked
-
-    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel6MouseClicked
-
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_jLabel8MouseClicked
-
-    private void addTeilnahmeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addTeilnahmeLabelMouseClicked
-        // TODO add your handling code here:
-        addTeilnahmeLabel.setForeground(Color.gray);
-
-        String username = addTeilnehmerTextField.getText();
-        if (username.length() > 0) {
-            try {
-                stub.addTerminteilnehmer(terminID, username, sitzungsID);
-                fillTeilnehmerlist();
-                addTeilnehmerTextField.setText("");
-
-            } catch (RemoteException | BenutzerException | SQLException | TerminException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Teilnehmer hinzufügen - Terminansicht", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_addTeilnahmeLabelMouseClicked
-
-    private void addTeilnahmeLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addTeilnahmeLabelMousePressed
-        // TODO add your handling code here:
-        addTeilnahmeLabel.setForeground(Color.white);
-    }//GEN-LAST:event_addTeilnahmeLabelMousePressed
-
-    private void bearbeitenLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bearbeitenLabelMousePressed
-        // TODO add your handling code here:
-        bearbeitenLabel.setForeground(Color.white);
-    }//GEN-LAST:event_bearbeitenLabelMousePressed
-
-    private void tag1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tag1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tag1ActionPerformed
-
-    private void minute2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minute2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_minute2ActionPerformed
-
-    private void ortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ortActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ortActionPerformed
+    }//GEN-LAST:event_speichernButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -699,23 +615,19 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel addTeilnahmeLabel;
+    private javax.swing.JButton abbrechenButton;
+    private javax.swing.JButton addTeilnahmeButton;
     private javax.swing.JTextField addTeilnehmerTextField;
-    private javax.swing.JLabel bearbeitenLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator2;
@@ -725,6 +637,7 @@ public class TerminInhaltBearbeiten extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> monat1;
     private javax.swing.JTextArea notiz;
     private javax.swing.JTextField ort;
+    private javax.swing.JButton speichernButton1;
     private javax.swing.JLabel start;
     private javax.swing.JComboBox<String> stunde1;
     private javax.swing.JComboBox<String> stunde2;

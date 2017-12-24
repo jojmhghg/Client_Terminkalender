@@ -102,10 +102,8 @@ public class TerminAnlegen extends javax.swing.JFrame {
         titel = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        speichernLabel = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        abbrechenButton = new javax.swing.JButton();
+        speichernButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Termin anlegen - Termin Kalender");
@@ -224,78 +222,29 @@ public class TerminAnlegen extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 390, 140));
 
-        jPanel5.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel5MouseClicked(evt);
+        abbrechenButton.setBackground(new java.awt.Color(46, 49, 117));
+        abbrechenButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        abbrechenButton.setForeground(new java.awt.Color(240, 240, 240));
+        abbrechenButton.setText("abbrechen");
+        abbrechenButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        abbrechenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abbrechenButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(abbrechenButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 370, 140, 30));
 
-        speichernLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        speichernLabel.setForeground(new java.awt.Color(240, 240, 240));
-        speichernLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        speichernLabel.setText("Speichern");
-        speichernLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                speichernLabelMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                speichernLabelMousePressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(speichernLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(0, 2, Short.MAX_VALUE)
-                .addComponent(speichernLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 370, 130, 30));
-
-        jPanel6.setBackground(new java.awt.Color(46, 49, 117));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel6MouseClicked(evt);
+        speichernButton.setBackground(new java.awt.Color(46, 49, 117));
+        speichernButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        speichernButton.setForeground(new java.awt.Color(240, 240, 240));
+        speichernButton.setText("speichern");
+        speichernButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        speichernButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                speichernButtonActionPerformed(evt);
             }
         });
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Abbrechen");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 370, 120, 30));
+        jPanel1.add(speichernButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 370, 140, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 4, 430, 420));
 
@@ -315,9 +264,13 @@ public class TerminAnlegen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_titelActionPerformed
 
-    private void speichernLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_speichernLabelMouseClicked
+    private void abbrechenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abbrechenButtonActionPerformed
         // TODO add your handling code here:
-        speichernLabel.setForeground(Color.gray);
+        this.dispose();
+    }//GEN-LAST:event_abbrechenButtonActionPerformed
+
+    private void speichernButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernButtonActionPerformed
+        // TODO add your handling code here:
         tag1S = Integer.valueOf((String) tag1.getSelectedItem());
         minute1S = Integer.valueOf((String) minute1.getSelectedItem());
         minute2S = Integer.valueOf((String) minute2.getSelectedItem());
@@ -335,26 +288,7 @@ public class TerminAnlegen extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Der Titel darf nicht leer sein ! ", "Termin anlegen", JOptionPane.ERROR_MESSAGE);
 
         }
- 
-    }//GEN-LAST:event_speichernLabelMouseClicked
-
-    private void speichernLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_speichernLabelMousePressed
-        // TODO add your handling code here:
-        speichernLabel.setForeground(Color.white);
-    }//GEN-LAST:event_speichernLabelMousePressed
-
-    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
-
-    }//GEN-LAST:event_jPanel5MouseClicked
-
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_jLabel8MouseClicked
-
-    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel6MouseClicked
+    }//GEN-LAST:event_speichernButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -393,23 +327,27 @@ public class TerminAnlegen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton abbrechenButton;
+    private javax.swing.JButton beendenButton;
+    private javax.swing.JButton beendenButton1;
+    private javax.swing.JButton beendenButton2;
+    private javax.swing.JButton beendenButton3;
+    private javax.swing.JButton beendenButton4;
+    private javax.swing.JButton beendenButton5;
     private javax.swing.JTextArea beschreibung;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jahr1;
     private javax.swing.JComboBox<String> minute1;
     private javax.swing.JComboBox<String> minute2;
     private javax.swing.JComboBox<String> monat1;
-    private javax.swing.JLabel speichernLabel;
+    private javax.swing.JButton speichernButton;
     private javax.swing.JComboBox<String> stunde1;
     private javax.swing.JComboBox<String> stunde2;
     private javax.swing.JComboBox<String> tag1;
